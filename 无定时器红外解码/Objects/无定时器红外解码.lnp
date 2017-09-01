@@ -1,0 +1,4 @@
+".\Objects\main.obj" 
+TO ".\Objects\无定时器红外解码" 
+
+PRINT(".\Listings\无定时器红外解码.map")

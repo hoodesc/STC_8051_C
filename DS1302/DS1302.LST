@@ -1,0 +1,166 @@
+C51 COMPILER V9.06   DS1302                                                                05/13/2016 23:28:24 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE DS1302
+OBJECT MODULE PLACED IN DS1302.OBJ
+COMPILER INVOKED BY: d:\Keil uV4\C51\BIN\C51.EXE DS1302.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          typedef unsigned char uchar;
+   4          typedef unsigned int uint;
+   5          
+   6          sbit SCLK = P0^0;
+   7          sbit IO = P0^1;
+   8          sbit CE = P0^2;
+   9          
+  10          uchar DATE[] = {22,56,30,16,5,12};      // 时 分 秒 年 月 日
+  11          uchar code DATE_Write_Add[]= {0x84,0x82,0x80,0x8C,0x88,0x86};           // 写寄存器
+  12          uchar code DATE_Read_Add[] = {0x85,0x83,0x81,0x8D,0x89,0x87};           // 读寄存器
+  13          uchar code WEI[] = {0xFE,0xFD,0xFB,0xF7,0xFF};          // 数码管位码
+  14          uchar code DUAN[] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90,0x88,0x83,0xC6,0xA1,0x86,0x8E};  // 
+             -共阳数码管0~F 不带点
+  15          
+  16          uchar DATE_Buf[5] = {0x00};
+  17          uchar Dis_DATE[11] = {0x00};
+  18          //      11.0592Mhz      约2us延时
+  19          void delay(uint time)           
+  20          {       
+  21   1              uint i;
+  22   1              for(i = 0; i < time; i++)
+  23   1                      _nop_();
+  24   1      }
+  25          void Write_DS1302_Byte(uchar dat)
+  26          {
+  27   1              uchar i;
+  28   1              for(i = 0; i < 8; i++)
+  29   1              {
+  30   2                      SCLK = 0;
+  31   2                      IO = dat & 0x01;
+  32   2                      SCLK = 1;
+  33   2                      dat >>= 1;
+  34   2              }
+  35   1      }
+  36          
+  37          void Write_DS1302(uchar add,uchar dat)
+  38          {
+  39   1              CE = 0;
+  40   1              delay(1);
+  41   1              SCLK = 0;
+  42   1              delay(1);
+  43   1              CE = 1;         // 使能芯片
+  44   1              delay(1);
+  45   1              Write_DS1302_Byte(add);
+  46   1              Write_DS1302_Byte(dat);
+  47   1              CE = 0;         // 失能芯片
+  48   1              delay(1);
+  49   1              IO = 1;         // 释放数据
+  50   1              SCLK = 1;       // 释放时钟
+  51   1      }
+  52          
+  53          uchar Read_DS1302_Byte(uchar add)
+  54          {
+C51 COMPILER V9.06   DS1302                                                                05/13/2016 23:28:24 PAGE 2   
+
+  55   1              uchar temp = 0x00;
+  56   1              uchar i;
+  57   1              CE = 0;
+  58   1              delay(1);
+  59   1              SCLK = 0;
+  60   1              delay(1);
+  61   1              CE = 1;         // 使能芯片
+  62   1              delay(1);
+  63   1              Write_DS1302_Byte(add);
+  64   1              for(i = 0; i < 8; i++)
+  65   1              {       
+  66   2                      temp >>= 1;     
+  67   2                      SCLK = 0;               
+  68   2                      if(IO)   
+  69   2                              temp = temp|0x80;
+  70   2                      SCLK = 1;                
+  71   2              }       
+  72   1              CE = 0;         // 失能芯片
+  73   1              delay(1);
+  74   1              IO = 1;         // 释放数据
+  75   1              SCLK = 1;       // 释放时钟
+  76   1              return temp;    
+  77   1      }
+  78          
+  79          void Set_DS1302_TIME() 
+  80          {
+  81   1              uchar i,ge,shi;
+  82   1              for(i = 0; i < 6; i++)
+  83   1              {
+  84   2                      shi = DATE[i]/10;
+  85   2                      ge  = DATE[i]%10;
+  86   2                      DATE[i] = shi<<4 | ge;  
+  87   2              }
+  88   1              for(i = 0; i < 6; i++)
+  89   1              {
+  90   2                      Write_DS1302(DATE_Write_Add[i],DATE[i]);        
+  91   2              }
+  92   1      }
+  93          /*  11.0592Mhz  Uart串口初始化              */
+  94          void Uart_Init()        // 串口初始化
+  95          {
+  96   1              TMOD &= 0x0F;   // 保留后定时器0设置，清空定时器1设置
+  97   1              TMOD |= 0x20;   // 定时器1 模式2
+  98   1              SCON |= 0x50;   // 串口方式1，8位UART波特率可变，可接收
+  99   1              TH1   = 0xFD;   // TL1溢出后将TH1的值装入
+ 100   1              TL1   = 0xFD;   // 9600bps
+ 101   1              ET1   = 0;              // 关闭定时器1中断
+ 102   1              TR1   = 1;              // 开定时器1
+ 103   1      }
+ 104          /**********************************/
+ 105          
+ 106          //      数码管显示
+ 107          void Display(void)
+ 108          {
+ 109   1              uchar i;
+ 110   1              for(i = 0; i < 5; i++)
+ 111   1              {
+ 112   2                      P1 = 0xFF;                                      // 关显示
+ 113   2                      P0 = DUAN[Dis_DATE[i+2]];               // 送段码
+ 114   2                      P1 = WEI[i];                            // 开显示
+ 115   2              }
+ 116   1      }
+C51 COMPILER V9.06   DS1302                                                                05/13/2016 23:28:24 PAGE 3   
+
+ 117          
+ 118          void main(void)
+ 119          {
+ 120   1              uchar i;
+ 121   1              Uart_Init();                            // 串口初始化                           
+ 122   1              Write_DS1302(0x8E,0x00);        // 去除写保护
+ 123   1              //Set_DS1302_TIME();                    // 写入时间日期
+ 124   1              Write_DS1302(0x8E,0x80);        // 加写保护
+ 125   1              while(1)
+ 126   1              {
+ 127   2                      for(i = 0; i < 6; i++)
+ 128   2                      {
+ 129   3                              DATE_Buf[i] = Read_DS1302_Byte(DATE_Read_Add[i]);
+ 130   3                              Dis_DATE[i*2] = DATE_Buf[i]>>4;
+ 131   3                              Dis_DATE[i*2+1] = DATE_Buf[i]&0x0F;             
+ 132   3                      }
+ 133   2      //              SBUF = Dis_DATE[4];
+ 134   2      //              while(!TI);
+ 135   2      //              TI = 0;
+ 136   2                      Display();      
+ 137   2              }
+ 138   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    318    ----
+   CONSTANT SIZE    =     33    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     22    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

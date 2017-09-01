@@ -1,0 +1,3 @@
+"74hc573.obj" 
+TO "74hc573" Rtx51Tiny 
+RAMSIZE(256) 

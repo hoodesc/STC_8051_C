@@ -1,0 +1,100 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/18/2017  20:52:07  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL_V5\C51\BIN\BL51.EXE 74hc573.obj TO 74hc573 RTX51TINY RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  74hc573.obj (74HC573)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  74hc573 (74HC573)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     002FH     UNIT         ?PR?MAIN?74HC573
+            CODE    0032H     001EH     UNIT         ?PR?_DELAY_MS?74HC573
+            CODE    0050H     0010H     UNIT         ?CO?74HC573
+            CODE    0060H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   74hc573 (74HC573)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?74HC573
+
+?PR?MAIN?74HC573               0008H    0002H
+  +--> ?CO?74HC573
+  +--> ?PR?_DELAY_MS?74HC573
+
+
+
+SYMBOL TABLE OF MODULE:  74hc573 (74HC573)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        74HC573
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  B:00B0H.5       PUBLIC        GY
+  B:00B0H.7       PUBLIC        Wei
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/18/2017  20:52:07  PAGE 2
+
+
+  C:0003H         PUBLIC        main
+  C:0050H         PUBLIC        tab
+  C:0032H         PUBLIC        _delay_ms
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        a
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:0032H         LINE#         10
+  C:0032H         LINE#         11
+  C:0032H         LINE#         12
+  C:003CH         LINE#         13
+  C:004FH         LINE#         14
+  C:004FH         LINE#         15
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        b
+  -------         ENDDO         
+  C:0003H         LINE#         37
+  C:0003H         LINE#         38
+  C:0003H         LINE#         39
+  C:0003H         LINE#         40
+  C:0003H         LINE#         41
+  C:0005H         LINE#         42
+  C:0007H         LINE#         43
+  C:0017H         LINE#         44
+  C:001EH         LINE#         46
+  C:0026H         LINE#         47
+  C:002CH         LINE#         48
+  C:0030H         LINE#         49
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        74HC573
+
+Program Size: data=11.0 xdata=0 code=108
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

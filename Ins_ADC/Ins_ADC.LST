@@ -1,0 +1,83 @@
+C51 COMPILER V9.06   INS_ADC                                                               08/24/2017 21:59:47 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE INS_ADC
+OBJECT MODULE PLACED IN Ins_ADC.OBJ
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Ins_ADC.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+*** WARNING C500 IN LINE 1 OF Ins_ADC.c: LICENSE ERROR (R207(3): REGISTRY READ ERROR)
+
+   1          #include <stc12c2052ad.h>
+   2          #include <intrins.h>
+   3          typedef unsigned char uchar;
+   4          typedef unsigned int uint;
+   5          
+   6          uchar ADC_DATA_temp;
+   7          //  11.0592延时函数，单位ms
+   8          void DelayMs(uint ValMS)
+   9          {
+  10   1        uint uiVal,ujVal;
+  11   1        for(uiVal = 0; uiVal < ValMS; uiVal++)
+  12   1          for(ujVal = 0; ujVal < 120; ujVal++);
+  13   1      }
+  14          
+  15          void Ins_ADC_Init()
+  16          {
+  17   1        P1M0 = 0x01;  // P1^0 开漏输出
+  18   1        P1M1 = 0x01;  // P1^0 开漏输出
+  19   1        ADC_CONTR = 0xE8;
+  20   1        _nop_();_nop_();_nop_();_nop_();  // 等待4个
+  21   1        EADC_SPI = 1; // 允许A/D转换中断和SPI中断 
+  22   1        AUXR |= 0x10; // 允许A/D转换中断
+  23   1        EA = 1;     // 打开总中断 
+  24   1      }
+  25          
+  26          void Ins_ADC_ISR()  interrupt 5
+  27          {
+  28   1        ADC_CONTR &= 0xEF;    // 清除A/D转换结束标识
+  29   1        ADC_DATA_temp = ADC_DATA;
+  30   1        ADC_CONTR |= 0x08;    // 启动A/D转换
+  31   1      }
+  32          
+  33           /*  11.0592Mhz Uart串口初始化        */
+  34          void Uart_Init()  // 串口初始化
+  35          {
+  36   1        TMOD &= 0x0F; // 保留后定时器0设置，清空定时器1设置
+  37   1        TMOD |= 0x20; // 定时器1 模式2
+  38   1        SCON |= 0x50; // 串口方式1，8位UART波特率可变，可接收
+  39   1        TH1   = 0xFD; // TL1溢出后将TH1的值装入
+  40   1        TL1   = 0xFD; // 9600bps
+  41   1        ET1   = 0;    // 关闭定时器1中断
+  42   1        TR1   = 1;    // 开定时器1
+  43   1      }
+  44          
+  45          void main(void)
+  46          {
+  47   1        Ins_ADC_Init();
+  48   1        Uart_Init();
+  49   1        while(1)
+  50   1        {
+  51   2          SBUF = ADC_DATA_temp;
+  52   2          while(!TI);
+  53   2          TI = 0;
+  54   2          DelayMs(100);
+C51 COMPILER V9.06   INS_ADC                                                               08/24/2017 21:59:47 PAGE 2   
+
+  55   2        }
+  56   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    106    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

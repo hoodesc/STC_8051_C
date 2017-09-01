@@ -1,0 +1,82 @@
+C51 COMPILER V9.06   12864                                                                 06/08/2016 13:20:31 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE 12864
+OBJECT MODULE PLACED IN 12864.OBJ
+COMPILER INVOKED BY: d:\Keil uV4\C51\BIN\C51.EXE 12864.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg52.h>  
+   2          #define uchar unsigned char 
+   3          #define uint unsigned int 
+   4          uchar code table[]="我我我";  
+   5          uchar code table1[]="my xxx xxx!"; 
+   6          sbit lcden=P3^4; //液晶屏使能(EN)端
+   7          sbit lcdrs=P3^5; //液晶屏RS端  
+   8          uchar num;   
+   9          void delay(uint z) //延时函数 
+  10          {  
+  11   1              uint x,y;  
+  12   1              for(x=z;x>0;x--) 
+  13   1              for(y=110;y>0;y--); 
+  14   1      }   
+  15          void write_com(uchar com)  //   写指令 
+  16          {  
+  17   1              lcdrs=0;  
+  18   1              P1=com;  
+  19   1              delay(5);  
+  20   1              lcden=1;  
+  21   1              delay(5);  
+  22   1              lcden=0; 
+  23   1      }   
+  24          void write_data(uchar date) // 写数据 
+  25          {  
+  26   1              lcdrs=1;  
+  27   1              P1=date;  
+  28   1              delay(5);  
+  29   1              lcden=1;  
+  30   1              delay(5);  
+  31   1              lcden=0; 
+  32   1      }   
+  33          void init() //初始化  
+  34          {  
+  35   1              lcden=0;   
+  36   1              write_com(0x30);  //功能设定，基本指令集  
+  37   1              write_com(0x0c);  //开显示  
+  38   1              write_com(0x01);  //清屏  
+  39   1              write_com(0x06);  //进入点设定  
+  40   1              write_com(0x81);  //设置启示位置，不写也行，因为默认的就是从第一行开始的   
+  41   1      }   
+  42          void main() 
+  43          {     
+  44   1              init();    
+  45   1              for(num=0;num<6;num++)     
+  46   1              {  
+  47   2                      write_data(table[num]);  
+  48   2                      delay(200);  
+  49   2              }  
+  50   1              write_com(0x81+0x10); // 换行
+  51   1              for(num=0;num<11;num++) 
+  52   1              {  
+  53   2                      write_data(table1[num]); 
+  54   2                      delay(200); 
+  55   2              }  
+C51 COMPILER V9.06   12864                                                                 06/08/2016 13:20:31 PAGE 2   
+
+  56   1              while(1); //程序在此处停下  
+  57   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    156    ----
+   CONSTANT SIZE    =     19    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

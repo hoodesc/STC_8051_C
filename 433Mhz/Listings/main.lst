@@ -1,0 +1,189 @@
+C51 COMPILER V9.06   MAIN                                                                  08/24/2017 21:59:22 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE source code\main.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;.\sour
+                    -ce code) DEBUG PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+*** WARNING C500 IN LINE 1 OF source code\main.c: LICENSE ERROR (R207(3): REGISTRY READ ERROR)
+
+   1          #include "stc15.h"
+   2          #include "keyscan.h"
+   3          #include "mytype.h"
+   4          #include "intrins.h"
+   5          
+   6          sbit DAT433 = P1^1;
+   7          uint8 DATA[66] = {0,0,0,1,1,1,0,1,0,0,0,0,1,1,0,0,0,1,0,1,0,0,0,0,1,0,0,1,0,1
+   8          ,0,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,0,0,1,0,1,1,0,1,1,0,0,0,1,1,0,1,1,0,0};
+   9          
+  10            
+  11          void Delay380us()   //@11.0592MHz
+  12          {
+  13   1        unsigned char i, j;
+  14   1      
+  15   1        _nop_();
+  16   1        _nop_();
+  17   1        i = 5;
+  18   1        j = 18;
+  19   1        do
+  20   1        {
+  21   2          while (--j);
+  22   2        } while (--i);
+  23   1      }
+  24          
+  25          
+  26          
+  27          void Delay420us()   //@11.0592MHz
+  28          {
+  29   1        unsigned char i, j;
+  30   1      
+  31   1        _nop_();
+  32   1        i = 5;
+  33   1        j = 129;
+  34   1        do
+  35   1        {
+  36   2          while (--j);
+  37   2        } while (--i);
+  38   1      }
+  39          
+  40          
+  41          void Delay780us()   //@11.0592MHz
+  42          {
+  43   1        unsigned char i, j;
+  44   1      
+  45   1        _nop_();
+  46   1        _nop_();
+  47   1        i = 9;
+  48   1        j = 96;
+  49   1        do
+  50   1        {
+  51   2          while (--j);
+  52   2        } while (--i);
+  53   1      }
+C51 COMPILER V9.06   MAIN                                                                  08/24/2017 21:59:22 PAGE 2   
+
+  54          
+  55          
+  56          void Delay830us()   //@11.0592MHz
+  57          {
+  58   1        unsigned char i, j;
+  59   1      
+  60   1        _nop_();
+  61   1        _nop_();
+  62   1        _nop_();
+  63   1        i = 9;
+  64   1        j = 234;
+  65   1        do
+  66   1        {
+  67   2          while (--j);
+  68   2        } while (--i);
+  69   1      }
+  70          
+  71          void Delay3600us()    //@11.0592MHz
+  72          {
+  73   1        
+  74   1        
+  75   1        unsigned char i, j;
+  76   1      
+  77   1        _nop_();
+  78   1        i = 39;
+  79   1        j = 183;
+  80   1        do
+  81   1        {
+  82   2          while (--j);
+  83   2        } while (--i);
+  84   1      }
+  85          
+  86          
+  87          void Delay10ms()    //@11.0592MHz
+  88          {
+  89   1        unsigned char i, j;
+  90   1      
+  91   1        i = 108;
+  92   1        j = 145;
+  93   1        do
+  94   1        {
+  95   2          while (--j);
+  96   2        } while (--i);
+  97   1      }
+  98          
+  99          
+ 100          
+ 101          void start()
+ 102          {
+ 103   1        uint8 i;
+ 104   1        for(i = 12; i > 0; i--)
+ 105   1        {
+ 106   2          DAT433 = 1;
+ 107   2          Delay380us();
+ 108   2          DAT433 = 0;
+ 109   2          Delay420us();
+ 110   2        }
+ 111   1        DAT433 = 0;
+ 112   1        Delay3600us();
+ 113   1      }
+ 114          
+ 115          void Dat_0()
+C51 COMPILER V9.06   MAIN                                                                  08/24/2017 21:59:22 PAGE 3   
+
+ 116          {
+ 117   1        DAT433 = 1;
+ 118   1        Delay380us();
+ 119   1        DAT433 = 0;
+ 120   1        Delay830us();
+ 121   1      }
+ 122          
+ 123          void Dat_1()
+ 124          {
+ 125   1        DAT433 = 1;
+ 126   1        Delay780us();
+ 127   1        DAT433 = 0;
+ 128   1        Delay420us();
+ 129   1      }
+ 130          
+ 131          void send_433(uint8 *pdat)
+ 132          {
+ 133   1        uint8 i;
+ 134   1        for(i = 66; i > 0; i--)
+ 135   1        {
+ 136   2          if(*pdat == 1)
+ 137   2            Dat_1();
+ 138   2          else
+ 139   2            Dat_0();
+ 140   2          pdat++;
+ 141   2        }
+ 142   1      }
+ 143          
+ 144          
+ 145          void main()
+ 146          {
+ 147   1        while(1)
+ 148   1        { 
+ 149   2          start();  
+ 150   2          send_433(DATA); 
+ 151   2          Delay10ms();
+ 152   2          while(1);
+ 153   2        }
+ 154   1      
+ 155   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    145    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     66    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

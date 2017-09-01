@@ -1,0 +1,36 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+D:\Keil uV4\Project\LCD12864\LCD12864.uvproj
+Project File Date:  04/17/2016
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+compiling LCD12864.c...
+LCD12864.c(207): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_XY?LCD12864
+Program Size: data=18.0 xdata=0 code=1407
+creating hex file from ".\Objects\LCD12864"...
+".\Objects\LCD12864" - 0 Error(s), 2 Warning(s).
+Rebuild target 'Target 1'
+compiling LCD12864.c...
+LCD12864.c(207): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_XY?LCD12864
+Program Size: data=18.0 xdata=0 code=1407
+creating hex file from ".\Objects\LCD12864"...
+".\Objects\LCD12864" - 0 Error(s), 2 Warning(s).
+Rebuild target 'Target 1'
+compiling LCD12864.c...
+LCD12864.c(207): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_XY?LCD12864
+Program Size: data=18.0 xdata=0 code=1407
+creating hex file from ".\Objects\LCD12864"...
+".\Objects\LCD12864" - 0 Error(s), 2 Warning(s).

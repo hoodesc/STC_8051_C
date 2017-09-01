@@ -1,0 +1,623 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+D:\Keil uV4\Project\ds18b20\ds18b20.uvproj
+Project File Date:  04/17/2016
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1373
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1370
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1370
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1370
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(145): error C202: 'Low': undefined identifier
+ds18b20.c(146): error C202: 'Hight': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(145): error C202: 'Low': undefined identifier
+ds18b20.c(146): error C202: 'Hight': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1370
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1370
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1370
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1370
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1373
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(132): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+Program Size: data=21.0 xdata=0 code=1312
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 6 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(132): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+Program Size: data=21.0 xdata=0 code=1316
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 6 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(132): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+Program Size: data=21.0 xdata=0 code=1316
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(132): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+Program Size: data=21.0 xdata=0 code=1316
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(100): warning C235: parameter 1: different types
+ds18b20.c(132): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+Program Size: data=21.0 xdata=0 code=1304
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 7 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(100): warning C235: parameter 1: different types
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=20.0 xdata=0 code=1301
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 7 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(100): warning C235: parameter 1: different types
+ds18b20.c(132): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+Program Size: data=21.0 xdata=0 code=1297
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 7 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(100): warning C235: parameter 1: different types
+linking...
+Program Size: data=16.0 xdata=0 code=1361
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 1 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1373
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(135): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+Program Size: data=21.0 xdata=0 code=1317
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(109): error C202: 'uInt16': undefined identifier
+ds18b20.c(109): error C141: syntax error near 'uiVal'
+ds18b20.c(110): error C202: 'uiVal': undefined identifier
+ds18b20.c(111): error C202: 'ujVal': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(109): error C202: 'uInt16': undefined identifier
+ds18b20.c(109): error C141: syntax error near 'uiVal'
+ds18b20.c(110): error C202: 'uiVal': undefined identifier
+ds18b20.c(111): error C202: 'ujVal': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(132): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY5US?DS18B20
+Program Size: data=21.0 xdata=0 code=1325
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 6 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(132): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY5US?DS18B20
+Program Size: data=21.0 xdata=0 code=1318
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 7 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(132): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY5US?DS18B20
+Program Size: data=21.0 xdata=0 code=1325
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 6 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(130): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_INIT?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+Program Size: data=21.0 xdata=0 code=1320
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1377
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=16.0 xdata=0 code=1377
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(130): warning C280: 'i': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+Program Size: data=21.0 xdata=0 code=1314
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=20.0 xdata=0 code=1311
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=20.0 xdata=0 code=1311
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=20.0 xdata=0 code=1286
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=20.0 xdata=0 code=1286
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=20.0 xdata=0 code=1286
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=21.0 xdata=0 code=1289
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=21.0 xdata=0 code=1302
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=21.0 xdata=0 code=1304
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=21.0 xdata=0 code=1304
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=21.0 xdata=0 code=1302
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=21.0 xdata=0 code=1272
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=21.0 xdata=0 code=1272
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=21.0 xdata=0 code=1272
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(29): warning C235: parameter 1: different types
+ds18b20.c(113): error C202: 'Tem': undefined identifier
+ds18b20.c(114): error C202: 'Tem': undefined identifier
+ds18b20.c(115): error C202: 'Tem': undefined identifier
+ds18b20.c(116): error C202: 'Tem': undefined identifier
+ds18b20.c(117): error C202: 'Tem': undefined identifier
+ds18b20.c(118): error C202: 'Tem': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(113): error C202: 'Tem': undefined identifier
+ds18b20.c(114): error C202: 'Tem': undefined identifier
+ds18b20.c(115): error C202: 'Tem': undefined identifier
+ds18b20.c(116): error C202: 'Tem': undefined identifier
+ds18b20.c(117): error C202: 'Tem': undefined identifier
+ds18b20.c(118): error C202: 'Tem': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(116): error C202: 'Number': undefined identifier
+ds18b20.c(117): error C202: 'Number': undefined identifier
+ds18b20.c(118): error C202: 'Number': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS18B20_WRITE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_READ?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_COMPUTE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?DS18B20
+Program Size: data=22.0 xdata=0 code=1306
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 5 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(152): error C202: 'i': undefined identifier
+ds18b20.c(154): error C202: 'i': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(154): error C202: 'c': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=17.0 xdata=0 code=1365
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=17.0 xdata=0 code=1365
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=17.0 xdata=0 code=1365
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+ds18b20.c(9): error C242: 'array[]': too many initializers
+Target not created
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=17.0 xdata=0 code=1365
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling ds18b20.c...
+linking...
+Program Size: data=17.0 xdata=0 code=1360
+creating hex file from "ds18b20"...
+"ds18b20" - 0 Error(s), 0 Warning(s).

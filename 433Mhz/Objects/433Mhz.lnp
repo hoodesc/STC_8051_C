@@ -1,0 +1,5 @@
+".\Objects\Delay.obj",
+".\Objects\main.obj" 
+TO ".\Objects\433Mhz" 
+
+PRINT(".\Listings\433Mhz.map")

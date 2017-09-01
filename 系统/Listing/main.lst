@@ -1,0 +1,59 @@
+C51 COMPILER V9.06   MAIN                                                                  11/12/2016 11:29:00 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Output\main.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE source code\main.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;..\系
+                    -统;.\source code) DEBUG PRINT(.\Listing\main.lst) TABS(2) OBJECT(.\Output\main.obj)
+
+line level    source
+
+   1          #include <stc15.h>
+   2          #include "mytype.h"
+   3          #include "LCD12864.h"
+   4          #include "ds1302.h"
+   5          #include "delay.h"
+   6          #include "uart.h"
+   7          #include "nrf24l01_rx.h"
+   8          
+   9          
+  10          
+  11          void main() 
+  12          {   
+  13   1      //    uchar temp = 0;
+  14   1      //    P2M0 = 0xFF;
+  15   1      //    P2M1 = 0x00;
+  16   1          NRF24L01_Init();
+  17   1          Uart_Init();              // 串口初始化       
+  18   1      //    DS1302_Init();
+  19   1      //    LCD_Init();
+  20   1          DelayMs(1000);
+  21   1          while(1)
+  22   1          {
+  23   2      //      DS1302_Time_Display();
+  24   2            SetRX_Mode();     
+  25   2            Uart_print();
+  26   2            DelayMs(100);
+  27   2      //      NRF24L01_RxPacket(RX_DAT);
+  28   2      //      LCD_XY(1,0);
+  29   2      //LCD_Write_data('a');      
+  30   2          }
+  31   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     28    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

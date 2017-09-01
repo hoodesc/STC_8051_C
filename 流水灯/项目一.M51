@@ -1,0 +1,234 @@
+BL51 BANKED LINKER/LOCATER V4.13                                                        03/17/2013  01:30:03  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V4.13, INVOKED BY:
+D:\KEIL\C51\BIN\BL51.EXE ÏîÄ¿Ò».obj TO ÏîÄ¿Ò» RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ÏîÄ¿Ò».obj (_î___»)
+  D:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  ÏîÄ¿Ò» (_î___»)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         _DATA_GROUP_
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     009DH     UNIT         ?PR?MAIN?_î___»
+            CODE    00A0H     002EH     UNIT         ?PR?_DELAY_MS?_î___»
+            CODE    00CEH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   ÏîÄ¿Ò» (_î___»)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?_î___»
+
+?PR?MAIN?_î___»                0008H    0001H
+  +--> ?PR?_DELAY_MS?_î___»
+
+
+
+SYMBOL TABLE OF MODULE:  ÏîÄ¿Ò» (_î___»)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        _î___»
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00D8H.2       PUBLIC        CCF2
+  B:00D8H.3       PUBLIC        CCF3
+  D:0090H         PUBLIC        P1
+  B:00D8H.4       PUBLIC        CCF4
+  D:00A0H         PUBLIC        P2
+  B:00D8H.5       PUBLIC        CCF5
+BL51 BANKED LINKER/LOCATER V4.13                                                      03/17/2013  01:30:03  PAGE 2
+
+
+  D:00B0H         PUBLIC        P3
+  B:00B0H.4       PUBLIC        T0
+  B:00D0H.6       PUBLIC        AC
+  B:00B0H.5       PUBLIC        T1
+  B:00A8H.7       PUBLIC        EA
+  B:0090H.0       PUBLIC        T2
+  B:00B0H.0       PUBLIC        LED1
+  B:00B0H.1       PUBLIC        LED2
+  B:00B0H.2       PUBLIC        LED3
+  B:00D8H.7       PUBLIC        CF
+  B:00B0H.3       PUBLIC        LED4
+  B:00B0H.4       PUBLIC        LED5
+  B:0098H.7       PUBLIC        FE
+  B:00B0H.5       PUBLIC        LED6
+  B:0090H.7       PUBLIC        LED7
+  B:0090H.6       PUBLIC        LED8
+  D:00A8H         PUBLIC        IE
+  B:0090H.5       PUBLIC        LED9
+  B:00B0H.7       PUBLIC        CEX0
+  B:00B0H.5       PUBLIC        CEX1
+  B:00A0H.0       PUBLIC        CEX2
+  B:00A0H.4       PUBLIC        CEX3
+  B:00D8H.6       PUBLIC        CR
+  B:00C8H.6       PUBLIC        EXF2
+  B:00B0H.7       PUBLIC        RD
+  B:00A8H.4       PUBLIC        ES
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  B:00B0H.2       PUBLIC        INT0
+  B:00D0H.7       PUBLIC        CY
+  B:0098H.1       PUBLIC        TI
+  B:00B0H.3       PUBLIC        INT1
+  B:00B8H.4       PUBLIC        PS
+  B:0090H.1       PUBLIC        T2EX
+  D:00D8H         PUBLIC        CCON
+  B:00D0H.2       PUBLIC        OV
+  C:0003H         PUBLIC        main
+  B:00C8H.1       PUBLIC        C_T2
+  B:00B0H.6       PUBLIC        WR
+  B:00C8H.5       PUBLIC        RCLK
+  B:00C8H.4       PUBLIC        TCLK
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:0090H.4       PUBLIC        LED10
+  B:0090H.3       PUBLIC        LED11
+  B:0090H.2       PUBLIC        LED12
+  B:0090H.1       PUBLIC        LED13
+  B:0090H.0       PUBLIC        LED14
+  B:0088H.1       PUBLIC        IE0
+  B:0088H.3       PUBLIC        IE1
+  B:00C8H.0       PUBLIC        CP_RL2
+  B:00A8H.1       PUBLIC        ET0
+  B:00A8H.3       PUBLIC        ET1
+  B:0088H.5       PUBLIC        TF0
+  B:0088H.7       PUBLIC        TF1
+  B:00C8H.7       PUBLIC        TF2
+  B:0098H.2       PUBLIC        RB8
+BL51 BANKED LINKER/LOCATER V4.13                                                      03/17/2013  01:30:03  PAGE 3
+
+
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  B:00A8H.2       PUBLIC        EX1
+  B:0098H.3       PUBLIC        TB8
+  B:0088H.2       PUBLIC        IT1
+  B:00D0H.0       PUBLIC        P
+  B:0098H.7       PUBLIC        SM0
+  C:00B0H         PUBLIC        _DELAY_MS
+  B:00B0H.4       PUBLIC        ECI
+  B:0098H.6       PUBLIC        SM1
+  B:0098H.5       PUBLIC        SM2
+  B:00B8H.1       PUBLIC        PT0
+  B:00B8H.3       PUBLIC        PT1
+  B:00D0H.3       PUBLIC        RS0
+  B:0088H.4       PUBLIC        TR0
+  B:00D0H.4       PUBLIC        RS1
+  B:0088H.6       PUBLIC        TR1
+  B:00B8H.0       PUBLIC        PX0
+  B:00C8H.2       PUBLIC        TR2
+  B:00B8H.2       PUBLIC        PX1
+  B:00A8H.5       PUBLIC        EADC_SPI
+  B:00A8H.6       PUBLIC        EPCA_LVD
+  B:00C8H.3       PUBLIC        EXEN2
+  B:0098H.4       PUBLIC        REN
+  B:00B8H.5       PUBLIC        PADC_SPI
+  D:00C8H         PUBLIC        T2CON
+  B:00B0H.7       PUBLIC        KEY
+  B:00B8H.6       PUBLIC        PPCA_LVD
+  B:00B0H.0       PUBLIC        RXD
+  B:00B0H.1       PUBLIC        TXD
+  B:00D0H.5       PUBLIC        F0
+  D:00D0H         PUBLIC        PSW
+  B:00D8H.0       PUBLIC        CCF0
+  B:00D8H.1       PUBLIC        CCF1
+  C:00AAH         SYMBOL        L?0024
+  C:00ACH         SYMBOL        L?0025
+  -------         PROC          L?0023
+  -------         ENDPROC       L?0023
+  C:00AAH         SYMBOL        L?0024
+  C:00ACH         SYMBOL        L?0025
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        a
+  -------         DO            a
+  D:0004H         SYMBOL        i
+  -------         ENDDO         i
+  C:00B0H         LINE#         28
+  C:00B0H         LINE#         30
+  C:00BAH         LINE#         31
+  C:00CDH         LINE#         32
+  C:00CDH         LINE#         33
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          MAIN
+  -------         DO            MAIN
+  D:0003H         SYMBOL        b
+  -------         DO            b
+  D:0008H         SYMBOL        a
+  -------         ENDDO         a
+BL51 BANKED LINKER/LOCATER V4.13                                                      03/17/2013  01:30:03  PAGE 4
+
+
+  -------         ENDDO         a
+  C:0003H         LINE#         35
+  C:0003H         LINE#         37
+  C:0005H         LINE#         39
+  C:000FH         LINE#         40
+  C:0015H         LINE#         41
+  C:0018H         LINE#         42
+  C:001BH         LINE#         43
+  C:0021H         LINE#         44
+  C:0024H         LINE#         45
+  C:0026H         LINE#         46
+  C:0029H         LINE#         47
+  C:0032H         LINE#         48
+  C:0038H         LINE#         49
+  C:003BH         LINE#         50
+  C:003EH         LINE#         51
+  C:0044H         LINE#         52
+  C:0047H         LINE#         53
+  C:0049H         LINE#         54
+  C:0053H         LINE#         55
+  C:0059H         LINE#         56
+  C:005CH         LINE#         57
+  C:005FH         LINE#         58
+  C:0065H         LINE#         59
+  C:0068H         LINE#         60
+  C:006AH         LINE#         61
+  C:0074H         LINE#         62
+  C:0078H         LINE#         63
+  C:007BH         LINE#         64
+  C:007EH         LINE#         65
+  C:0082H         LINE#         66
+  C:0085H         LINE#         67
+  C:0087H         LINE#         68
+  C:0091H         LINE#         69
+  C:0091H         LINE#         70
+  C:0091H         LINE#         71
+  C:0091H         LINE#         72
+  C:0091H         LINE#         73
+  C:0094H         LINE#         74
+  C:0097H         LINE#         75
+  C:0097H         LINE#         76
+  C:0097H         LINE#         77
+  C:0097H         LINE#         78
+  C:0097H         LINE#         79
+  C:009AH         LINE#         80
+  C:009CH         LINE#         81
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        _î___»
+
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

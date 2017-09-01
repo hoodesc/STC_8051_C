@@ -1,0 +1,43 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        07/23/2015  11:51:23  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL\C51\BIN\BL51.EXE ¶æ»ú.obj TO ¶æ»ú
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ¶æ»ú.obj (¶æ»_)
+
+
+LINK MAP OF MODULE:  ¶æ»ú (¶æ»_)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+
+
+OVERLAY MAP OF MODULE:   ¶æ»ú (¶æ»_)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+
+
+SYMBOL TABLE OF MODULE:  ¶æ»ú (¶æ»_)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ¶æ»_
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  -------         ENDMOD        ¶æ»_
+
+*** WARNING L10: CANNOT DETERMINE ROOT SEGMENT
+
+Program Size: data=0.0 xdata=0 code=0
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

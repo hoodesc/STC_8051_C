@@ -1,0 +1,51 @@
+C51 COMPILER V9.06   MAIN                                                                  07/09/2016 14:09:23 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.obj
+COMPILER INVOKED BY: d:\Keil uV4\C51\BIN\C51.EXE source code\main.c BROWSE INCDIR(..\NRF24L01_RX;.\source code;.\Include
+                    -) DEBUG OBJECTEXTEND PRINT(.\main.lst) OBJECT(main.obj)
+
+line level    source
+
+   1          #include <stc12c2052ad.h>
+   2          #include "MYTYPE.h"
+   3          #include "NRF24L01_RX.h"
+   4          
+   5          /*  11.0592Mhz  Uart串口初始化              */
+   6          void Uart_Init()        // 串口初始化
+   7          {
+   8   1              TMOD &= 0x0F;   // 保留后定时器0设置，清空定时器1设置
+   9   1              TMOD |= 0x20;   // 定时器1 模式2
+  10   1              SCON |= 0x50;   // 串口方式1，8位UART波特率可变，可接收
+  11   1              TH1   = 0xFD;   // TL1溢出后将TH1的值装入
+  12   1              TL1   = 0xFD;   // 9600bps
+  13   1              ET1   = 0;              // 关闭定时器1中断
+  14   1              TR1   = 1;              // 开定时器1
+  15   1      }
+  16          /**********************************/
+  17          
+  18          
+  19          void main()
+  20          {       
+  21   1              Uart_Init();    //      串口初始化
+  22   1              RX_Mode();              //      NRF24L01接收模式初始化
+  23   1              while(1)
+  24   1              {
+  25   2                      NRF24L01_RxPacket(RX_DAT);
+  26   2              }
+  27   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     37    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

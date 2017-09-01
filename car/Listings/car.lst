@@ -1,0 +1,269 @@
+C51 COMPILER V9.06   CAR                                                                   08/24/2017 22:03:43 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE CAR
+OBJECT MODULE PLACED IN .\Objects\car.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE car.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\car.l
+                    -st) TABS(2) OBJECT(.\Objects\car.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          typedef unsigned char uchar;
+   4          typedef unsigned int uint;
+   5          
+   6          sbit IN1 = P1^0;
+   7          sbit IN2 = P1^1;
+   8          sbit IN3 = P1^2;
+   9          sbit IN4 = P1^3;
+  10          sbit PWMA = P1^4;
+  11          sbit PWMB = P1^5;
+  12          // 超声波模块位定义
+  13          sbit Tring = P3^7;    // 控制端
+  14          sbit Echo = P3^2;   // 接收端
+  15          //sbit LeftSenser1 = P0^3;    //前左红外
+  16          //sbit RightSenser1 = P0^2;   //前右红外
+  17          //sbit LeftSenser2 = P0^1;    //后左红外
+  18          //sbit RightSenser2 = P0^0;    //后右红外
+  19          uchar Uartdata;
+  20          uint TIME;
+  21          bit modify = 0;
+  22          
+  23          void Count();
+  24          
+  25          uchar code TAB[] = {0,1,2,3,4,5,6,7,8,9};
+  26          uchar t[] = {0,0,0,'C','M','\n'};
+  27          
+  28          //  11.0592Mhz  约2us延时
+  29          void delay(uint time)   
+  30          { 
+  31   1        uint i;
+  32   1        for(i = 0; i < time; i++)
+  33   1          _nop_();
+  34   1      }
+  35          //  11.0592延时函数，单位ms
+  36          void DelayMs(uchar time)
+  37          {
+  38   1        uchar i,j;
+  39   1        while(time--)
+  40   1        {
+  41   2          for(i = 0; i < 9; i++)
+  42   2            for(j = 0; j < 177; j++);
+  43   2        } 
+  44   1      }
+  45          
+  46          void go()
+  47          {
+  48   1        IN1 = 1;IN2 = 0;
+  49   1        IN3 = 1;IN4 = 0;
+  50   1        PWMA = 1;
+  51   1        PWMB = 1;
+  52   1      }
+  53          
+  54          void back()
+C51 COMPILER V9.06   CAR                                                                   08/24/2017 22:03:43 PAGE 2   
+
+  55          {
+  56   1        IN1 = 0;IN2 = 1;
+  57   1        IN3 = 0;IN4 = 1;
+  58   1        PWMA = 1;
+  59   1        PWMB = 1;
+  60   1      }
+  61          
+  62          void stop()
+  63          {
+  64   1        IN1 = 0;IN2 = 0;
+  65   1        IN3 = 0;IN4 = 0;  
+  66   1        PWMA = 1;
+  67   1        PWMB = 1;
+  68   1      }
+  69          
+  70          void left()
+  71          {
+  72   1        IN1 = 1;IN2 = 0;
+  73   1        IN3 = 0;IN4 = 1;
+  74   1        PWMA = 1;
+  75   1        PWMB = 1;
+  76   1      }
+  77          
+  78          void right()
+  79          {
+  80   1        IN1 = 0;IN2 = 1;
+  81   1        IN3 = 1;IN4 = 0;
+  82   1        PWMA = 1;
+  83   1        PWMB = 1;
+  84   1      }
+  85          
+  86          //以下为4路红外避障
+  87          //void infrared()
+  88          //{
+  89          //  if ((!RightSenser1) && LeftSenser1) // 如果右边假，左边真
+  90          //  { 
+  91          //      left();
+  92          //  }
+  93          //  if(RightSenser1 && (!LeftSenser1)) // 如果左边假，右边真
+  94          //  {
+  95          //      right();
+  96          //  }
+  97          //  if((RightSenser1) && (LeftSenser1))  // 如果左右真
+  98          //  {
+  99          //      go();
+ 100          //  }
+ 101          //  if((!RightSenser1) && (!LeftSenser1))  //如果左右假
+ 102          //  {
+ 103          //      stop();
+ 104          //  }
+ 105          //} 
+ 106          void control()
+ 107          {
+ 108   1        switch(Uartdata)
+ 109   1        {
+ 110   2          case 'c':
+ 111   2            if(!modify)
+ 112   2            { 
+ 113   3              go();
+ 114   3              Tring = 1;    // 触发信号开始
+ 115   3              delay(10);    // 延时20us
+ 116   3              Tring = 0;    // 触发信号结束
+C51 COMPILER V9.06   CAR                                                                   08/24/2017 22:03:43 PAGE 3   
+
+ 117   3              Count();    // 距离
+ 118   3              DelayMs(100);
+ 119   3            }     
+ 120   2            else if(0 == t[0])    // 距离百位为0
+ 121   2            {
+ 122   3              if(t[1] < 4)    // 距离十位小于4
+ 123   3              {
+ 124   4                back();
+ 125   4                DelayMs(500); 
+ 126   4                stop();
+ 127   4                modify = 0;   // 消除距离警告   
+ 128   4              }
+ 129   3            }             
+ 130   2            break;
+ 131   2          case 'd':
+ 132   2            back();
+ 133   2            break;
+ 134   2          case 'e':
+ 135   2            stop();
+ 136   2            break;
+ 137   2          case 'a':
+ 138   2            left();
+ 139   2            break;
+ 140   2          case 'b':
+ 141   2            right();
+ 142   2            break;
+ 143   2          default:
+ 144   2            break;
+ 145   2        }
+ 146   1      }
+ 147          
+ 148          void Count()
+ 149          {
+ 150   1        float temp;
+ 151   1        uchar i;
+ 152   1        uchar ge,shi,bai;
+ 153   1        temp = TIME * 1.085069444444444 / 58;
+ 154   1        i = temp;
+ 155   1        bai = i/100;    
+ 156   1        shi = i%100/10; 
+ 157   1        ge  = i%100%10;
+ 158   1        t[0] = TAB[bai];
+ 159   1        t[1] = TAB[shi];
+ 160   1        t[2] = TAB[ge];
+ 161   1        if(0 == t[0])   // 距离百位为0
+ 162   1        {
+ 163   2          if(t[1] < 4)    // 距离十位小于4
+ 164   2            modify = 1;   // 距离警告
+ 165   2          
+ 166   2        }
+ 167   1        TIME = 0;     // 定时计数清零
+ 168   1      }
+ 169          
+ 170          void Timer0_ISR() interrupt 1
+ 171          {
+ 172   1        while(!Echo)  // 每进来一次判断接收端是否低电平
+ 173   1          TIME++;   // 时间++     1.085069444444444
+ 174   1      
+ 175   1        TR0 = 0;    // Echo变高时，关闭定时器
+ 176   1        EX0 = 1;    // 打开外部中断0
+ 177   1      }
+ 178          
+C51 COMPILER V9.06   CAR                                                                   08/24/2017 22:03:43 PAGE 4   
+
+ 179          void Timer0_Init()
+ 180          {
+ 181   1        TMOD &= 0xF0;   // 设置定时器模式
+ 182   1        TMOD |= 0x02;   // 设置定时器模式
+ 183   1        TL0 = 0xFF;     // 设置定时初值
+ 184   1        TH0 = 0xFF;     // 设置定时重载值
+ 185   1        TF0 = 0;      // 清除TF0标志
+ 186   1        ET0 = 1;      // 定时器0 允许中断
+ 187   1        TR0 = 0;
+ 188   1      }
+ 189          
+ 190          void Int0_ISR() interrupt 0   
+ 191          {
+ 192   1        EX0 = 0;    // 关闭外部中断0
+ 193   1        TR0 = 1;    // 打开定时器0、TIME开始计数  
+ 194   1      }
+ 195          
+ 196          void Int0_Init()  // 外部中断0初始化
+ 197          {
+ 198   1        IT0 = 0;  // 外部中断0 下降沿触发
+ 199   1        EX0 = 1;  // 外部中断0 中断允许
+ 200   1        EA  = 1;  // 开总中断
+ 201   1      }
+ 202          
+ 203          void Uart_ISR() interrupt 4
+ 204          {
+ 205   1        if(RI)
+ 206   1        {
+ 207   2          RI = 0;
+ 208   2          Uartdata = SBUF;
+ 209   2        }
+ 210   1      }
+ 211          
+ 212          void Uart_Init()
+ 213          {
+ 214   1        TMOD &= 0x0F;
+ 215   1        TMOD |= 0x20;
+ 216   1        SCON |= 0x50;
+ 217   1        TH1   = 0xfd;
+ 218   1        TH1   = 0xfd;
+ 219   1        ET1   = 0;
+ 220   1        ES    = 1;
+ 221   1        EA    = 1;
+ 222   1        TR1   = 1;
+ 223   1      }
+ 224          
+ 225          void main()
+ 226          { 
+ 227   1        Uart_Init();
+ 228   1        Timer0_Init();
+ 229   1        Int0_Init();
+ 230   1        while(1)
+ 231   1        {
+ 232   2          control();
+ 233   2      
+ 234   2      
+ 235   2      //    infrared();
+ 236   2        }
+ 237   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V9.06   CAR                                                                   08/24/2017 22:03:43 PAGE 5   
+
+   CODE SIZE        =    385    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

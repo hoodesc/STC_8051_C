@@ -1,0 +1,3 @@
+".\Objects\eeprom.obj" 
+TO ".\Objects\EEPROM" 
+PRINT(".\Listings\EEPROM.m51") RAMSIZE(256) 

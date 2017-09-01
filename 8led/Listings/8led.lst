@@ -1,0 +1,69 @@
+C51 COMPILER V9.06   8LED                                                                  07/05/2017 23:36:24 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE 8LED
+OBJECT MODULE PLACED IN .\Objects\8led.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE 8led.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\8led
+                    -.lst) TABS(2) OBJECT(.\Objects\8led.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          typedef unsigned char uchar;
+   4          
+   5          sbit KEY = P3^0;
+   6          sbit SPK = P2^0;
+   7          sbit LED = P2^4;
+   8          
+   9          /**********************************/
+  10          /*        ∫¡√Î—” ±∫Ø ˝        */
+  11          void DelayMs(unsigned int ms_number)
+  12          {
+  13   1        unsigned int i;
+  14   1        unsigned char j;
+  15   1        for(i=0;i<ms_number;i++) 
+  16   1        {  
+  17   2          for(j=0;j<200;j++); 
+  18   2          for(j=0;j<102;j++); 
+  19   2        }  
+  20   1      } 
+  21          
+  22          void main()
+  23          { 
+  24   1        while(1)
+  25   1        {
+  26   2            LED = 1;
+  27   2      //    if(KEY)
+  28   2      //    {
+  29   2      //      SPK = 1;
+  30   2      //      P1 = 0x00;
+  31   2      //      DelayMs(200);
+  32   2      //      P1 = 0xFF;
+  33   2      //      DelayMs(200);
+  34   2      //      SPK = 0;
+  35   2      //      DelayMs(20);
+  36   2      //    }
+  37   2      //    else
+  38   2      //    {
+  39   2      //      P1 = 0x00;
+  40   2      //      SPK = 1;
+  41   2      //    }
+  42   2        }
+  43   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     34    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V9.06   8LED                                                                  07/05/2017 23:36:24 PAGE 2   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

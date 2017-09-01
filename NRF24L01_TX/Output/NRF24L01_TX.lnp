@@ -1,0 +1,6 @@
+".\Output\main.obj",
+".\Output\NRF24L01_TX.obj",
+".\Output\Delay.obj",
+".\Output\keyscan.obj" 
+TO ".\Output\NRF24L01_TX" 
+PRINT(".\Listings\NRF24L01_TX.m51") RAMSIZE(256) 

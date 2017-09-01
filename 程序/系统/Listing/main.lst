@@ -1,0 +1,265 @@
+C51 COMPILER V9.06   MAIN                                                                  11/29/2016 20:41:04 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Output\main.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE source code\main.c LARGE OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include
+                    -;..\系统;.\source code) DEBUG PRINT(.\Listing\main.lst) TABS(2) OBJECT(.\Output\main.obj)
+
+line level    source
+
+   1          #include <stc15.h>
+   2          #include "mytype.h"
+   3          #include "LCD12864.h"
+   4          #include "ds1302.h"
+   5          #include "delay.h"
+   6          #include "uart.h"
+   7          #include "nrf24l01_rx.h"
+   8          #include "init.h"
+   9          #include "a6.h"
+  10          
+  11          uchar T[] = {0};
+  12          uchar MQ2[] = {0};
+  13          uchar HUO[] = {0};
+  14          
+  15          void Bee();
+  16          
+  17          sbit bee = P3^2;
+  18          
+  19          //uchar HUOYAN[] = {0};
+  20          uchar discon[] = {0x20,0x20,0x20,0x20,0x20,0x20,'\0'};  //“断开” 16进制编码
+  21          //uchar discon[] = {0xB6,0xCF,0xBF,0xAA,0x20,0x20,'\0'};  //“断开” 16进制编码
+  22          bit T_Flag = 0;
+  23          bit MQ2_Flag = 0;
+  24          bit HUO_Flag = 0;
+  25          void Timer0_Init(void)    //10ms @11.0592MHz
+  26          {
+  27   1        AUXR &= 0x7F;   //12T模式
+  28   1        TMOD &= 0xF0;   //模式0 16位自动重装
+  29   1        TL0 = 0x00;
+  30   1        TH0 = 0xEE;
+  31   1        ET0 = 1;
+  32   1        EA  = 1;
+  33   1        TR0 = 1;
+  34   1      }
+  35          
+  36          void Timer0_ISR() interrupt 1
+  37          {
+  38   1        static uint time = 0;
+  39   1        static uint mq2_rx_count = 0;
+  40   1        static uint t_rx_count = 0;
+  41   1        static uint huo_rx_count = 0; 
+  42   1        static uchar mq2_sta = 0;
+  43   1        static uchar huo_sta = 0;
+  44   1        
+  45   1        time++;
+  46   1            SetRX_Mode();     
+  47   1            NRF24L01_RxPacket(RX_DAT);
+  48   1            if(RX_DAT[0] == 0xA0) //  器件0
+  49   1            {
+  50   2              T[0] = RX_DAT[1];
+  51   2              T[1] = RX_DAT[2];
+  52   2              T[2] = '.';
+  53   2              T[3] = RX_DAT[3];
+  54   2              T[4] = 0xA1;          
+C51 COMPILER V9.06   MAIN                                                                  11/29/2016 20:41:04 PAGE 2   
+
+  55   2              T[5] = 0xE6;
+  56   2              T[6] = '\0';
+  57   2              T_Flag = 1;//温度接收完成       
+  58   2            }
+  59   1            else if(RX_DAT[0] == 0xA1)  //  器件1 
+  60   1            {
+  61   2              if(RX_DAT[1] == 0xAA) //正常
+  62   2              {
+  63   3                MQ2[0] = 0xD5;  //“正常” 16进制编码
+  64   3                MQ2[1] = 0xFD;
+  65   3                MQ2[2] = 0xB3;
+  66   3                MQ2[3] = 0xA3;          
+  67   3                MQ2[4] = '\0';
+  68   3                MQ2[5] = 0xAA;
+  69   3                MQ2_Flag = 1; //MQ2传感器状态接收完成
+  70   3              }
+  71   2              else if(RX_DAT[1] == 0xBB)  //检测到有害气体
+  72   2              {
+  73   3                MQ2[0] = 0xBE;  //“警告！”16进制编码
+  74   3                MQ2[1] = 0xAF;
+  75   3                MQ2[2] = 0xB8;
+  76   3                MQ2[3] = 0xE6;
+  77   3                MQ2[4] = '\0';
+  78   3                MQ2[5] = 0xBB;
+  79   3                MQ2_Flag = 1; //MQ2传感器状态接收完成 
+  80   3              }     
+  81   2            }
+  82   1            else if(RX_DAT[0] == 0xA2)  //  器件2 
+  83   1            {
+  84   2              if(RX_DAT[1] == 0xAA) //正常
+  85   2              {
+  86   3                HUO[0] = 0xD5;  //“正常” 16进制编码
+  87   3                HUO[1] = 0xFD;
+  88   3                HUO[2] = 0xB3;
+  89   3                HUO[3] = 0xA3;          
+  90   3                HUO[4] = '\0';
+  91   3                HUO[5] = 0xAA;
+  92   3                HUO_Flag = 1; //火焰传感器状态接收完成
+  93   3              }
+  94   2              else if(RX_DAT[1] == 0xBB)  //检测到火焰
+  95   2              {
+  96   3                HUO[0] = 0xBE;  //“警告！”16进制编码
+  97   3                HUO[1] = 0xAF;
+  98   3                HUO[2] = 0xB8;
+  99   3                HUO[3] = 0xE6;
+ 100   3                HUO[4] = '\0';
+ 101   3                HUO[5] = 0xBB;
+ 102   3                HUO_Flag = 1; //火焰传感器状态接收完成
+ 103   3              }
+ 104   2            }     
+ 105   1            switch(huo_sta)
+ 106   1            {
+ 107   2              case 0:
+ 108   2              {
+ 109   3                if(HUO[5] == 0xBB)
+ 110   3                  huo_sta = 1;
+ 111   3                else
+ 112   3                  huo_sta = 0;
+ 113   3              }break;
+ 114   2              case 1:
+ 115   2              {
+ 116   3                  Send_Message(huoyan_warning);
+C51 COMPILER V9.06   MAIN                                                                  11/29/2016 20:41:04 PAGE 3   
+
+ 117   3                  huo_sta = 2;
+ 118   3              }break;
+ 119   2              case 2:
+ 120   2              {
+ 121   3                  if(HUO[5] == 0xAA)
+ 122   3                    huo_sta = 0;
+ 123   3                  else
+ 124   3                    huo_sta = 2;
+ 125   3              }break;
+ 126   2              default:break;
+ 127   2            }
+ 128   1            switch(mq2_sta)
+ 129   1            {
+ 130   2              case 0:
+ 131   2              {
+ 132   3                if(MQ2[5] == 0xBB)
+ 133   3                  mq2_sta = 1;
+ 134   3                else
+ 135   3                  mq2_sta = 0;
+ 136   3              }break;
+ 137   2              case 1:
+ 138   2              {
+ 139   3                  Send_Message(mq2_warning);
+ 140   3                  mq2_sta = 2;
+ 141   3              }break;
+ 142   2              case 2:
+ 143   2              {
+ 144   3                  if(MQ2[5] == 0xAA)
+ 145   3                    mq2_sta = 0;
+ 146   3                  else
+ 147   3                    mq2_sta = 2;
+ 148   3              }break;
+ 149   2              default:break;
+ 150   2            }     
+ 151   1            RX_DAT[0] = 0x00;RX_DAT[1] = 0x00;RX_DAT[2] = 0x00;RX_DAT[3] = 0x00;RX_DAT[4] = 0x00;
+ 152   1            if(T_Flag)
+ 153   1            {
+ 154   2              t_rx_count++;
+ 155   2              T_Flag = 0;       
+ 156   2              LCD_Display(1,1,T);       
+ 157   2            }
+ 158   1            if(MQ2_Flag)
+ 159   1            {
+ 160   2              mq2_rx_count++;
+ 161   2              MQ2_Flag = 0;
+ 162   2              LCD_Display(2,2,MQ2);
+ 163   2              if(MQ2[5] == 0xBB)
+ 164   2                Bee();
+ 165   2            }
+ 166   1            if(HUO_Flag)
+ 167   1            {
+ 168   2              huo_rx_count++;
+ 169   2              HUO_Flag = 0;
+ 170   2              LCD_Display(3,3,HUO);
+ 171   2              if(HUO[5] == 0xBB)
+ 172   2                Bee();        
+ 173   2            }     
+ 174   1            
+ 175   1          if(time > 200)  //  1000ms检测一次
+ 176   1          {
+ 177   2            time = 0;
+ 178   2            if(t_rx_count < 1)
+C51 COMPILER V9.06   MAIN                                                                  11/29/2016 20:41:04 PAGE 4   
+
+ 179   2            {
+ 180   3                if(!T_Flag)
+ 181   3                {
+ 182   4                  LCD_Display(1,1,discon);
+ 183   4                  DelayMs(1);         
+ 184   4                }
+ 185   3            }
+ 186   2            if(mq2_rx_count < 1)
+ 187   2            {
+ 188   3                if(!MQ2_Flag)
+ 189   3                {
+ 190   4                  LCD_Display(2,2,discon);
+ 191   4                  DelayMs(1);       
+ 192   4                }         
+ 193   3            }
+ 194   2            if(huo_rx_count < 1)
+ 195   2            {
+ 196   3                if(!HUO_Flag)
+ 197   3                {
+ 198   4                  LCD_Display(3,3,discon);
+ 199   4                  DelayMs(1);         
+ 200   4                }             
+ 201   3            }   
+ 202   2            mq2_rx_count = 0;     
+ 203   2            huo_rx_count = 0;
+ 204   2            t_rx_count = 0;
+ 205   2          }
+ 206   1          DS1302_Time_Display();//读取DS1302时间并显示在液晶
+ 207   1      }
+ 208          
+ 209          void Bee()
+ 210          {
+ 211   1          bee = 0;
+ 212   1          DelayMs(300);
+ 213   1          bee = 1;
+ 214   1          DelayMs(300);
+ 215   1      }
+ 216          void main() 
+ 217          {
+ 218   1          INIT();// 器件初始化
+ 219   1          USART1_Init();//串口初始化
+ 220   1          Wait_CREG();//等待GSM注册成功
+ 221   1          Set_Text_Mode();//设置发送为TEXT模式
+ 222   1          Timer0_Init();        //  定时器0初始化
+ 223   1          DelayMs(1000);
+ 224   1          while(1)
+ 225   1          {
+ 226   2      
+ 227   2      
+ 228   2          }
+ 229   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    754    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     20    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      3    ----
+   EDATA SIZE       =   ----    ----
+C51 COMPILER V9.06   MAIN                                                                  11/29/2016 20:41:04 PAGE 5   
+
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

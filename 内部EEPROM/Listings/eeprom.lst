@@ -1,0 +1,176 @@
+C51 COMPILER V9.06   EEPROM                                                                07/06/2017 23:27:20 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE EEPROM
+OBJECT MODULE PLACED IN .\Objects\eeprom.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE source code\eeprom.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\eeprom.lst) TABS(2) OBJECT(.\Objects\eeprom.obj)
+
+line level    source
+
+   1          #include <stc15.h>
+   2          #include <intrins.h>
+   3          
+   4          typedef unsigned char uint8;
+   5          typedef unsigned int uint16;
+   6          
+   7          #define CMD_IDLE    0   //  空闲模式
+   8          #define CMD_READ    1   //  IAP字节读命令
+   9          #define CMD_PROGRAM 2   //  IAP字节编程命令
+  10          #define CMD_ERASE   3   //  IAP扇区擦除命令
+  11          
+  12          #define ENABLE_IAP  0x80  //  SYSCLK<30MHz
+  13          #define IAP_ADDRESS 0x3300  //  读写扇区地址
+  14          
+  15          
+  16          void Iapidle()
+  17          {
+  18   1        IAP_CONTR = 0;    //  关闭IAP功能
+  19   1        IAP_CMD   = 0;      //  清除命令寄存器
+  20   1        IAP_TRIG  = 0;      //  清除触发寄存器
+  21   1        IAP_ADDRH = 0x80; //  将地址设置到非IAP区域
+  22   1        IAP_ADDRL = 0x0;    
+  23   1      }
+  24          
+  25          /*****************
+  26          从ISP/IAP/EEPROM区域读一字节
+  27          ******************/
+  28          uint8 IapReadByte(uint16 addr)
+  29          {
+  30   1        uint8 dat;    //  数据缓冲区
+  31   1        IAP_CONTR = ENABLE_IAP;     //  使能IAP
+  32   1        IAP_CMD = CMD_READ;         //  设置IAP命令
+  33   1        IAP_ADDRL = addr;           //  设置IAP低地址
+  34   1        IAP_ADDRH = addr >> 8;      //  设置IAP高地址
+  35   1        IAP_TRIG = 0x5a;            //  写触发命令(0x5a)
+  36   1        IAP_TRIG = 0xa5;            //  写触发命令(0xa5)
+  37   1        _nop_();                    //  等待操作完成
+  38   1        dat = IAP_DATA;             //  读取EEPROM数据
+  39   1        Iapidle();                  //  关闭IAP功能
+  40   1        return dat;                 //  返回数据
+  41   1      }
+  42          
+  43          /******************
+  44          写一字节数据到EEPRPOM
+  45          ******************/
+  46          void IapProgramByte(uint16 addr,uint8 dat)
+  47          {
+  48   1        IAP_CONTR = ENABLE_IAP;       //  使能IAP
+  49   1        IAP_CMD = CMD_PROGRAM;        //  设置IAP命令
+  50   1        IAP_ADDRL = addr;             //  设置IAP低地址
+  51   1        IAP_ADDRH = addr >> 8;          //  设置IAP高地址
+  52   1        IAP_DATA = dat;               //  写数据到EEPROM
+  53   1        IAP_TRIG = 0x5a;              //  写触发命令(0x5a)
+  54   1        IAP_TRIG = 0xa5;              //  写触发命令(0xa5)
+C51 COMPILER V9.06   EEPROM                                                                07/06/2017 23:27:20 PAGE 2   
+
+  55   1        _nop_();                      //  等待操作完成
+  56   1        Iapidle();                    //  关闭IAP功能
+  57   1      }
+  58          
+  59          /********************
+  60          擦除扇区
+  61          ********************/
+  62          void IapEraseSector(uint16 addr)
+  63          {
+  64   1        IAP_CONTR = ENABLE_IAP;       //  使能IAP
+  65   1        IAP_CMD = CMD_ERASE;          //  设置IAP命令
+  66   1        IAP_ADDRL = addr;             //  设置IAP低地址
+  67   1        IAP_ADDRH = addr >> 8;        //  设置IAP高地址
+  68   1        IAP_TRIG = 0x5a;              //  写触发命令(0x5a)
+  69   1        IAP_TRIG = 0xa5;              //  写触发命令(0xa5)
+  70   1        _nop_();                      //  等待操作完成
+  71   1        Iapidle();                    //  关闭IAP功能 
+  72   1      }
+  73          
+  74          void Delay100ms()   //@24.000MHz
+  75          {
+  76   1        unsigned char i, j, k;
+  77   1      
+  78   1        _nop_();
+  79   1        _nop_();
+  80   1        i = 10;
+  81   1        j = 31;
+  82   1        k = 147;
+  83   1        do
+  84   1        {
+  85   2          do
+  86   2          {
+  87   3            while (--k);
+  88   3          } while (--j);
+  89   2        } while (--i);
+  90   1      }
+  91          
+  92          
+  93          /*  11.0592Mhz  Uart串口初始化        */
+  94          void Uart_Init()  // 串口初始化
+  95          {
+  96   1        SCON = 0x50;    //8???,?????
+  97   1        AUXR |= 0x40;   //???1???Fosc,?1T
+  98   1        AUXR &= 0xFE;   //??1?????1???????
+  99   1        TMOD &= 0x0F;   //?????1?16???????
+ 100   1        TL1 = 0x8F;   //??????
+ 101   1        TH1 = 0xFD;   //??????
+ 102   1        ET1 = 0;    //?????1??
+ 103   1        TR1 = 1;    //?????1
+ 104   1      }
+ 105          /**********************************/
+ 106          
+ 107          
+ 108          void Send_One_byte(uint8 dat)
+ 109          {
+ 110   1        SBUF = dat;
+ 111   1        while(!TI);
+ 112   1        TI = 0;
+ 113   1      }
+ 114          
+ 115          void main()
+ 116          {
+C51 COMPILER V9.06   EEPROM                                                                07/06/2017 23:27:20 PAGE 3   
+
+ 117   1        uint16 i;
+ 118   1        Uart_Init();
+ 119   1        Delay100ms();
+ 120   1        while(1)
+ 121   1        {
+ 122   2          Send_One_byte(0x01);
+ 123   2          IapEraseSector(IAP_ADDRESS);    //  擦除扇区  
+ 124   2          Send_One_byte(0x02);
+ 125   2          for(i = 0; i < 512; i++)    //  检测是否擦除成功
+ 126   2          {
+ 127   3            if(IapReadByte(IAP_ADDRESS+i) != 0xff)
+ 128   3              goto Err;         
+ 129   3          }
+ 130   2          Send_One_byte(0x03);
+ 131   2          //  写入数据
+ 132   2          for(i = 0; i < 512; i++)
+ 133   2          {
+ 134   3            IapProgramByte(IAP_ADDRESS+i,(uint8)i);
+ 135   3          }
+ 136   2          Send_One_byte(0x04);
+ 137   2          //  读出数据
+ 138   2          for(i = 0; i < 512; i++)
+ 139   2          {
+ 140   3            Send_One_byte(IapReadByte(IAP_ADDRESS+i));
+ 141   3          }
+ 142   2          Send_One_byte('z');
+ 143   2          while(1);
+ 144   2        }
+ 145   1          Err:  
+ 146   1            Send_One_byte(0xFF);
+ 147   1            while(1); 
+ 148   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    250    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

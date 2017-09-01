@@ -1,0 +1,147 @@
+C51 COMPILER V9.06   DS18B20                                                               03/17/2017 00:01:50 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE DS18B20
+OBJECT MODULE PLACED IN .\Output\DS18B20.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE source code\DS18B20.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\project2;
+                    -.\source code;.\include) DEBUG PRINT(.\Listing\DS18B20.lst) TABS(2) OBJECT(.\Output\DS18B20.obj)
+
+line level    source
+
+   1          #include<STC12C5A.h>
+   2          #include"MYTYPE.h"
+   3          #include"DS18B20.h"
+   4          #include"delay.h"
+   5          
+   6          uchar code number[] = {'0','1','2','3','4','5','6','7','8','9'};
+   7          uchar c[] = {'0','0','.','0',0xa1,0xe6,'\0'};
+   8          
+   9          sbit DQ = P3^6;
+  10          bit DS18B20_flag = 0;
+  11          
+  12          void DS18B20_Write(uchar udata)
+  13          {
+  14   1        uchar i;
+  15   1        uchar dat;
+  16   1        for(i = 0; i < 8; i++)
+  17   1        {
+  18   2          dat = udata & 0x01;
+  19   2          udata = udata >> 1;   // udata右移一位准备下一次送上总线
+  20   2          if(dat)
+  21   2          {
+  22   3            DQ = 0;   // 拉低总线
+  23   3            delay(1); // 延时2us
+  24   3            DQ = 1;   // 送1
+  25   3            delay(40);  // 延时80us
+  26   3            DQ = 1;   // 释放总线
+  27   3            delay(1); // 延时2us
+  28   3          }
+  29   2          else
+  30   2          {
+  31   3            DQ = 0;   // 拉低总线
+  32   3            delay(1); // 延时2us
+  33   3            DQ = 0;   // 送0
+  34   3            delay(40);  // 延时80us;
+  35   3            DQ = 1;   // 释放总线
+  36   3            delay(1); // 延时2us;
+  37   3          }
+  38   2        } 
+  39   1      }
+  40          
+  41          uchar DS18B20_Read()
+  42          {
+  43   1        uchar i;
+  44   1        uchar udata = 0x00;
+  45   1        for(i = 0; i < 8; i++)
+  46   1        {
+  47   2          udata = udata >> 1; // udata右移一位，第一次移位为空操作
+  48   2          DQ = 0;     // 拉低总线
+  49   2          delay(2);   // 延时4us，产生读时隙
+  50   2          DQ = 1;     // 拉高总线
+  51   2          if(DQ)
+  52   2            udata |= 0x80;    // 1：读DQ数据并存放在udata最高位
+  53   2          else
+  54   2            udata |= 0x00;    // 0：读DQ数据并存放在udata最高位
+C51 COMPILER V9.06   DS18B20                                                               03/17/2017 00:01:50 PAGE 2   
+
+  55   2          delay(40);    // 延时80us
+  56   2          DQ = 1;     // 释放总线
+  57   2          delay(1);   // 延时2us
+  58   2        }
+  59   1        return(udata);  
+  60   1      }
+  61          
+  62          void DS18B20_Init()
+  63          {
+  64   1        DQ = 1;     // 拉高总线
+  65   1        delay(1);
+  66   1        
+  67   1        DQ = 0;     // 拉低总线
+  68   1        delay(350);   // 延时700us  
+  69   1        DQ = 1;     // 释放总线
+  70   1        delay(15);    // 延时30us
+  71   1        while(DQ);    // 等待DS18B20拉低总线
+  72   1          //LED = 0;  // 复位成功，点亮LED
+  73   1        delay(100);   // 延时200us
+  74   1        DQ = 1;     // 释放总线
+  75   1        delay(150);   // 延时300us
+  76   1      }
+  77          
+  78          void compute(uchar lsb,uchar msb)
+  79          {
+  80   1        uchar ge,shi,bai;
+  81   1        uint num;
+  82   1        uint temp;
+  83   1        num = msb;
+  84   1        num  <<= 8;
+  85   1        num |= lsb;
+  86   1        temp = num*0.0625*10+0.5; 
+  87   1        bai = temp/100;   
+  88   1        shi = temp%100/10;  
+  89   1        ge  = temp%100%10;  
+  90   1        c[0] = number[bai];
+  91   1        c[1] = number[shi];
+  92   1        c[3] = number[ge];
+  93   1      }
+  94          void DS18B20_Temperature_Read()
+  95          {
+  96   1      //  uchar i;
+  97   1        // 初始化并启动温度转换
+  98   1        DS18B20_Init();     // DS18B20初始化
+  99   1        DS18B20_Write(0xCC);  // 跳过ROM地址
+ 100   1        DS18B20_Write(0x44);  // 启动温度转换
+ 101   1        DelayMs(1000);
+ 102   1        // 初始化，读温度
+ 103   1        DS18B20_Init();     // DS18B20初始化
+ 104   1        DS18B20_Write(0xCC);  // 跳过ROM地址
+ 105   1        DS18B20_Write(0xBE);  // 读取RAM命令
+ 106   1      //    Low = DS18B20_Read();
+ 107   1      //    Hight = DS18B20_Read();
+ 108   1        compute(DS18B20_Read(),DS18B20_Read());   //  先读低8位，再读高八位
+ 109   1      //  for(i = 0; i < 5; i++)  // 串口输出
+ 110   1      //  {
+ 111   1      //    SBUF = c[i];
+ 112   1      //    while(!TI);
+ 113   1      //    TI = 0;
+ 114   1      //  }
+ 115   1      }
+
+C51 COMPILER V9.06   DS18B20                                                               03/17/2017 00:01:50 PAGE 3   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    342    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

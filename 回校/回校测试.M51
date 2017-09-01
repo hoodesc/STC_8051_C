@@ -1,0 +1,234 @@
+BL51 BANKED LINKER/LOCATER V4.13                                                        02/23/2013  00:08:22  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V4.13, INVOKED BY:
+D:\KEIL\C51\BIN\BL51.EXE 回校测试.obj TO 回校测试 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  回校测试.obj (籣校瞋__)
+  D:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  回校测试 (籣校瞋__)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         _DATA_GROUP_
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     002EH     UNIT         ?PR?_DELAY_MS?籣校瞋__
+            CODE    0031H     002BH     UNIT         ?PR?MAIN?籣校瞋__
+            CODE    005CH     0019H     UNIT         ?PR?PWM_INIT?籣校瞋__
+            CODE    0075H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0081H     0005H     UNIT         ?PR?_PWM0_SET?籣校瞋__
+            CODE    0086H     0005H     UNIT         ?PR?_PWM1_SET?籣校瞋__
+
+
+
+OVERLAY MAP OF MODULE:   回校测试 (籣校瞋__)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?籣校瞋__
+
+?PR?MAIN?籣校瞋__              0008H    0001H
+  +--> ?PR?PWM_INIT?籣校瞋__
+  +--> ?PR?_DELAY_MS?籣校瞋__
+
+?PR?_DELAY_MS?籣校瞋__         -----    -----
+  +--> ?PR?_PWM0_SET?籣校瞋__
+  +--> ?PR?_PWM1_SET?籣校瞋__
+
+
+
+SYMBOL TABLE OF MODULE:  回校测试 (籣校瞋__)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V4.13                                                      02/23/2013  00:08:22  PAGE 2
+
+
+  -------         MODULE        籣校瞋__
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00D8H.2       PUBLIC        CCF2
+  B:00D8H.3       PUBLIC        CCF3
+  D:0090H         PUBLIC        P1
+  B:00D8H.4       PUBLIC        CCF4
+  D:00A0H         PUBLIC        P2
+  B:00D8H.5       PUBLIC        CCF5
+  D:00B0H         PUBLIC        P3
+  B:00B0H.4       PUBLIC        T0
+  B:00D0H.6       PUBLIC        AC
+  B:00B0H.5       PUBLIC        T1
+  B:00A8H.7       PUBLIC        EA
+  B:0090H.0       PUBLIC        T2
+  B:0090H.6       PUBLIC        LED1
+  B:00D8H.7       PUBLIC        CF
+  B:0098H.7       PUBLIC        FE
+  D:00F9H         PUBLIC        CH
+  C:005CH         PUBLIC        PWM_init
+  D:00A8H         PUBLIC        IE
+  D:00E9H         PUBLIC        CL
+  B:00B0H.7       PUBLIC        CEX0
+  D:00FAH         PUBLIC        CCAP0H
+  B:00B0H.5       PUBLIC        CEX1
+  D:00FBH         PUBLIC        CCAP1H
+  B:00A0H.0       PUBLIC        CEX2
+  B:00A0H.4       PUBLIC        CEX3
+  B:00D8H.6       PUBLIC        CR
+  D:00EAH         PUBLIC        CCAP0L
+  B:00C8H.6       PUBLIC        EXF2
+  B:00B0H.7       PUBLIC        RD
+  D:00EBH         PUBLIC        CCAP1L
+  D:00DAH         PUBLIC        CCAPM0
+  D:00DBH         PUBLIC        CCAPM1
+  B:00A8H.4       PUBLIC        ES
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  B:00B0H.2       PUBLIC        INT0
+  B:00D0H.7       PUBLIC        CY
+  B:0098H.1       PUBLIC        TI
+  B:00B0H.3       PUBLIC        INT1
+  B:00B8H.4       PUBLIC        PS
+  B:0090H.1       PUBLIC        T2EX
+  D:00D9H         PUBLIC        CMOD
+  D:00D8H         PUBLIC        CCON
+  B:00D0H.2       PUBLIC        OV
+  C:0031H         PUBLIC        main
+  B:00C8H.1       PUBLIC        C_T2
+  B:00B0H.6       PUBLIC        WR
+  B:00C8H.5       PUBLIC        RCLK
+  B:00C8H.4       PUBLIC        TCLK
+  C:0081H         PUBLIC        _PWM0_set
+  C:0086H         PUBLIC        _PWM1_set
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:0088H.1       PUBLIC        IE0
+  B:0088H.3       PUBLIC        IE1
+BL51 BANKED LINKER/LOCATER V4.13                                                      02/23/2013  00:08:22  PAGE 3
+
+
+  B:00C8H.0       PUBLIC        CP_RL2
+  B:00A8H.1       PUBLIC        ET0
+  B:00A8H.3       PUBLIC        ET1
+  B:0088H.5       PUBLIC        TF0
+  B:0088H.7       PUBLIC        TF1
+  B:00C8H.7       PUBLIC        TF2
+  B:0098H.2       PUBLIC        RB8
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  B:00A8H.2       PUBLIC        EX1
+  B:0098H.3       PUBLIC        TB8
+  B:0088H.2       PUBLIC        IT1
+  B:00D0H.0       PUBLIC        P
+  B:0098H.7       PUBLIC        SM0
+  C:0013H         PUBLIC        _DELAY_MS
+  B:00B0H.4       PUBLIC        ECI
+  B:0098H.6       PUBLIC        SM1
+  B:0098H.5       PUBLIC        SM2
+  B:00B8H.1       PUBLIC        PT0
+  B:0090H.7       PUBLIC        LED
+  B:00B8H.3       PUBLIC        PT1
+  B:00D0H.3       PUBLIC        RS0
+  B:0088H.4       PUBLIC        TR0
+  B:00D0H.4       PUBLIC        RS1
+  B:0088H.6       PUBLIC        TR1
+  B:00B8H.0       PUBLIC        PX0
+  B:00C8H.2       PUBLIC        TR2
+  B:00B8H.2       PUBLIC        PX1
+  B:00A8H.5       PUBLIC        EADC_SPI
+  B:00A8H.6       PUBLIC        EPCA_LVD
+  B:00C8H.3       PUBLIC        EXEN2
+  B:0098H.4       PUBLIC        REN
+  B:00B8H.5       PUBLIC        PADC_SPI
+  D:00C8H         PUBLIC        T2CON
+  B:00B8H.6       PUBLIC        PPCA_LVD
+  B:00B0H.0       PUBLIC        RXD
+  B:00B0H.1       PUBLIC        TXD
+  B:00D0H.5       PUBLIC        F0
+  D:00D0H         PUBLIC        PSW
+  B:00D8H.0       PUBLIC        CCF0
+  B:00D8H.1       PUBLIC        CCF1
+  -------         PROC          L?0021
+  -------         ENDPROC       L?0021
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        a
+  -------         DO            a
+  D:0004H         SYMBOL        i
+  -------         ENDDO         i
+  C:0013H         LINE#         26
+  C:0013H         LINE#         28
+  C:001DH         LINE#         29
+  C:0030H         LINE#         30
+  C:0030H         LINE#         31
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          PWM_INIT
+  C:005CH         LINE#         41
+  C:005CH         LINE#         42
+BL51 BANKED LINKER/LOCATER V4.13                                                      02/23/2013  00:08:22  PAGE 4
+
+
+  C:005FH         LINE#         43
+  C:0062H         LINE#         44
+  C:0064H         LINE#         46
+  C:0067H         LINE#         47
+  C:0069H         LINE#         48
+  C:006BH         LINE#         50
+  C:006EH         LINE#         51
+  C:0070H         LINE#         52
+  C:0072H         LINE#         62
+  C:0074H         LINE#         63
+  -------         ENDPROC       PWM_INIT
+  -------         PROC          _PWM0_SET
+  D:0007H         SYMBOL        a
+  C:0081H         LINE#         74
+  C:0081H         LINE#         75
+  C:0083H         LINE#         76
+  C:0085H         LINE#         77
+  -------         ENDPROC       _PWM0_SET
+  -------         PROC          _PWM1_SET
+  D:0007H         SYMBOL        a
+  C:0086H         LINE#         87
+  C:0086H         LINE#         88
+  C:0088H         LINE#         89
+  C:008AH         LINE#         90
+  -------         ENDPROC       _PWM1_SET
+  -------         PROC          MAIN
+  -------         DO            MAIN
+  D:0008H         SYMBOL        a
+  -------         ENDDO         a
+  C:0031H         LINE#         100
+  C:0031H         LINE#         101
+  C:0034H         LINE#         102
+  C:0034H         LINE#         104
+  C:0037H         LINE#         105
+  C:0037H         LINE#         106
+  C:0037H         LINE#         107
+  C:003AH         LINE#         108
+  C:003CH         LINE#         109
+  C:003EH         LINE#         110
+  C:0047H         LINE#         111
+  C:0051H         LINE#         112
+  C:0051H         LINE#         113
+  C:0051H         LINE#         114
+  C:0054H         LINE#         115
+  C:0056H         LINE#         116
+  C:0058H         LINE#         117
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        籣校瞋__
+
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

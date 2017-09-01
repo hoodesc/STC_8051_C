@@ -1,0 +1,63 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.20.0.39
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Lau Gho, no, LIC=UJ574-FFC37-MVY1R-KJN7A-DWAZR-6A2XJ
+ 
+Tool Versions:
+Toolchain:       PK51 Prof. Developers Kit  Version: 9.06
+Toolchain Path:  D:\Keil uV5\C51\BIN
+C Compiler:      C51.exe V9.06
+Assembler:       A51.exe V8.02a
+Linker/Locator:  LX51.exe V4.66.66.0
+Library Manager: LIBX51.exe V4.30.1.0
+Hex Converter:   OHX51.exe V1.45.0.0
+CPU DLL:         S8051.DLL V3.106.0.0
+Dialog DLL:      DP51.DLL V2.63.0.0 
+<h2>Project:</h2>
+D:\Desktop\ÏµÍ³\system.uvproj
+Project File Date:  11/17/2016
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+compiling main.c...
+compiling Delay.c...
+compiling DS1302.c...
+compiling UART.c...
+compiling LCD12864.c...
+compiling NRF24L01_RX.c...
+compiling init.c...
+compiling A6.c...
+linking...
+*** WARNING L46: SFR SYMBOL HAS DIFFERENT VALUES
+    SYMBOL:  Bee
+    MODULE:  .\Output\main.obj (MAIN)
+   DEFINED:  .\Output\main.obj (MAIN)
+*** WARNING L57: UNCALLED FUNCTION, IGNORED FOR OVERLAY PROCESS
+    NAME:    DS1302_INIT/DS1302
+*** WARNING L15: MULTIPLE CALL TO FUNCTION
+    NAME:    _LCD_DISPLAY/LCD12864
+    CALLER1: TIMER0_ISR/MAIN
+    CALLER2: ?C_C51STARTUP
+*** WARNING L15: MULTIPLE CALL TO FUNCTION
+    NAME:    _LCD_XY/LCD12864
+    CALLER1: TIMER0_ISR/MAIN
+    CALLER2: ?C_C51STARTUP
+*** WARNING L15: MULTIPLE CALL TO FUNCTION
+    NAME:    _UART1_SENDSTRING/UART
+    CALLER1: TIMER0_ISR/MAIN
+    CALLER2: ?C_C51STARTUP
+*** WARNING L15: MULTIPLE CALL TO FUNCTION
+    NAME:    _STRCAT/STRCAT
+    CALLER1: TIMER0_ISR/MAIN
+    CALLER2: ?C_C51STARTUP
+Program Size: data=10.3 xdata=239 const=27 code=3924
+creating hex file from ".\Output\system"...
+".\Output\system" - 0 Error(s), 6 Warning(s).
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>

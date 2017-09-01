@@ -1,0 +1,180 @@
+C51 COMPILER V9.06   KEYSCAN                                                               01/16/2017 22:20:15 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE KEYSCAN
+OBJECT MODULE PLACED IN .\Objects\keyscan.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE source code\keyscan.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;.\
+                    -source code) DEBUG PRINT(.\Listings\keyscan.lst) TABS(2) OBJECT(.\Objects\keyscan.obj)
+
+line level    source
+
+   1          #include <stc15.h>
+   2          #include "mytype.h"
+   3          #include "main.h"
+   4          #include "keyscan.h"
+   5          
+   6          typedef enum Key_State{Init_State,Affirm_State,Single_State,Repeat_State};
+   7          
+   8          sbit KEY1 = P3^2;
+   9          sbit KEY2 = P3^1;
+  10          sbit KEY3 = P3^0;
+  11          
+  12          
+  13          void Key1_Scan()
+  14          {
+  15   1        static uint8 Key_StateValue = 0;
+  16   1        uint8 Key_Value = KEY1;
+  17   1        switch(Key_StateValue)
+  18   1        {
+  19   2          case Init_State:
+  20   2          {
+  21   3            if(Key_Value)
+  22   3              Key_StateValue = Init_State;
+  23   3            else
+  24   3              Key_StateValue = Affirm_State;
+  25   3          }
+  26   2          break;
+  27   2          case Affirm_State:
+  28   2          {
+  29   3            if(Key_Value)
+  30   3              Key_StateValue = Init_State;
+  31   3            else
+  32   3            {
+  33   4              Key_StateValue = Single_State;      
+  34   4            }     
+  35   3          }
+  36   2          break;
+  37   2          case Single_State:
+  38   2          {
+  39   3            if(Key_Value)
+  40   3            { 
+  41   4              Key_StateValue = Init_State;
+  42   4              /*∞¥º¸÷¥––*/
+  43   4      
+  44   4            }
+  45   3            while(!KEY1)  //À… ÷ºÏ≤‚
+  46   3              break;
+  47   3          }
+  48   2          break;
+  49   2          default:Key_StateValue = Init_State;
+  50   2          break;  
+  51   2        }
+  52   1      }
+  53          
+  54          
+C51 COMPILER V9.06   KEYSCAN                                                               01/16/2017 22:20:15 PAGE 2   
+
+  55          void Key2_Scan()
+  56          {
+  57   1        static uint8 Key_StateValue = 0;
+  58   1        static uint8 Time = 0;
+  59   1        uint8 Key_Value = KEY2;
+  60   1        switch(Key_StateValue)
+  61   1        {
+  62   2          case Init_State:
+  63   2          {
+  64   3            if(Key_Value)
+  65   3              Key_StateValue = Init_State;
+  66   3            else
+  67   3              Key_StateValue = Affirm_State;
+  68   3          }
+  69   2          break;
+  70   2          case Affirm_State:
+  71   2          {
+  72   3            if(Key_Value)
+  73   3              Key_StateValue = Init_State;
+  74   3            else
+  75   3            {
+  76   4              Time = 0;
+  77   4              Key_StateValue = Single_State;      
+  78   4            }     
+  79   3          }
+  80   2          break;
+  81   2          case Single_State:
+  82   2          {
+  83   3            if(Key_Value)
+  84   3            { 
+  85   4              Key_StateValue = Init_State;
+  86   4              /*∞¥º¸÷¥––*/
+  87   4              
+  88   4            }
+  89   3            while(!KEY2)  //À… ÷ºÏ≤‚
+  90   3              break;      
+  91   3          }
+  92   2          break;
+  93   2          default:Key_StateValue = Init_State;
+  94   2          break;  
+  95   2        }
+  96   1      }
+  97          void Key3_Scan()
+  98          {
+  99   1        static uint8 Key_StateValue = 0;
+ 100   1        static uint8 Time = 0;
+ 101   1        uint8 Key_Value = KEY3;
+ 102   1        switch(Key_StateValue)
+ 103   1        {
+ 104   2          case Init_State:
+ 105   2          {
+ 106   3            if(Key_Value)
+ 107   3              Key_StateValue = Init_State;
+ 108   3            else
+ 109   3              Key_StateValue = Affirm_State;
+ 110   3          }
+ 111   2          break;
+ 112   2          case Affirm_State:
+ 113   2          {
+ 114   3            if(Key_Value)
+ 115   3              Key_StateValue = Init_State;
+ 116   3            else
+C51 COMPILER V9.06   KEYSCAN                                                               01/16/2017 22:20:15 PAGE 3   
+
+ 117   3            {
+ 118   4              Key_StateValue = Single_State;      
+ 119   4            }     
+ 120   3          }
+ 121   2          break;
+ 122   2          case Single_State:
+ 123   2          {
+ 124   3            Time++;
+ 125   3            if(Key_Value)
+ 126   3            { 
+ 127   4              Key_StateValue = Init_State;
+ 128   4              /*∞¥º¸÷¥––*/
+ 129   4              
+ 130   4            }
+ 131   3            while(!KEY3)  //À… ÷ºÏ≤‚
+ 132   3              break;      
+ 133   3          }
+ 134   2          break;
+ 135   2          default:Key_StateValue = Init_State;
+ 136   2          break;  
+ 137   2        }
+ 138   1      }
+ 139          
+ 140          //void Timer0_Init()
+ 141          //{
+ 142          //  AUXR &= 0x7F;   //?????12T??
+ 143          //  TMOD &= 0xF0;   //???????
+ 144          //  TL0 = 0x00;   //??????
+ 145          //  TH0 = 0xDC;   //??????
+ 146          //  TF0 = 0;    //??TF0??
+ 147          //  TR0 = 1;    //???0????
+ 148          //}
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    152    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,500 @@
+C51 COMPILER V9.54   LCD_TIMER                                                             11/15/2015 07:55:14 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE LCD_TIMER
+OBJECT MODULE PLACED IN .\Objects\LCD Timer.obj
+COMPILER INVOKED BY: d:\Keil uV5\C51\BIN\C51.EXE LCD Timer.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\LCD Timer.lst) TABS(2) OBJECT(.\Objects\LCD Timer.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          //LCD1602 两个按键设置时间
+   3          //晶振：12Mhz
+   4          //MCU:STC12c4052ad
+   5          //长按按键1进入设置模式，短按时间加1
+   6          //长按按键2在设置模式下切换S、M、H位，短按时间减1
+   7          typedef unsigned char uchar;
+   8          typedef unsigned int uint;
+   9          
+  10          uchar H_ge,H_shi = 0;
+  11          uchar M_ge,M_shi = 0;
+  12          uchar S_ge,S_shi = 0;
+  13          uchar H,M,S = 0;          //时分秒
+  14          uchar Time_Set_Value = 0;   //设置模式下，时、分、秒选选择标志； 0、秒S    1、分M    2、�
+             -��H
+  15          uchar Set_StateValue = 0;   //正常、设置模式标志；    0、正常模式    1、设置模式
+  16          uchar code Num[]={0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39};   //0-9  十六进制数
+  17          uchar code C_TIME[]="TIME: ";
+  18          uchar code C_SET[]="SET ";
+  19          uchar code C_ADD[]="ADD";
+  20          uchar code C_SUB[]="SUB";
+  21          typedef enum Key1_State{Init1_State,Affirm1_State,Single1_State,Repeat1_State};
+  22          typedef enum Key2_State{Init2_State,Affirm2_State,Single2_State,Repeat2_State};
+  23          
+  24          //位定义
+  25          sbit RS = P3^5;   //寄存器选择   1、数据    0、指令
+  26          sbit RW = P3^4;   //读写操作选择  1、读     0、写
+  27          sbit EN = P3^3;   //使能信号输入端 低电平有效
+  28          sbit KEY1 = P3^2; //按键1
+  29          sbit KEY2 = P3^7; //按键2
+  30          
+  31          //函数声明
+  32          void DelayMs(uint a);               //延时函数
+  33          void Timer_Work(void);              //正常模式时间1秒+1
+  34          void Timer_Work_Sub(uchar i);       //SUB标志
+  35          void Timer_Work_Add(uchar i);       //ADD标志
+  36          void Write_Data(uchar d);           //写数据
+  37          void Write_Instructions(uchar c);   //写指令
+  38          void Display_Refresh(uchar i);      //显示刷新
+  39          void Key1Scan(void);                //按键1扫描
+  40          void Key2Scan(void);                //按键2扫描
+  41          void Set_Function(void);            //设置模式
+  42          void LCD_Init(void);                //LCD初始化
+  43          void Add_SUB_Value(uchar i);        //选择时、分、秒 标志显示
+  44          
+  45          //延时函数
+  46          void DelayMs(uint a){
+  47   1        uint j;
+  48   1        while( a-- != 0){
+  49   2          for(j = 0; j < 125; j++);
+  50   2        }
+  51   1      }
+  52          
+  53          //写数据
+C51 COMPILER V9.54   LCD_TIMER                                                             11/15/2015 07:55:14 PAGE 2   
+
+  54          void Write_Data(uchar d)  
+  55          {
+  56   1        RS = 1;
+  57   1        RW = 0;
+  58   1        EN = 1;
+  59   1        DelayMs(1);
+  60   1        P1 = d;
+  61   1        EN = 0;
+  62   1      }
+  63          //写指令
+  64          void Write_Instructions(uchar c)  
+  65          {
+  66   1        RS = 0;
+  67   1        RW = 0;
+  68   1        EN = 1;
+  69   1        DelayMs(1);
+  70   1        P1 = c;
+  71   1        EN = 0;
+  72   1      }
+  73          
+  74          
+  75          //正常模式下，每秒+1
+  76          void Timer_Work(void)   
+  77          {
+  78   1        S++;        //1S加一次
+  79   1        if(60 == S)
+  80   1        {
+  81   2          S = 0;
+  82   2          M++;
+  83   2        }
+  84   1        if(60 == M)
+  85   1        {
+  86   2          M = 0;
+  87   2          H++;
+  88   2        }
+  89   1        if(24 == H)
+  90   1        {
+  91   2          H = 0;
+  92   2        }
+  93   1        S_ge = S%10;  S_shi = S/10;
+  94   1        M_ge = M%10;  M_shi = M/10;
+  95   1        H_ge = H%10;  H_shi = H/10;
+  96   1      }
+  97          //时、分、秒 减
+  98          void Timer_Work_Sub(uchar i)    
+  99          {
+ 100   1        switch(i)
+ 101   1        {
+ 102   2          case 0:
+ 103   2          {
+ 104   3            if(S != 0)
+ 105   3            {
+ 106   4              S--;
+ 107   4            } 
+ 108   3          }
+ 109   2          break;
+ 110   2          case 1:
+ 111   2          {
+ 112   3            if(M != 0)
+ 113   3            {
+ 114   4              M--;
+ 115   4            }
+C51 COMPILER V9.54   LCD_TIMER                                                             11/15/2015 07:55:14 PAGE 3   
+
+ 116   3          }
+ 117   2          break;
+ 118   2          case 2:
+ 119   2          {
+ 120   3            if(H != 0)
+ 121   3            {
+ 122   4              H--;
+ 123   4            }
+ 124   3          }
+ 125   2          break;
+ 126   2        }
+ 127   1        S_ge = S%10;  S_shi = S/10;
+ 128   1        M_ge = M%10;  M_shi = M/10;
+ 129   1        H_ge = H%10;  H_shi = H/10;
+ 130   1      }
+ 131          //时、分、秒 加
+ 132          void Timer_Work_Add(uchar i)    
+ 133          {
+ 134   1        switch(i)
+ 135   1        {
+ 136   2          case 0:
+ 137   2          {
+ 138   3            if(S == 59)
+ 139   3            {S = 0;}
+ 140   3            else{S++;}
+ 141   3          }
+ 142   2            break;
+ 143   2          case 1:
+ 144   2          {
+ 145   3            if(M == 59)
+ 146   3            {M = 0;}
+ 147   3            else{M++;}
+ 148   3          }
+ 149   2            break;
+ 150   2          case 2:
+ 151   2          {
+ 152   3            if(H == 23)
+ 153   3            {H = 0;}
+ 154   3            else{H++;}
+ 155   3            break;
+ 156   3          }
+ 157   2        }
+ 158   1        S_ge = S%10;  S_shi = S/10;
+ 159   1        M_ge = M%10;  M_shi = M/10;
+ 160   1        H_ge = H%10;  H_shi = H/10;
+ 161   1      }
+ 162          
+ 163          //选择时、分、秒 标志显示
+ 164          void Add_SUB_Value(uchar i)
+ 165          {
+ 166   1        uchar add,sub,cls = 0;
+ 167   1        Write_Instructions(0x80+0x4A);
+ 168   1        switch(i)
+ 169   1        {
+ 170   2          case 0:
+ 171   2          {
+ 172   3            if(0 == Time_Set_Value)   //设置模式下，时、分、秒选选择标志； 0、秒S    1、分M    2、
+             -时H
+ 173   3            {
+ 174   4              Write_Data(0x28); Write_Data(0x53); Write_Data(0x29);   //写入:(S)
+ 175   4            }
+ 176   3            else if(1 == Time_Set_Value)    //1、分
+C51 COMPILER V9.54   LCD_TIMER                                                             11/15/2015 07:55:14 PAGE 4   
+
+ 177   3            {
+ 178   4              Write_Data(0x28); Write_Data(0x4D); Write_Data(0x29);   //写入:(M)
+ 179   4            }
+ 180   3            else{Write_Data(0x28);  Write_Data(0x48); Write_Data(0x29);}    //2、时;写入:(H)
+ 181   3            for(sub=0;sub<=3;sub++)
+ 182   3            {
+ 183   4              Write_Data(C_SUB[sub]);
+ 184   4            } 
+ 185   3          }
+ 186   2            break;
+ 187   2          case 1:
+ 188   2          {
+ 189   3            if(0 == Time_Set_Value)   //设置模式下，时、分、秒选选择标志； 0、秒S    1、分M    2、
+             -时H
+ 190   3            {
+ 191   4              Write_Data(0x28); Write_Data(0x53); Write_Data(0x29);   //写入:(S)
+ 192   4            }
+ 193   3            else if(1 == Time_Set_Value)    //1、分
+ 194   3            {
+ 195   4              Write_Data(0x28); Write_Data(0x4D); Write_Data(0x29);   //写入:(M)
+ 196   4            }
+ 197   3            else{Write_Data(0x28);  Write_Data(0x48); Write_Data(0x29);}    //2、时;写入:(H)    
+ 198   3            for(add=0;add<=3;add++)
+ 199   3            {
+ 200   4              Write_Data(C_ADD[add]);
+ 201   4            } 
+ 202   3          }
+ 203   2            break;
+ 204   2          case 2:       //清零
+ 205   2          {
+ 206   3            Write_Instructions(0x80+0x4A);
+ 207   3            for(cls=0;cls<=6;cls++)
+ 208   3            {
+ 209   4              Write_Data(0x20);
+ 210   4            } 
+ 211   3          }
+ 212   2            break;
+ 213   2        }
+ 214   1      }
+ 215          
+ 216          //定时器0初始化
+ 217          void Timer0_Init()
+ 218          {
+ 219   1        TMOD = 0x01;
+ 220   1        TH0 = 0xD8;
+ 221   1        TL0 = 0xF0;
+ 222   1        ET0 = 1;
+ 223   1        EA = 1;
+ 224   1        TR0 = 1;
+ 225   1      }
+ 226          //定时器0中断服务函数
+ 227          void Timer0_ISR(void) interrupt 1
+ 228          {
+ 229   1        static uchar i = 0;
+ 230   1        i++;
+ 231   1        TH0 = 0xD8;
+ 232   1        TL0 = 0xF0;
+ 233   1        if(100 == i)    //调试。正常100
+ 234   1        {
+ 235   2          i = 0;
+ 236   2          Timer_Work();
+ 237   2        }
+C51 COMPILER V9.54   LCD_TIMER                                                             11/15/2015 07:55:14 PAGE 5   
+
+ 238   1        Display_Refresh(0);
+ 239   1      }
+ 240          
+ 241          //进入设置模式后，“TIME”改写为“SET ”
+ 242          void Set_Function(void)
+ 243          {
+ 244   1        uchar i = 0;
+ 245   1        Write_Instructions(0x80);
+ 246   1        for(i=0;i<4;i++)
+ 247   1        {
+ 248   2          Write_Data(C_SET[i]);
+ 249   2        }
+ 250   1      }
+ 251          
+ 252          //按键1扫描
+ 253          void Key1Scan()
+ 254          {
+ 255   1        static uint time = 0;
+ 256   1        static uchar Key1_StateValue = 0;
+ 257   1        static uchar KEY1_Value = 0;
+ 258   1        KEY1_Value = KEY1;    //获取按键1状态
+ 259   1        switch (Key1_StateValue)
+ 260   1        {
+ 261   2          case Init1_State:   //初始化状态
+ 262   2          {
+ 263   3            if(!KEY1_Value)
+ 264   3            { 
+ 265   4              Key1_StateValue = Affirm1_State;    //消抖，按键按下，下次进入确认状态
+ 266   4            }
+ 267   3            else{Key1_StateValue = Init1_State;}  //抖动，按键放开，下次进入初始化状态
+ 268   3          }
+ 269   2          break;
+ 270   2          case Affirm1_State:   //确认状态
+ 271   2          {
+ 272   3            if(!KEY1_Value)
+ 273   3            {
+ 274   4              time = 0;
+ 275   4              Key1_StateValue = Single1_State;    //稳定，按键按下，下次进入单次触发状态
+ 276   4            }
+ 277   3            else{Key1_StateValue = Init1_State;}  //不稳定，按键放开，下次进入初始化状态
+ 278   3          }
+ 279   2          break;
+ 280   2          case Single1_State:   //单次触发状态
+ 281   2          {
+ 282   3            time++;
+ 283   3            if(KEY1)    //如果按键1放开，则触发一次
+ 284   3            {
+ 285   4              if(Set_StateValue)    //判断是否在 设置模式
+ 286   4              {
+ 287   5                Timer_Work_Add(Time_Set_Value);
+ 288   5                Display_Refresh(1);     //显示刷新，且不显示“TIME”
+ 289   5                Add_SUB_Value(1);       //第二行显示“ADD”标志
+ 290   5              }
+ 291   4              Key1_StateValue = Init1_State;
+ 292   4            }
+ 293   3            else if(200 == time)
+ 294   3            {
+ 295   4                time = 0;
+ 296   4                Add_SUB_Value(2);     //第二行，字符用“空格”替换
+ 297   4                Key1_StateValue = Repeat1_State;  //按键按下时间等于2s，下次进入长按状态
+ 298   4            }     
+ 299   3          }
+C51 COMPILER V9.54   LCD_TIMER                                                             11/15/2015 07:55:14 PAGE 6   
+
+ 300   2          break;
+ 301   2          case Repeat1_State:   //长按状态
+ 302   2          {
+ 303   3              TR0 = ~TR0;
+ 304   3              if(!TR0)
+ 305   3              {
+ 306   4                Set_Function();       //进入设置模式
+ 307   4                Set_StateValue = 1;   //正常、设置模式标志；  0、正常模式    1、设置模式
+ 308   4                Time_Set_Value  = 0;  //设置模式下，时、分、秒选选择标志； 0、秒S    1、分M    2、�
+             -�H
+ 309   4                Write_Instructions(0x80+0x4A);
+ 310   4                Write_Data(0x28); Write_Data(0x53); Write_Data(0x29);   //第二行写入：(S)
+ 311   4                while(1)    //长按进入设置模式后，放开按键，S不加1
+ 312   4                {
+ 313   5                  if(KEY1)
+ 314   5                  {break;}
+ 315   5                }
+ 316   4              }
+ 317   3              else
+ 318   3              {
+ 319   4                Set_StateValue = 0;   ////正常、设置模式标志；  0、正常模式    1、设置模式
+ 320   4              }
+ 321   3            Key1_StateValue = Init1_State;
+ 322   3          }
+ 323   2          break;
+ 324   2          default:Key1_StateValue = Init1_State;
+ 325   2        }
+ 326   1      }
+ 327          
+ 328          //按键2扫描
+ 329          void Key2Scan()
+ 330          {
+ 331   1        static uint time = 0;
+ 332   1        static uchar Key2_StateValue = 0;   //按键2状态标志
+ 333   1        static uchar KEY2_Value = 0;        //按键2标志
+ 334   1        KEY2_Value = KEY2;    //获取按键状态
+ 335   1        switch (Key2_StateValue)
+ 336   1        {
+ 337   2          case Init2_State:   //初始化状态
+ 338   2          {
+ 339   3            if(!KEY2_Value)
+ 340   3            { 
+ 341   4              Key2_StateValue = Affirm2_State;    //消抖，按键按下，下次进入确认状态
+ 342   4            }
+ 343   3            else{Key2_StateValue = Init2_State;}  //抖动，按键放开，下次进入初始化状态
+ 344   3          }
+ 345   2          break;
+ 346   2          case Affirm2_State:   //确认状态
+ 347   2          {
+ 348   3            if(!KEY2_Value)
+ 349   3            {
+ 350   4              time = 0;
+ 351   4              Key2_StateValue = Single2_State;    //稳定，按键按下，下次进入单次触发状态
+ 352   4            }
+ 353   3            else{Key2_StateValue = Init2_State;}  //不稳定，按键放开，下次进入初始化状态
+ 354   3          }
+ 355   2          break;
+ 356   2          case Single2_State:   //单次触发状态
+ 357   2          {
+ 358   3            time++;
+ 359   3            if(KEY2)
+ 360   3            {
+C51 COMPILER V9.54   LCD_TIMER                                                             11/15/2015 07:55:14 PAGE 7   
+
+ 361   4              if(Set_StateValue)
+ 362   4              {
+ 363   5                Timer_Work_Sub(Time_Set_Value);
+ 364   5                Display_Refresh(1);     //显示刷新，且不显示“TIME”
+ 365   5                Add_SUB_Value(0);       //第二行显示“SUB”标志
+ 366   5                Key2_StateValue = Init2_State;  
+ 367   5              }
+ 368   4              else{Key2_StateValue = Init2_State;}  //防止正常模式下，短按按键2 后立刻 长按按键1 �
+             -��致放开按键1会切换到"M"
+ 369   4            }
+ 370   3            else if(150 == time)    
+ 371   3            {
+ 372   4              time = 0;
+ 373   4              Key2_StateValue = Repeat2_State;  //按下时间等于1.5秒，下次进入长按模式
+ 374   4            }
+ 375   3          }
+ 376   2          break;
+ 377   2          case Repeat2_State:   //长按状态
+ 378   2          {
+ 379   3            if(Set_StateValue)
+ 380   3            {
+ 381   4              Time_Set_Value++;
+ 382   4              Write_Instructions(0x80+0x4A);
+ 383   4              if(3 == Time_Set_Value)
+ 384   4              {
+ 385   5                Time_Set_Value = 0;
+ 386   5              }       
+ 387   4              if(0 == Time_Set_Value)
+ 388   4              {
+ 389   5                Add_SUB_Value(2); Write_Instructions(0x80+0x4A);
+ 390   5                Write_Data(0x28); Write_Data(0x53); Write_Data(0x29);
+ 391   5              }
+ 392   4              else if(1 == Time_Set_Value)
+ 393   4              {
+ 394   5                Add_SUB_Value(2); Write_Instructions(0x80+0x4A);
+ 395   5                Write_Data(0x28); Write_Data(0x4D); Write_Data(0x29);
+ 396   5              }
+ 397   4              else{Add_SUB_Value(2); Write_Instructions(0x80+0x4A); Write_Data(0x28); Write_Data(0x48); Write_Data(0
+             -x29);}
+ 398   4              
+ 399   4              while(1)    //长按进入设置模式后，放开按键，S不加1
+ 400   4              {
+ 401   5                if(KEY2){break;}
+ 402   5              }
+ 403   4            Key2_StateValue = Init2_State;    //下次进入初始化模式
+ 404   4            }
+ 405   3            else{Key2_StateValue = Init2_State;}  //防止正常模式下，长按按键2松开 后立刻 长按按�
+             -��1 导致放开按键1会切换到"M"
+ 406   3          }
+ 407   2          break;
+ 408   2          default:Key2_StateValue = Init2_State;    
+ 409   2        }
+ 410   1      }
+ 411          
+ 412          //LCD初始化
+ 413          void LCD_Init(void)
+ 414          {
+ 415   1        uchar i = 0;
+ 416   1        DelayMs(1);
+ 417   1        Write_Instructions(0x80);
+ 418   1        DelayMs(5);
+ 419   1        for(i=0;i<5;i++)
+C51 COMPILER V9.54   LCD_TIMER                                                             11/15/2015 07:55:14 PAGE 8   
+
+ 420   1        {
+ 421   2          Write_Data(C_TIME[i]);
+ 422   2        }
+ 423   1      }
+ 424          
+ 425          //显示刷新
+ 426          void Display_Refresh(uchar i)
+ 427          {
+ 428   1        if(!i)
+ 429   1        {
+ 430   2          LCD_Init();
+ 431   2        }
+ 432   1        Write_Instructions(0x86);
+ 433   1        Write_Data(Num[H_shi]);Write_Data(Num[H_ge]);
+ 434   1        Write_Data(0x3A);
+ 435   1        Write_Data(Num[M_shi]);Write_Data(Num[M_ge]);
+ 436   1        Write_Data(0x3A);
+ 437   1        Write_Data(Num[S_shi]);Write_Data(Num[S_ge]);
+ 438   1      }
+ 439          
+ 440          void main()
+ 441          {
+ 442   1        Write_Instructions(0x38);   //8位数据总线、2行显示、5*8
+ 443   1        Write_Instructions(0x0C);   //显示开，光标不显示、不闪烁
+ 444   1        Write_Instructions(0x06);   //完成一个字符码传送后AC自动加1、显示不移位
+ 445   1        Write_Instructions(0x01);   //清屏
+ 446   1        //Display_Init();
+ 447   1        Timer0_Init();
+ 448   1        while(1)
+ 449   1        {
+ 450   2          Key1Scan();
+ 451   2          DelayMs(10);
+ 452   2          Key2Scan();
+ 453   2          DelayMs(10);
+ 454   2        }
+ 455   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1072    ----
+   CONSTANT SIZE    =     30    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     20       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

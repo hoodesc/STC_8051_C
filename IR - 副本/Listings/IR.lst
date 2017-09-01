@@ -1,0 +1,199 @@
+C51 COMPILER V9.06   IR                                                                    06/26/2016 17:29:30 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE IR
+OBJECT MODULE PLACED IN .\Objects\IR.obj
+COMPILER INVOKED BY: d:\Keil uV4\C51\BIN\C51.EXE IR.c BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\IR.lst) OBJECT(.\Object
+                    -s\IR.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <stdio.h>
+   3          // NEC红外解码
+   4          // 11.0592
+   5          typedef unsigned char uchar;
+   6          typedef unsigned int uint;
+   7          
+   8          uint IR_conunt = 0;                     // 定时器计数
+   9          uchar IR_time[33];
+  10          uchar IR_data[4];
+  11          sbit LED = P1^7;
+  12          
+  13          void LED()
+  14          bit conunt_ok = 0,decode_ok = 0;
+*** ERROR C244 IN LINE 14 OF IR.c: 'conunt_ok': can't initialize, bad type or class
+*** ERROR C132 IN LINE 14 OF IR.c: 'conunt_ok': not in formal parameter list
+*** ERROR C244 IN LINE 14 OF IR.c: 'decode_ok': can't initialize, bad type or class
+*** ERROR C132 IN LINE 14 OF IR.c: 'decode_ok': not in formal parameter list
+  15          
+  16          void Uart_Init()        // 串口初始化
+  17          {
+*** ERROR C132 IN LINE 17 OF IR.c: 'Uart_Init': not in formal parameter list
+*** ERROR C141 IN LINE 17 OF IR.c: syntax error near '{'
+  18                  TMOD &= 0x0F;
+*** ERROR C136 IN LINE 18 OF IR.c: 'TMOD': 'void' on variable
+*** ERROR C132 IN LINE 18 OF IR.c: 'TMOD': not in formal parameter list
+  19                  TMOD |= 0x20;                   // 定时器1 模式2 8位自动重装
+*** ERROR C136 IN LINE 19 OF IR.c: 'TMOD': 'void' on variable
+*** ERROR C132 IN LINE 19 OF IR.c: 'TMOD': not in formal parameter list
+  20                  SCON |= 0x50;                   // 方式1、可接收
+*** ERROR C136 IN LINE 20 OF IR.c: 'SCON': 'void' on variable
+*** ERROR C132 IN LINE 20 OF IR.c: 'SCON': not in formal parameter list
+  21                  TH1   = 0xFD;                   // 9600bps
+*** ERROR C136 IN LINE 21 OF IR.c: 'TH1': 'void' on variable
+*** ERROR C244 IN LINE 21 OF IR.c: 'TH1': can't initialize, bad type or class
+*** ERROR C136 IN LINE 21 OF IR.c: 'TH1': 'void' on variable
+*** ERROR C132 IN LINE 21 OF IR.c: 'TH1': not in formal parameter list
+  22                  TL1   = 0xFD;
+*** ERROR C244 IN LINE 22 OF IR.c: 'TL1': can't initialize, bad type or class
+*** ERROR C132 IN LINE 22 OF IR.c: 'TL1': not in formal parameter list
+  23                  ET1   = 0;                              // 关闭定时器1中短
+*** ERROR C244 IN LINE 23 OF IR.c: 'ET1': can't initialize, bad type or class
+*** ERROR C132 IN LINE 23 OF IR.c: 'ET1': not in formal parameter list
+  24                  TR1   = 1;                              // 打开定时器1
+*** ERROR C244 IN LINE 24 OF IR.c: 'TR1': can't initialize, bad type or class
+*** ERROR C132 IN LINE 24 OF IR.c: 'TR1': not in formal parameter list
+  25          }
+*** ERROR C141 IN LINE 25 OF IR.c: syntax error near '}'
+  26          
+  27          void EX0_Init() // 外部中断0初始化
+  28          {
+  29   1              IT0 = 1;                                        // 下降沿触发
+  30   1              EX0 = 1;                        // 开外部中断0
+  31   1              EA  = 1;                          // 开总中断
+C51 COMPILER V9.06   IR                                                                    06/26/2016 17:29:30 PAGE 2   
+
+  32   1      }
+  33          void EX0_ISR() interrupt 0
+  34          {
+  35   1              static uchar num = 0;
+  36   1              static bit start_flag = 0;
+  37   1              if(!start_flag)
+  38   1              {
+  39   2                      start_flag = 1;
+  40   2                      IR_conunt = 0;
+  41   2              }
+  42   1              else if(start_flag)
+  43   1              {
+  44   2                      if(IR_conunt >= 32 && IR_conunt < 50)           // 判断是否为9.5ms+4.5ms引导码
+  45   2                              num = 0;
+  46   2                      IR_time[num] = IR_conunt;
+  47   2                      IR_conunt = 0;
+  48   2                      num++;
+  49   2                      if(33 == num)
+  50   2                      {
+  51   3                              num = 0;
+  52   3                              start_flag = 0;                 // 第一次中断标志位
+  53   3                              conunt_ok = 1;                  // 红外码接收完毕
+*** ERROR C202 IN LINE 53 OF IR.c: 'conunt_ok': undefined identifier
+  54   3                      }
+  55   2              }
+  56   1      }
+  57          
+  58          void Timer0_Init()
+  59          {
+  60   1              TMOD &= 0xF0;
+  61   1              TMOD |= 0x02;
+  62   1              TH0   = 0x00;
+  63   1              TL0   = 0x00;
+  64   1              ET0   = 1;
+  65   1              TR0   = 1;
+  66   1      }
+  67          void Timer0_ISR()       interrupt 1
+  68          {
+  69   1              IR_conunt++;                    // 256 * 12/11.0592  记一次数
+  70   1      }
+  71          
+  72          void IR_decode()
+  73          {
+  74   1              uchar IR_byte;
+  75   1              uchar i = 0,j = 0;
+  76   1              uchar num = 1;
+  77   1              for(i = 0; i < 4; i++)
+  78   1              {
+  79   2                      for(j = 0; j < 8; j++)
+  80   2                      {
+  81   3                              if(IR_time[num] > 6)
+  82   3                              {
+  83   4                                      IR_byte |= 0x80;
+  84   4                              }
+  85   3                              else
+  86   3                              {
+  87   4                                      IR_byte = IR_byte;
+  88   4                              }
+  89   3                              if(j < 7)
+  90   3                                      IR_byte >>= 1;
+  91   3                              num++;                  
+  92   3                      }
+C51 COMPILER V9.06   IR                                                                    06/26/2016 17:29:30 PAGE 3   
+
+  93   2                      IR_data[i] = IR_byte;
+  94   2                      IR_byte = 0x00;
+  95   2              }
+  96   1              if(IR_data[2] == ~IR_data[3])
+  97   1              {
+  98   2                      decode_ok = 1;
+*** ERROR C202 IN LINE 98 OF IR.c: 'decode_ok': undefined identifier
+  99   2              }
+ 100   1      }
+ 101          
+ 102          //void LED()
+ 103          //{
+ 104          //      if(IR_data[2] == 0x45)
+ 105          //      {
+ 106          //              IR_data[2] = 0x00;
+ 107          //              LED = ~LED;     
+ 108          //      }
+ 109          //}
+ 110          
+ 111          
+ 112          void main()
+ 113          {
+ 114   1              uchar i;
+ 115   1              Uart_Init();
+ 116   1              Timer0_Init();
+ 117   1              EX0_Init();
+ 118   1              while(1)
+ 119   1              {
+ 120   2                      if(conunt_ok)                   // 获取时间值是否完毕
+ 121   2                      {
+ 122   3                              conunt_ok = 0;
+ 123   3                              IR_decode();            // 执行解码程序
+ 124   3                              
+ 125   3                              for(i = 0; i < 33; i++)                 // 串口输出
+ 126   3                              {
+ 127   4                                      TI = 1;
+ 128   4                                      printf("%d",(uint)IR_time[i]);
+ 129   4                                      while(!TI);
+ 130   4                                      TI = 0;
+ 131   4                              }                               
+ 132   3                                      TI = 1;
+ 133   3                                      printf("\n");
+ 134   3                                      while(!TI);
+ 135   3                                      TI = 0; 
+ 136   3                              
+ 137   3                                      for(i = 0; i < 4; i++)                  // 串口输出
+ 138   3                                      {
+ 139   4                                              TI = 1;
+ 140   4                                              printf("%x\n",(uint)IR_data[i]);
+ 141   4                                              while(!TI);
+ 142   4                                              TI = 0;
+ 143   4                                      }
+ 144   3                      }
+ 145   2                      
+ 146   2                      if(decode_ok)                   // 解码是否完毕
+ 147   2                      {
+ 148   3                              decode_ok = 0;
+ 149   3                              if(IR_data[2] == 0x03 && IR_data[3] == 0xfc)
+ 150   3                              {
+ 151   4                                      P1 = ~P1;
+ 152   4                              }
+ 153   3                      }
+C51 COMPILER V9.06   IR                                                                    06/26/2016 17:29:30 PAGE 4   
+
+ 154   2      //              LED();          
+ 155   2              }
+ 156   1      }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  25 ERROR(S)

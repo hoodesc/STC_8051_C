@@ -1,0 +1,94 @@
+C51 COMPILER V9.06   KEYSCAN                                                               11/11/2016 23:23:05 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE KEYSCAN
+OBJECT MODULE PLACED IN .\Output\keyscan.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE source code\keyscan.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\NRF24L01_TX;.\
+                    -include;.\source code) DEBUG OBJECTEXTEND PRINT(.\Listings\keyscan.lst) TABS(2) OBJECT(.\Output\keyscan.obj)
+
+line level    source
+
+   1          #include <STC15.h>
+   2          #include "mytype.h"
+   3          #include "keyscan.h"
+   4          #include "delay.h"
+   5          #include "nrf24l01_tx.h"
+   6          
+   7          //sbit Key1 = P3^7;
+   8          sbit Key1 = P3^5;
+   9          void Keyscan(void)
+  10          {
+  11   1        static uchar Key1_StateValue = 0; //按键1状态标志
+  12   1        static uchar Time = 0;
+  13   1        uchar Key1_Value = Key1;    //获取按键1
+  14   1        switch (Key1_StateValue)
+  15   1        {
+  16   2          case Init1_State: //初始化状态
+  17   2          {
+  18   3            if(!Key1_Value)
+  19   3            {
+  20   4              Key1_StateValue = Affirm1_State;  //下次进入确认状态
+  21   4            } 
+  22   3            else{Key1_StateValue = Init1_State;}  //否则进入初始化状态
+  23   3          }
+  24   2          break;
+  25   2          case Affirm1_State: //确认状态
+  26   2          {
+  27   3            if(!Key1_Value)
+  28   3            {
+  29   4              Time = 0;
+  30   4              Key1_StateValue = Single1_State;  //下次进入单次触发状态
+  31   4            }
+  32   3            else{Key1_StateValue = Init1_State;}  //否则进入初始化状态
+  33   3          }
+  34   2          break;
+  35   2          case Single1_State: //单次触发状态
+  36   2          {
+  37   3            Time++; //10ms 加一次
+  38   3            if(Key1_Value)  //如果按键放开，LED取反，回到初始状态
+  39   3            {
+  40   4              SPI_Write_Buf(W_TX_PAYLOAD,TX_DAT,TX_PLOAD_WIDTH);  //  装载数据
+  41   4              NRF24L01_TxPacket(TX_DAT);              //  发送
+  42   4              Key1_StateValue = Init1_State;          
+  43   4            }
+  44   3            else if(Time == 100)  //按下时间等于1S
+  45   3            {
+  46   4              Time = 0;
+  47   4              Key1_StateValue = Repeat1_State;
+  48   4            } 
+  49   3          }
+  50   2          break;
+  51   2          case Repeat1_State: //连发状态
+  52   2          {
+  53   3            Time++;
+  54   3            if(10 == Time)
+C51 COMPILER V9.06   KEYSCAN                                                               11/11/2016 23:23:05 PAGE 2   
+
+  55   3            {
+  56   4              Time = 0;
+  57   4      //        Led1 = ~Led1;
+  58   4            }
+  59   3            else if(Key1_Value)
+  60   3            {
+  61   4              Key1_StateValue = Init1_State;
+  62   4            }         
+  63   3          }
+  64   2          break;
+  65   2          default:Key1_StateValue = Init1_State;
+  66   2          break;
+  67   2          }
+  68   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    105    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

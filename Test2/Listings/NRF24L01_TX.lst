@@ -1,0 +1,109 @@
+C51 COMPILER V9.06   NRF24L01_TX                                                           07/05/2016 21:28:51 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE NRF24L01_TX
+OBJECT MODULE PLACED IN .\Output\NRF24L01_TX.obj
+COMPILER INVOKED BY: d:\Keil uV4\C51\BIN\C51.EXE source code\NRF24L01_TX.c BROWSE INCDIR(..\Test;.\Include;.\source code
+                    -) DEBUG OBJECTEXTEND PRINT(.\Listings\NRF24L01_TX.lst) OBJECT(.\Output\NRF24L01_TX.obj)
+
+line level    source
+
+   1          #include <stc12c2052ad.h>
+   2          #include <stdio.h>
+   3          #include "MYTYPE.h"
+   4          #include "Delay.h"
+   5          #include "NRF24L01_TX.h"
+   6          
+   7          //NRF24L01 只 发送程序
+   8          
+   9          
+  10          uchar const RX_ADDRESS[RX_ADR_WITH] = {0x12,0x21,0xaa,0x34,0x43};               // 接收地址
+  11          uchar const TX_ADDRESS[TX_ADR_WITH] = {0x12,0x21,0xaa,0x34,0x43};               // 发送地址
+  12          
+  13                  
+  14          // SPI位定义
+  15          //sbit SCK  = P1^7;             // SPI时钟
+  16          //sbit MISO = P1^6;             // 主出从入
+  17          //sbit MOSI = P1^5;             // 主入从出
+  18          //sbit CSN  = P1^4;             // 芯片片选，为低芯片工作
+  19          //sbit IRQ  = P1^3;             // 中断信号
+  20          //sbit CE   = P1^2;             // 芯片模式控制线
+  21          
+  22          //      SPI写一字节
+  23          uchar SPI_RW(uchar dat)
+  24          {
+  25   1              uchar i;
+  26   1              for(i = 0; i < 8; i++)
+  27   1              {
+  28   2                      MOSI = (dat&0x80);      // dat最高位放入数据线
+  29   2                      dat = dat<<1;           // dat左移1位
+  30   2                      SCK     = 1;                    // 拉高时钟，数据送入从机（上升沿读入）
+  31   2                      dat |= MISO;            // 接收从机传来数据
+  32   2                      SCK = 0;                        // 拉低时钟                              （下降沿输出）
+  33   2              }
+  34   1              return(dat);                    // 返回NRF24L01状态
+  35   1      }
+  36          
+  37          //      SPI写寄存器值
+  38          uchar SPI_RW_Reg(uchar reg,uchar value)
+  39          {
+  40   1              uchar status;
+  41   1              CSN = 0;                                // CSN置低，开始传输数据
+  42   1              status = SPI_RW(reg);   // 选择寄存器，同时返回状态字
+  43   1              SPI_RW(value);                  // 写入数据到寄存器
+  44   1              CSN = 1;                                // CSN置高，结束数据传输
+  45   1              return(status);
+  46   1      }
+  47          
+  48          //      SPI读一字节     
+  49          uchar SPI_Read(uchar reg)
+  50          {
+  51   1              uchar reg_value;                        // 存放读出寄存器数据
+  52   1      
+  53   1              CSN = 0;                                        // CSN置低，开始传输数据
+  54   1              SPI_RW(reg);                            // 选择寄存器
+C51 COMPILER V9.06   NRF24L01_TX                                                           07/05/2016 21:28:51 PAGE 2   
+
+  55   1              reg_value = SPI_RW(0x00);       // 读出数据
+  56   1              CSN = 1;                                        // CSN置高，结束数据传输
+  57   1              return(reg_value);                      // 返回reg寄存器值              
+  58   1      }
+  59          
+  60          // SPI读bytes字节数据
+  61          uchar SPI_Read_Buf(uchar reg,uchar *pBuf,uchar bytes)
+  62          {
+  63   1              uchar status,i;                          
+  64   1              CSN = 0;                                         // CSN置低，开始传输数据
+  65   1              status = SPI_RW(reg);            // 选择寄存器，同时返回状态字
+  66   1              for(i = 0; i < bytes; i++)
+  67   1                      pBuf[i] = SPI_RW(0x00);  // 读出数据存放到数组
+  68   1              CSN = 1;                                         // CSN置高，结束数据传输
+  69   1              return(status);
+  70   1      }
+  71          
+  72          //      SPI写bytes字节数据
+  73          uchar SPI_Write_Buf(uchar reg,uchar *pBuf,uchar bytes)
+  74          {
+  75   1              uchar status,i;
+  76   1              CSN = 0;                                         // CSN置低，开始传输数据
+  77   1              status = SPI_RW(reg);            // 选择寄存器，同时返回状态字
+  78   1              for(i = 0; i < bytes; i++)
+  79   1                      SPI_RW(*pBuf++);                 // 数据写进寄存器
+  80   1              CSN = 1;                                         // CSN置高，结束数据传输
+  81   1              return(status);
+  82   1      }
+  83          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    154    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

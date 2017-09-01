@@ -1,0 +1,3 @@
+".\Objects\interrupt exterior.obj" 
+TO ".\Objects\interrupt exterior" 
+PRINT(".\Listings\interrupt exterior.m51")

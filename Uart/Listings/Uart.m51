@@ -1,0 +1,120 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        08/14/2017  21:45:26  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\Uart.obj TO .\Objects\Uart PRINT (.\Listings\Uart.m51)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\Uart.obj (UART)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\Uart (UART)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0013H     UNIT         ?PR?UART_INIT?UART
+            CODE    0016H     0013H     UNIT         ?PR?MAIN?UART
+            CODE    0029H     000DH     UNIT         ?PR?DELAY?UART
+            CODE    0036H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Uart (UART)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?UART
+
+?PR?MAIN?UART
+  +--> ?PR?UART_INIT?UART
+  +--> ?PR?DELAY?UART
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Uart (UART)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        UART
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/14/2017  21:45:26  PAGE 2
+
+
+  D:00C8H         PUBLIC        P5
+  D:00E8H         PUBLIC        P6
+  D:00F8H         PUBLIC        P7
+  D:00A8H         PUBLIC        IE
+  C:0029H         PUBLIC        delay
+  C:0003H         PUBLIC        Uart_Init
+  D:00B8H         PUBLIC        IP
+  B:0098H.1       PUBLIC        TI
+  D:00D8H         PUBLIC        CCON
+  C:0016H         PUBLIC        main
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:008EH         PUBLIC        AUXR
+  D:00D6H         PUBLIC        T2H
+  D:00D7H         PUBLIC        T2L
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          UART_INIT
+  C:0003H         LINE#         4
+  C:0003H         LINE#         5
+  C:0003H         LINE#         6
+  C:0006H         LINE#         7
+  C:0009H         LINE#         8
+  C:000CH         LINE#         9
+  C:000FH         LINE#         10
+  C:0012H         LINE#         11
+  C:0015H         LINE#         12
+  -------         ENDPROC       UART_INIT
+  -------         PROC          DELAY
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:0029H         LINE#         14
+  C:0029H         LINE#         15
+  C:0029H         LINE#         17
+  C:002BH         LINE#         18
+  C:0035H         LINE#         19
+  -------         ENDPROC       DELAY
+  -------         PROC          MAIN
+  C:0016H         LINE#         21
+  C:0016H         LINE#         22
+  C:0016H         LINE#         23
+  C:0019H         LINE#         24
+  C:001CH         LINE#         25
+  C:001CH         LINE#         26
+  C:001CH         LINE#         32
+  C:001FH         LINE#         33
+  C:0022H         LINE#         34
+  C:0024H         LINE#         35
+  C:0027H         LINE#         36
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        UART
+
+Program Size: data=9.0 xdata=0 code=66
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

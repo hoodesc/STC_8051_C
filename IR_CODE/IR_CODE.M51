@@ -1,0 +1,228 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/18/2016  20:18:34  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL UV5\C51\BIN\BL51.EXE IR_CODE.obj TO IR_CODE RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  IR_CODE.obj (IR_CODE)
+  D:\KEIL UV5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\KEIL UV5\C51\LIB\C51S.LIB (?C?CLDPTR)
+  D:\KEIL UV5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  IR_CODE (IR_CODE)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         ?DT?IR_CODE
+            IDATA   000BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0007H     UNIT         ?CO?IR_CODE
+                    000AH     0001H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0093H     UNIT         ?PR?_IR_CODE?IR_CODE
+            CODE    00A1H     008CH     UNIT         ?C_C51STARTUP
+            CODE    012DH     002DH     UNIT         ?PR?STOP?IR_CODE
+            CODE    015AH     0020H     UNIT         ?PR?_DELAYMS?IR_CODE
+            CODE    017AH     0019H     UNIT         ?C?LIB_CODE
+            CODE    0193H     0018H     UNIT         ?PR?MAIN?IR_CODE
+            CODE    01ABH     0017H     UNIT         ?PR?TIMER0_ISR?IR_CODE
+            CODE    01C2H     0013H     UNIT         ?PR?TIMER0_INIT?IR_CODE
+            CODE    01D5H     0005H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   IR_CODE (IR_CODE)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?IR_CODE
+  +--> ?C_INITSEG
+
+?PR?MAIN?IR_CODE
+  +--> ?PR?TIMER0_INIT?IR_CODE
+  +--> ?PR?_DELAYMS?IR_CODE
+  +--> ?PR?STOP?IR_CODE
+
+?PR?STOP?IR_CODE
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/18/2016  20:18:34  PAGE 2
+
+
+  +--> ?CO?IR_CODE
+  +--> ?PR?_IR_CODE?IR_CODE
+
+
+
+SYMBOL TABLE OF MODULE:  IR_CODE (IR_CODE)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        IR_CODE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0092H         PUBLIC        P1M0
+  D:0091H         PUBLIC        P1M1
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:01ABH         PUBLIC        Timer0_ISR
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  B:00A8H.7       PUBLIC        EA
+  D:00E8H         PUBLIC        P6
+  D:00F8H         PUBLIC        P7
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  B:00B0H.4       PUBLIC        IR
+  D:00D8H         PUBLIC        CCON
+  C:0193H         PUBLIC        main
+  C:0134H         PUBLIC        Stop
+  C:01C2H         PUBLIC        Timer0_Init
+  C:015AH         PUBLIC        _DelayMs
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  C:0003H         PUBLIC        IR_DATA1
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  D:0008H         PUBLIC        IR_Code_Flag
+  B:0088H.4       PUBLIC        TR0
+  D:0009H         PUBLIC        IR_Code_Time
+  C:000EH         PUBLIC        _IR_Code
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          TIMER0_INIT
+  C:01C2H         LINE#         25
+  C:01C2H         LINE#         26
+  C:01C2H         LINE#         27
+  C:01C5H         LINE#         28
+  C:01C8H         LINE#         29
+  C:01CBH         LINE#         30
+  C:01CEH         LINE#         31
+  C:01D0H         LINE#         32
+  C:01D2H         LINE#         33
+  C:01D4H         LINE#         34
+  -------         ENDPROC       TIMER0_INIT
+  -------         PROC          TIMER0_ISR
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/18/2016  20:18:34  PAGE 3
+
+
+  C:01ABH         LINE#         36
+  C:01ADH         LINE#         38
+  C:01B5H         LINE#         39
+  C:01B9H         LINE#         40
+  C:01B9H         LINE#         41
+  C:01BBH         LINE#         42
+  C:01BDH         LINE#         44
+  C:01BDH         LINE#         45
+  C:01BFH         LINE#         46
+  C:01BFH         LINE#         47
+  -------         ENDPROC       TIMER0_ISR
+  -------         PROC          _IR_CODE
+  D:0001H         SYMBOL        pIR_Dat
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0005H         SYMBOL        j
+  D:0006H         SYMBOL        temp
+  -------         ENDDO         
+  C:000EH         LINE#         49
+  C:000EH         LINE#         50
+  C:000EH         LINE#         53
+  C:0013H         LINE#         54
+  C:0016H         LINE#         55
+  C:0021H         LINE#         58
+  C:0026H         LINE#         59
+  C:0028H         LINE#         60
+  C:0033H         LINE#         62
+  C:0035H         LINE#         63
+  C:0035H         LINE#         64
+  C:0039H         LINE#         65
+  C:003BH         LINE#         66
+  C:003BH         LINE#         67
+  C:003FH         LINE#         68
+  C:003FH         LINE#         71
+  C:0044H         LINE#         72
+  C:0047H         LINE#         73
+  C:0052H         LINE#         75
+  C:0057H         LINE#         76
+  C:0059H         LINE#         77
+  C:0066H         LINE#         80
+  C:0066H         LINE#         83
+  C:006BH         LINE#         84
+  C:006EH         LINE#         85
+  C:0079H         LINE#         87
+  C:007EH         LINE#         88
+  C:0080H         LINE#         89
+  C:008BH         LINE#         90
+  C:008BH         LINE#         91
+  C:008FH         LINE#         92
+  C:0093H         LINE#         93
+  C:009AH         LINE#         94
+  C:00A0H         LINE#         95
+  -------         ENDPROC       _IR_CODE
+  -------         PROC          L?0046
+  -------         ENDPROC       L?0046
+  -------         PROC          STOP
+  C:0134H         LINE#         97
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/18/2016  20:18:34  PAGE 4
+
+
+  C:0134H         LINE#         98
+  C:0134H         LINE#         100
+  C:0139H         LINE#         101
+  C:013CH         LINE#         102
+  C:0147H         LINE#         104
+  C:014CH         LINE#         105
+  C:014EH         LINE#         106
+  C:0159H         LINE#         107
+  -------         ENDPROC       STOP
+  -------         PROC          _DELAYMS
+  D:0006H         SYMBOL        ValMS
+  -------         DO            
+  D:0004H         SYMBOL        uiVal
+  D:0002H         SYMBOL        ujVal
+  -------         ENDDO         
+  C:015AH         LINE#         109
+  C:015AH         LINE#         110
+  C:015AH         LINE#         112
+  C:0164H         LINE#         113
+  C:0179H         LINE#         114
+  -------         ENDPROC       _DELAYMS
+  -------         PROC          MAIN
+  C:0193H         LINE#         115
+  C:0193H         LINE#         116
+  C:0193H         LINE#         117
+  C:0196H         LINE#         118
+  C:0199H         LINE#         119
+  C:019BH         LINE#         120
+  C:01A1H         LINE#         121
+  C:01A1H         LINE#         122
+  C:01A1H         LINE#         123
+  C:01A3H         LINE#         124
+  C:01A6H         LINE#         125
+  C:01A6H         LINE#         126
+  C:01A9H         LINE#         127
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        IR_CODE
+
+  -------         MODULE        ?C?CLDPTR
+  C:017AH         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+Program Size: data=12.0 xdata=0 code=473
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

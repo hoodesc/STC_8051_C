@@ -1,0 +1,164 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        08/24/2017  21:59:47  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL_V5\C51\BIN\BL51.EXE Ins_ADC.obj TO Ins_ADC RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  Ins_ADC.obj (INS_ADC)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  Ins_ADC (INS_ADC)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?INS_ADC
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0028H                  *** GAP ***
+            CODE    002BH     0003H     ABSOLUTE     
+                    002EH     07D2H                  *** GAP ***
+            CODE    0800H     0020H     UNIT         ?PR?_DELAYMS?INS_ADC
+            CODE    0820H     0017H     UNIT         ?PR?MAIN?INS_ADC
+            CODE    0837H     0015H     UNIT         ?PR?INS_ADC_INIT?INS_ADC
+            CODE    084CH     0014H     UNIT         ?PR?UART_INIT?INS_ADC
+            CODE    0860H     000CH     UNIT         ?C_C51STARTUP
+            CODE    086CH     000AH     UNIT         ?PR?INS_ADC_ISR?INS_ADC
+
+
+
+OVERLAY MAP OF MODULE:   Ins_ADC (INS_ADC)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?INS_ADC
+
+?PR?MAIN?INS_ADC
+  +--> ?PR?INS_ADC_INIT?INS_ADC
+  +--> ?PR?UART_INIT?INS_ADC
+  +--> ?PR?_DELAYMS?INS_ADC
+
+
+
+SYMBOL TABLE OF MODULE:  Ins_ADC (INS_ADC)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/24/2017  21:59:47  PAGE 2
+
+
+  -------         MODULE        INS_ADC
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0091H         PUBLIC        P1M0
+  D:0080H         PUBLIC        P0
+  D:0092H         PUBLIC        P1M1
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  C:084CH         PUBLIC        Uart_Init
+  D:00B8H         PUBLIC        IP
+  B:0098H.1       PUBLIC        TI
+  C:086CH         PUBLIC        Ins_ADC_ISR
+  D:00D8H         PUBLIC        CCON
+  C:0820H         PUBLIC        main
+  D:0099H         PUBLIC        SBUF
+  D:00C5H         PUBLIC        ADC_CONTR
+  C:0800H         PUBLIC        _DelayMs
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  D:008EH         PUBLIC        AUXR
+  D:00C6H         PUBLIC        ADC_DATA
+  B:00A8H.3       PUBLIC        ET1
+  C:0837H         PUBLIC        Ins_ADC_Init
+  D:008DH         PUBLIC        TH1
+  D:008BH         PUBLIC        TL1
+  B:0088H.6       PUBLIC        TR1
+  B:00A8H.5       PUBLIC        EADC_SPI
+  D:0008H         PUBLIC        ADC_DATA_temp
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _DELAYMS
+  D:0006H         SYMBOL        ValMS
+  -------         DO            
+  D:0004H         SYMBOL        uiVal
+  D:0002H         SYMBOL        ujVal
+  -------         ENDDO         
+  C:0800H         LINE#         8
+  C:0800H         LINE#         9
+  C:0800H         LINE#         11
+  C:080AH         LINE#         12
+  C:081FH         LINE#         13
+  -------         ENDPROC       _DELAYMS
+  -------         PROC          INS_ADC_INIT
+  C:0837H         LINE#         15
+  C:0837H         LINE#         16
+  C:0837H         LINE#         17
+  C:083AH         LINE#         18
+  C:083DH         LINE#         19
+  C:0840H         LINE#         20
+  C:0844H         LINE#         21
+  C:0846H         LINE#         22
+  C:0849H         LINE#         23
+  C:084BH         LINE#         24
+  -------         ENDPROC       INS_ADC_INIT
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/24/2017  21:59:47  PAGE 3
+
+
+  -------         PROC          INS_ADC_ISR
+  C:086CH         LINE#         26
+  C:086CH         LINE#         28
+  C:086FH         LINE#         29
+  C:0872H         LINE#         30
+  C:0875H         LINE#         31
+  -------         ENDPROC       INS_ADC_ISR
+  -------         PROC          UART_INIT
+  C:084CH         LINE#         34
+  C:084CH         LINE#         35
+  C:084CH         LINE#         36
+  C:084FH         LINE#         37
+  C:0852H         LINE#         38
+  C:0855H         LINE#         39
+  C:0858H         LINE#         40
+  C:085BH         LINE#         41
+  C:085DH         LINE#         42
+  C:085FH         LINE#         43
+  -------         ENDPROC       UART_INIT
+  -------         PROC          MAIN
+  C:0820H         LINE#         45
+  C:0820H         LINE#         46
+  C:0820H         LINE#         47
+  C:0823H         LINE#         48
+  C:0826H         LINE#         49
+  C:0826H         LINE#         50
+  C:0826H         LINE#         51
+  C:0829H         LINE#         52
+  C:082CH         LINE#         53
+  C:082EH         LINE#         54
+  C:0835H         LINE#         55
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        INS_ADC
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 006DH BYTE ( 5%) *
+******************************************************************************
+
+Program Size: data=10.0 xdata=0 code=124
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

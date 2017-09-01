@@ -1,0 +1,164 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        10/16/2015  18:49:06  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL UV4\C51\BIN\BL51.EXE Timer0_ISR.obj TO Timer0_ISR
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  Timer0_ISR.obj (TIMER0_ISR)
+  D:\KEIL UV4\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  Timer0_ISR (TIMER0_ISR)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     000DH                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+                    001EH     07E2H                  *** GAP ***
+            CODE    0800H     001CH     UNIT         ?PR?TIMER0_ISR?TIMER0_ISR
+            CODE    081CH     001CH     UNIT         ?PR?TIMER1_ISR?TIMER0_ISR
+            CODE    0838H     0010H     UNIT         ?PR?TIMER0_INIT?TIMER0_ISR
+            CODE    0848H     0010H     UNIT         ?PR?TIMER1_INIT?TIMER0_ISR
+            CODE    0858H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0864H     0005H     UNIT         ?PR?MAIN?TIMER0_ISR
+
+
+
+OVERLAY MAP OF MODULE:   Timer0_ISR (TIMER0_ISR)
+
+
+SEGMENT                              DATA_GROUP 
+  +--> CALLED SEGMENT              START    LENGTH
+--------------------------------------------------
+?PR?TIMER0_ISR?TIMER0_ISR          0008H    0001H
+
+*** NEW ROOT ***************************************************
+
+?PR?TIMER1_ISR?TIMER0_ISR          0009H    0001H
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                      -----    -----
+  +--> ?PR?MAIN?TIMER0_ISR
+
+?PR?MAIN?TIMER0_ISR                -----    -----
+  +--> ?PR?TIMER0_INIT?TIMER0_ISR
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/16/2015  18:49:06  PAGE 2
+
+
+
+
+
+SYMBOL TABLE OF MODULE:  Timer0_ISR (TIMER0_ISR)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        TIMER0_ISR
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  C:0800H         PUBLIC        Timer0_ISR
+  C:081CH         PUBLIC        Timer1_ISR
+  B:00A8H.7       PUBLIC        EA
+  C:0864H         PUBLIC        main
+  C:0838H         PUBLIC        Timer0_Init
+  C:0848H         PUBLIC        Timer1_Init
+  D:0089H         PUBLIC        TMOD
+  B:00A8H.1       PUBLIC        ET0
+  B:00A8H.3       PUBLIC        ET1
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  D:008AH         PUBLIC        TL0
+  D:008BH         PUBLIC        TL1
+  B:0088H.4       PUBLIC        TR0
+  B:0088H.6       PUBLIC        TR1
+  -------         PROC          TIMER0_INIT
+  C:0838H         LINE#         10
+  C:0838H         LINE#         11
+  C:0838H         LINE#         12
+  C:083BH         LINE#         13
+  C:083EH         LINE#         14
+  C:0841H         LINE#         16
+  C:0843H         LINE#         17
+  C:0845H         LINE#         18
+  C:0847H         LINE#         19
+  -------         ENDPROC       TIMER0_INIT
+  -------         PROC          TIMER0_ISR
+  -------         DO            
+  D:0008H         SYMBOL        i
+  -------         ENDDO         
+  C:0800H         LINE#         20
+  C:0804H         LINE#         23
+  C:0806H         LINE#         24
+  C:0809H         LINE#         25
+  C:080CH         LINE#         27
+  C:0811H         LINE#         28
+  C:0811H         LINE#         29
+  C:0814H         LINE#         30
+  C:0817H         LINE#         31
+  C:0817H         LINE#         32
+  -------         ENDPROC       TIMER0_ISR
+  -------         PROC          TIMER1_INIT
+  C:0848H         LINE#         34
+  C:0848H         LINE#         35
+  C:0848H         LINE#         36
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/16/2015  18:49:06  PAGE 3
+
+
+  C:084BH         LINE#         37
+  C:084EH         LINE#         38
+  C:0851H         LINE#         40
+  C:0853H         LINE#         41
+  C:0855H         LINE#         42
+  C:0857H         LINE#         43
+  -------         ENDPROC       TIMER1_INIT
+  -------         PROC          TIMER1_ISR
+  -------         DO            
+  D:0009H         SYMBOL        i
+  -------         ENDDO         
+  C:081CH         LINE#         44
+  C:0820H         LINE#         47
+  C:0822H         LINE#         48
+  C:0825H         LINE#         49
+  C:0828H         LINE#         51
+  C:082DH         LINE#         52
+  C:082DH         LINE#         53
+  C:0830H         LINE#         54
+  C:0833H         LINE#         55
+  C:0833H         LINE#         56
+  -------         ENDPROC       TIMER1_ISR
+  -------         PROC          MAIN
+  C:0864H         LINE#         58
+  C:0864H         LINE#         59
+  C:0864H         LINE#         60
+  C:0867H         LINE#         62
+  C:0867H         LINE#         63
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        TIMER0_ISR
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?TIMER1_INIT?TIMER0_ISR
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0063H BYTE ( 4%) *
+******************************************************************************
+
+Program Size: data=11.0 xdata=0 code=114
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

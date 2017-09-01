@@ -1,0 +1,167 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+D:\Keil uV4\Project\IR - ¸±±¾\IR.uvproj
+Project File Date:  04/17/2016
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+compiling IR.c...
+IR.c(103): error C231: 'LED': redefinition
+IR.c(109): error C231: 'LED': redefinition
+IR.c(154): error C211: call not to a function
+Target not created
+Rebuild target 'Target 1'
+compiling IR.c...
+IR.c(103): error C231: 'LED': redefinition
+IR.c(109): error C231: 'LED': redefinition
+IR.c(154): error C211: call not to a function
+Target not created
+Rebuild target 'Target 1'
+compiling IR.c...
+IR.c(14): error C244: 'conunt_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'conunt_ok': not in formal parameter list
+IR.c(14): error C244: 'decode_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'decode_ok': not in formal parameter list
+IR.c(17): error C132: 'Uart_Init': not in formal parameter list
+IR.c(17): error C141: syntax error near '{'
+IR.c(18): error C136: 'TMOD': 'void' on variable
+IR.c(18): error C132: 'TMOD': not in formal parameter list
+IR.c(19): error C136: 'TMOD': 'void' on variable
+IR.c(19): error C132: 'TMOD': not in formal parameter list
+IR.c(20): error C136: 'SCON': 'void' on variable
+IR.c(20): error C132: 'SCON': not in formal parameter list
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C244: 'TH1': can't initialize, bad type or class
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C132: 'TH1': not in formal parameter list
+IR.c(22): error C244: 'TL1': can't initialize, bad type or class
+IR.c(22): error C132: 'TL1': not in formal parameter list
+IR.c(23): error C244: 'ET1': can't initialize, bad type or class
+IR.c(23): error C132: 'ET1': not in formal parameter list
+IR.c(24): error C244: 'TR1': can't initialize, bad type or class
+IR.c(24): error C132: 'TR1': not in formal parameter list
+IR.c(25): error C141: syntax error near '}'
+IR.c(53): error C202: 'conunt_ok': undefined identifier
+IR.c(98): error C202: 'decode_ok': undefined identifier
+IR.c(103): error C231: 'LED': redefinition
+IR.c(109): error C231: 'LED': redefinition
+Target not created
+Rebuild target 'Target 1'
+compiling IR.c...
+IR.c(14): error C244: 'conunt_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'conunt_ok': not in formal parameter list
+IR.c(14): error C244: 'decode_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'decode_ok': not in formal parameter list
+IR.c(17): error C132: 'Uart_Init': not in formal parameter list
+IR.c(17): error C141: syntax error near '{'
+IR.c(18): error C136: 'TMOD': 'void' on variable
+IR.c(18): error C132: 'TMOD': not in formal parameter list
+IR.c(19): error C136: 'TMOD': 'void' on variable
+IR.c(19): error C132: 'TMOD': not in formal parameter list
+IR.c(20): error C136: 'SCON': 'void' on variable
+IR.c(20): error C132: 'SCON': not in formal parameter list
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C244: 'TH1': can't initialize, bad type or class
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C132: 'TH1': not in formal parameter list
+IR.c(22): error C244: 'TL1': can't initialize, bad type or class
+IR.c(22): error C132: 'TL1': not in formal parameter list
+IR.c(23): error C244: 'ET1': can't initialize, bad type or class
+IR.c(23): error C132: 'ET1': not in formal parameter list
+IR.c(24): error C244: 'TR1': can't initialize, bad type or class
+IR.c(24): error C132: 'TR1': not in formal parameter list
+IR.c(25): error C141: syntax error near '}'
+IR.c(53): error C202: 'conunt_ok': undefined identifier
+IR.c(98): error C202: 'decode_ok': undefined identifier
+IR.c(103): error C231: 'LED': redefinition
+IR.c(109): error C231: 'LED': redefinition
+Target not created
+Rebuild target 'Target 1'
+compiling IR.c...
+IR.c(14): error C244: 'conunt_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'conunt_ok': not in formal parameter list
+IR.c(14): error C244: 'decode_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'decode_ok': not in formal parameter list
+IR.c(17): error C132: 'Uart_Init': not in formal parameter list
+IR.c(17): error C141: syntax error near '{'
+IR.c(18): error C136: 'TMOD': 'void' on variable
+IR.c(18): error C132: 'TMOD': not in formal parameter list
+IR.c(19): error C136: 'TMOD': 'void' on variable
+IR.c(19): error C132: 'TMOD': not in formal parameter list
+IR.c(20): error C136: 'SCON': 'void' on variable
+IR.c(20): error C132: 'SCON': not in formal parameter list
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C244: 'TH1': can't initialize, bad type or class
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C132: 'TH1': not in formal parameter list
+IR.c(22): error C244: 'TL1': can't initialize, bad type or class
+IR.c(22): error C132: 'TL1': not in formal parameter list
+IR.c(23): error C244: 'ET1': can't initialize, bad type or class
+IR.c(23): error C132: 'ET1': not in formal parameter list
+IR.c(24): error C244: 'TR1': can't initialize, bad type or class
+IR.c(24): error C132: 'TR1': not in formal parameter list
+IR.c(25): error C141: syntax error near '}'
+IR.c(53): error C202: 'conunt_ok': undefined identifier
+IR.c(98): error C202: 'decode_ok': undefined identifier
+IR.c(103): error C231: 'LED': redefinition
+IR.c(109): error C231: 'LED': redefinition
+Target not created
+Rebuild target 'Target 1'
+compiling IR.c...
+IR.c(14): error C244: 'conunt_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'conunt_ok': not in formal parameter list
+IR.c(14): error C244: 'decode_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'decode_ok': not in formal parameter list
+IR.c(17): error C132: 'Uart_Init': not in formal parameter list
+IR.c(17): error C141: syntax error near '{'
+IR.c(18): error C136: 'TMOD': 'void' on variable
+IR.c(18): error C132: 'TMOD': not in formal parameter list
+IR.c(19): error C136: 'TMOD': 'void' on variable
+IR.c(19): error C132: 'TMOD': not in formal parameter list
+IR.c(20): error C136: 'SCON': 'void' on variable
+IR.c(20): error C132: 'SCON': not in formal parameter list
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C244: 'TH1': can't initialize, bad type or class
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C132: 'TH1': not in formal parameter list
+IR.c(22): error C244: 'TL1': can't initialize, bad type or class
+IR.c(22): error C132: 'TL1': not in formal parameter list
+IR.c(23): error C244: 'ET1': can't initialize, bad type or class
+IR.c(23): error C132: 'ET1': not in formal parameter list
+IR.c(24): error C244: 'TR1': can't initialize, bad type or class
+IR.c(24): error C132: 'TR1': not in formal parameter list
+IR.c(25): error C141: syntax error near '}'
+IR.c(53): error C202: 'conunt_ok': undefined identifier
+IR.c(98): error C202: 'decode_ok': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+compiling IR.c...
+IR.c(14): error C244: 'conunt_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'conunt_ok': not in formal parameter list
+IR.c(14): error C244: 'decode_ok': can't initialize, bad type or class
+IR.c(14): error C132: 'decode_ok': not in formal parameter list
+IR.c(17): error C132: 'Uart_Init': not in formal parameter list
+IR.c(17): error C141: syntax error near '{'
+IR.c(18): error C136: 'TMOD': 'void' on variable
+IR.c(18): error C132: 'TMOD': not in formal parameter list
+IR.c(19): error C136: 'TMOD': 'void' on variable
+IR.c(19): error C132: 'TMOD': not in formal parameter list
+IR.c(20): error C136: 'SCON': 'void' on variable
+IR.c(20): error C132: 'SCON': not in formal parameter list
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C244: 'TH1': can't initialize, bad type or class
+IR.c(21): error C136: 'TH1': 'void' on variable
+IR.c(21): error C132: 'TH1': not in formal parameter list
+IR.c(22): error C244: 'TL1': can't initialize, bad type or class
+IR.c(22): error C132: 'TL1': not in formal parameter list
+IR.c(23): error C244: 'ET1': can't initialize, bad type or class
+IR.c(23): error C132: 'ET1': not in formal parameter list
+IR.c(24): error C244: 'TR1': can't initialize, bad type or class
+IR.c(24): error C132: 'TR1': not in formal parameter list
+IR.c(25): error C141: syntax error near '}'
+IR.c(53): error C202: 'conunt_ok': undefined identifier
+IR.c(98): error C202: 'decode_ok': undefined identifier
+Target not created

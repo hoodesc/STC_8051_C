@@ -1,0 +1,6 @@
+".\Output\Delay.obj",
+".\Output\Test.obj",
+".\Output\NRF24L01_TX.obj",
+".\Output\Ins_ADC.obj" 
+TO ".\Output\Test" 
+PRINT(".\Listings\Test.m51")

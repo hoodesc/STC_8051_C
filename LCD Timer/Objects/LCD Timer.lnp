@@ -1,0 +1,3 @@
+".\Objects\LCD Timer.obj" 
+TO ".\Objects\LCD Timer" 
+PRINT(".\Listings\LCD Timer.m51")

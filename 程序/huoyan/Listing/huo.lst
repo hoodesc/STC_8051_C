@@ -1,0 +1,44 @@
+C51 COMPILER V9.06   HUO                                                                   11/13/2016 00:03:15 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE HUO
+OBJECT MODULE PLACED IN .\Output\huo.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE source\huo.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include) DEBUG PRIN
+                    -T(.\Listing\huo.lst) TABS(2) OBJECT(.\Output\huo.obj)
+
+line level    source
+
+   1          #include<STC15.h>
+   2          #include"MYTYPE.h"
+   3          #include"huo.h"
+   4          #include"Delay.h"
+   5          
+   6          sbit DOUT = P3^2; // int0 
+   7          bit flag = 0;
+   8          
+   9          bit Start (void)
+  10          {
+  11   1        if(DOUT) 
+  12   1        flag = 0;
+  13   1        else 
+  14   1        flag = 1;
+  15   1        return flag;  
+  16   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     12    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

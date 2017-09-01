@@ -1,0 +1,187 @@
+C51 COMPILER V9.54   LCD1602                                                               11/06/2015 00:04:18 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE LCD1602
+OBJECT MODULE PLACED IN LCD1602.OBJ
+COMPILER INVOKED BY: d:\Keil uV5\C51\BIN\C51.EXE LCD1602.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #define uchar unsigned char
+   3          #define uint unsigned int
+   4          //1602时钟
+   5          //12M晶振、LCD D1-D7接P1^0-7
+   6          
+   7          static uchar S_ge = 0;    //秒_个位
+   8          static uchar S_shi = 0;   //秒_十位
+   9          static uchar M_ge = 0;  //分_个位
+  10          static uchar M_shi = 0; //分_十位
+  11          static uchar H_ge = 0;    //时_个位
+  12          static uchar H_shi = 0;     //时_十位
+  13          uchar code Num[]={0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39};   //0-9  十六进制 
+  14          uchar code TAB2[]="Time: ";
+  15          /***************函数声明***************/
+  16          void Timer(void);
+  17          void Write_data(uchar com);
+  18          void Write_com(uchar com);
+  19          void Refresh_Display(void);
+  20          void DelayMs (uint a);
+  21          /**************************************/
+  22          /***************定义接口***************/
+  23          sbit RS = P3^5;
+  24          sbit RW = P3^4;
+  25          sbit EN = P3^3;
+  26          /**************************************/
+  27          
+  28          /***************延时函数***************/
+  29          void DelayMs (uint a){
+  30   1        uint i;
+  31   1        while( a-- != 0){
+  32   2          for(i = 0; i < 125; i++);
+  33   2        }
+  34   1      }
+  35          /**************************************/
+  36          
+  37          /***************写数据、指令***************/
+  38          void Write_data(uchar com)  //写数据
+  39          {
+  40   1        RS = 1;
+  41   1        RW = 0;
+  42   1        EN  = 1;
+  43   1        DelayMs(1);
+  44   1        P1 = com;      
+  45   1        EN = 0;
+  46   1      }
+  47          
+  48          void Write_com(uchar com) //写指令
+  49          {
+  50   1        RS = 0;
+  51   1        RW = 0;
+  52   1        EN  = 1;
+  53   1        DelayMs(1);
+  54   1        P1 = com;  
+  55   1        EN = 0;
+C51 COMPILER V9.54   LCD1602                                                               11/06/2015 00:04:18 PAGE 2   
+
+  56   1      }
+  57          /**************************************/
+  58          
+  59          /***************刷新显示***************/
+  60          void Refresh_Display(void)    
+  61          {
+  62   1      
+  63   1      //动态显示，“xx”  “:”  “xx”  “:”  “xx”
+  64   1      //            H          M          S
+  65   1        Write_com(0x86);    //第一行显示  
+  66   1        Write_data(Num[H_shi]);   //写 时 十位
+  67   1        Write_data(Num[H_ge]);    //写 时 个位
+  68   1        Write_data(0x3A); //写 十六进制":"
+  69   1        Write_data(Num[M_shi]);   //写 分 十位
+  70   1        Write_data(Num[M_ge]);    //写 分 个位
+  71   1        Write_data(0x3A); //写 十六进制":"
+  72   1        Write_data(Num[S_shi]);   //写 秒 十位       
+  73   1        Write_data(Num[S_ge]);    //写 秒 个位  
+  74   1      }
+  75          /**************************************/
+  76          
+  77          /***************显示内容处理***************/
+  78          void Timer(void)
+  79          {
+  80   1        static uchar S = 0;   //秒_变量
+  81   1        static uchar M = 0;   //分_变量
+  82   1        static uchar H = 0;   //分_变量
+  83   1            //时_变量
+  84   1        S++;  //加一秒
+  85   1        if(60 == S)   //60秒到了
+  86   1        {
+  87   2          S = 0;
+  88   2          M++;  //加一分
+  89   2        }
+  90   1        if(60 == M)   //60分钟到了
+  91   1        {
+  92   2          M = 0;
+  93   2          H++;  //加一小时
+  94   2        }
+  95   1        if(24 == H)   //24小时到了
+  96   1        {
+  97   2          H = 0;
+  98   2        }
+  99   1        S_ge = S%10;  //分离, 秒 个位
+ 100   1        S_shi = S/10; //分离, 秒 十位
+ 101   1        M_ge = M%10;    //分离, 分 个位
+ 102   1        M_shi = M/10;   //分离, 分 十位
+ 103   1        H_ge = H%10;  //分离, 时 个位
+ 104   1        H_shi = H/10; //分离, 时 十位
+ 105   1      }
+ 106          /**************************************/
+ 107          
+ 108          /***************LCD_初始化***************/
+ 109          void LCD_Init()
+ 110          { 
+ 111   1        Write_com(0x38);  //功能设置：8位数据总线，5X8，两行显示
+ 112   1        Write_com(0x0C);  //显示器开关控制：开显示，光标不显示、不闪烁
+ 113   1        Write_com(0x06);  //设置输入模式：AC自动加1，显示不移位
+ 114   1        Write_com(0x01);  //清屏
+ 115   1      }
+ 116          /**************************************/
+ 117          
+C51 COMPILER V9.54   LCD1602                                                               11/06/2015 00:04:18 PAGE 3   
+
+ 118          /***************定时器0_初始化***************/
+ 119          void Timer0_Init(void)
+ 120          {
+ 121   1        TMOD = 0x01;    //装初值
+ 122   1        TH0 = 0xD8;   //10ms
+ 123   1        TL0 = 0xF0;
+ 124   1        ET0 = 1;
+ 125   1        EA = 1; 
+ 126   1        TR0 = 1;
+ 127   1      }
+ 128          
+ 129          //定时器0_中断服务函数。计时、刷新显示
+ 130          void Timer0_ISR(void) interrupt 1 
+ 131          {
+ 132   1        static uchar i = 0;
+ 133   1        i++;  //10ms 加1  
+ 134   1        TH0 = 0xD8;   //重装初值
+ 135   1        TL0 = 0xF0;   //10ms
+ 136   1        if(100 == i)    //1S时间到了
+ 137   1        {
+ 138   2          i = 0;    
+ 139   2          Timer();  //1s进入一次，计算秒、分、时    
+ 140   2        }
+ 141   1        Refresh_Display();  //刷新显示
+ 142   1      }
+ 143          /**************************************/
+ 144          
+ 145          void main(void)
+ 146          {
+ 147   1        uchar i;
+ 148   1        LCD_Init();
+ 149   1        DelayMs(50);
+ 150   1        Write_com(0x80);
+ 151   1        for(i = 0;i<6;i++)
+ 152   1        {
+ 153   2          
+ 154   2          Write_data(TAB2[i]);
+ 155   2        } 
+ 156   1        Timer0_Init();  
+ 157   1        while(1)
+ 158   1        { 
+ 159   2        } 
+ 160   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    338    ----
+   CONSTANT SIZE    =     17    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,104 @@
+C51 COMPILER V9.06   MAIN                                                                  11/29/2016 21:13:09 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Output\main.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE source\main.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include) DEBUG PRI
+                    -NT(.\Listing\main.lst) TABS(2) OBJECT(.\Output\main.obj)
+
+line level    source
+
+   1          #include <STC15.h> 
+   2          #include "MYTYPE.h"
+   3          #include "Delay.h"
+   4          #include "UART.h"
+   5          #include "nrf24l01_tx.h"
+   6          
+   7          //  MQ-2烟雾传感器
+   8          //  NRF24L01 频道30
+   9          //  收发地址：0x12,0x21,0xaa,0x34,0x43
+  10          //  设备码A1
+  11          
+  12          sbit MQ2 = P3^2;
+  13          
+  14          void INT_Init()
+  15          {
+  16   1        IT0 = 1;  //外部中断0 下降沿触发
+  17   1        EX0 = 1;  //使能外部中断0
+  18   1      }
+  19          
+  20          void Timer0_Inti()  //1ms@11.0592MHz
+  21          {
+  22   1        AUXR &= 0x7F;
+  23   1        TMOD &= 0xF0;   //16位自动重装
+  24   1        TL0 = 0x66;
+  25   1        TH0 = 0xFC;
+  26   1        ET0 = 1;
+  27   1        EA  = 1;
+  28   1        TR0 = 0;
+  29   1      }
+  30          
+  31          void INT0_ISR() interrupt 0
+  32          {
+  33   1          TR0 = 1;  //开始计时
+  34   1          EX0 = 0;  //关闭外部中断0 
+  35   1      }
+  36          
+  37          void Timer0_ISR() interrupt 1
+  38          {
+  39   1        static uint time = 0;
+  40   1        time++;
+  41   1        if(time > 500)//每秒检测一次警报是否消除
+  42   1        {
+  43   2          if(MQ2)
+  44   2          {
+  45   3            TX_DAT[1] = 0xAA;
+  46   3            EX0 = 1;
+  47   3            TR0 = 0;
+  48   3          }
+  49   2          else
+  50   2          {
+  51   3            TX_DAT[1] = 0xBB;
+  52   3            EX0 = 0;
+  53   3          }
+  54   2            time = 0;
+C51 COMPILER V9.06   MAIN                                                                  11/29/2016 21:13:09 PAGE 2   
+
+  55   2        }
+  56   1      }
+  57          
+  58          void main(void)
+  59          {
+  60   1        uchar i = 0;
+  61   1        P1M0 = 0x00;
+  62   1        P1M1 = 0x00;
+  63   1        INT_Init();
+  64   1        Timer0_Inti();
+  65   1        SetTX_Mode();
+  66   1        DelayMs(500);
+  67   1        while(1)
+  68   1        {
+  69   2          SPI_RW_Reg(WRITE_REG + STATUS,0x7E);        //  清除状态寄存器
+  70   2          SPI_Write_Buf(W_TX_PAYLOAD,TX_DAT,TX_PLOAD_WIDTH);  //  装载数据
+  71   2          NRF24L01_TxPacket(TX_DAT);    //  发送
+  72   2          DelayMs(50);
+  73   2        }   
+  74   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    146    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,3 @@
+".\output\main.obj" 
+TO ".\output\步进电机" 
+PRINT(".\步进电机.m51")

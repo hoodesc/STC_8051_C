@@ -1,0 +1,11 @@
+".\Output\main.obj",
+".\Output\Delay.obj",
+".\Output\DS18B20.obj",
+".\Output\DS1302.obj",
+".\Output\GSM-GTM900b.obj",
+".\Output\LCD12864.obj",
+".\Output\MQ-2.obj",
+".\Output\Dispaly.obj" 
+TO ".\Output\project2" 
+
+PRINT(".\Listing\project2.map")

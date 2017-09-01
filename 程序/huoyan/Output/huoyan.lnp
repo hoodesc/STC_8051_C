@@ -1,0 +1,7 @@
+".\Output\main.obj",
+".\Output\Delay.obj",
+".\Output\NRF24L01_TX.obj",
+".\Output\UART.obj" 
+TO ".\Output\huoyan" 
+
+PRINT(".\Listing\huoyan.map")

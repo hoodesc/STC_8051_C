@@ -1,0 +1,152 @@
+C51 COMPILER V9.06   MAIN                                                                  03/17/2017 00:01:50 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Output\main.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE main.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\project2;.\source code;.
+                    -\include) DEBUG PRINT(.\Listing\main.lst) TABS(2) OBJECT(.\Output\main.obj)
+
+line level    source
+
+   1          #include <STC12C5A.h>
+   2          #include "MYTYPE.h"
+   3          #include "DS18B20.h"
+   4          #include "DS1302.h"
+   5          #include "LCD12864.h"
+   6          #include "MQ-2.h"
+   7          #include "GSM-GTM900b.h"
+   8          #include "Delay.h"
+   9          #include "Display.h"
+  10          
+  11          sbit bee = P2^6;  // 蜂鸣器
+  12          uchar time = 0;
+  13          uchar System_Time = 0;
+  14          //void MQ2_scan();
+  15          void Timer0_Init(void)    //10毫秒@11.0592MHz
+  16          {
+  17   1        AUXR &= 0x7F;   //定时器时钟12T模式
+  18   1        TMOD &= 0xF0;   //设置定时器模式
+  19   1        TMOD |= 0x01;   //设置定时器模式
+  20   1        TL0 = 0x00;   //设置定时初值
+  21   1        TH0 = 0xDC;   //设置定时初值
+  22   1        ET0 = 1;
+  23   1        EA  = 1;
+  24   1        TR0 = 1;    //定时器0开始计时
+  25   1      }
+  26          
+  27          void Timer0_ISR() interrupt 1
+  28          {
+  29   1        TL0 = 0x00;   //设置定时初值
+  30   1        TH0 = 0xDC;   //设置定时初值
+  31   1        time++;
+  32   1      //  if(time++ > 100)  // 1S
+  33   1      //  {
+  34   1      //    time = 0;
+  35   1      ////    System_Time++;
+  36   1      //    if(!GSM_tsim_ok || !GSM_cops_ok || !GSM_csmp_ok || !GSM_csq_ok || !GSM_cnmi_ok)
+  37   1      //    {
+  38   1      //      //SIM卡检测   运营商检测    SMS格式     信号检测    短信提醒设置
+  39   1      //      if(gsm_delay_time++ == 15)
+  40   1      //      {
+  41   1      //        gsm_delay_time = 0;
+  42   1      //        GSM_Init();   // 初始化     
+  43   1      //      }             
+  44   1      //    }   
+  45   1      //  }
+  46   1      }
+  47          
+  48          void Display()    //  显示固定内容
+  49          {
+  50   1        uchar i;
+  51   1        LCD_XY(4,0);  // 第四行、第一列
+  52   1        while(GSM_TAB[i] != '\0')
+  53   1        {
+  54   2          LCD_Write_Dat(GSM_TAB[i]);  // 当前信号：
+C51 COMPILER V9.06   MAIN                                                                  03/17/2017 00:01:50 PAGE 2   
+
+  55   2          i++;
+  56   2        }
+  57   1        i = 0;
+  58   1        
+  59   1        LCD_XY(2,2);  // 第二行第三列
+  60   1        while(*(pGSM+i) != '\0')
+  61   1        {
+  62   2          LCD_Write_Dat(*(pGSM+i));
+  63   2          i++;
+  64   2        }
+  65   1      }
+  66          
+  67          void main(void)
+  68          {
+  69   1        static uchar value = 0; 
+  70   1      
+  71   1        Timer0_Init();    // 定时器0初始化
+  72   1        LCD12864_Init();  // 12864液晶初始化
+  73   1        Display();    // 显示固定内容
+  74   1        bee = 0;  // 关蜂鸣器
+  75   1        DelayMs(2000);
+  76   1          Uart_Init();    // 串口初始化.        
+  77   1        while(1)
+  78   1        {
+  79   2          // 扫描是否收到信息
+  80   2          DS18B20_Display();      // 刷新温度显示
+  81   2          Sensor_State_Display();   // 刷新传感器状态
+  82   2          GSM_CSQ_COPS_Display();   // 刷新运营商、信号强度
+  83   2          if(!GSM_tsim_ok || !GSM_cops_ok || !GSM_csmp_ok || !GSM_csq_ok || !GSM_cnmi_ok)
+  84   2          {
+  85   3            //SIM卡检测   运营商检测    SMS格式     信号检测    短信提醒设置
+  86   3            gsm_delay_time = 0;
+  87   3            GSM_Init();   // 初始化     
+  88   3          }
+  89   2      
+  90   2          switch(value)
+  91   2          {
+  92   3            case 0:
+  93   3            {
+  94   4              if(MQ2)
+  95   4              {
+  96   5                MQ2_flag = 1;
+  97   5                GSM_sms_ready(warning_gas); //  发信息
+  98   5                value = 1;
+  99   5                time = 0;
+ 100   5              }       
+ 101   4            }
+ 102   3            break;
+ 103   3            case 1:
+ 104   3            {
+ 105   4              if(time > 200)
+ 106   4              {
+ 107   5                time = 0;
+ 108   5                if(!MQ2)
+ 109   5                {
+ 110   6                  value = 0;
+ 111   6                  MQ2_flag = 0;         
+ 112   6                }
+ 113   5              }   
+ 114   4            }
+ 115   3            break;
+ 116   3            default:
+C51 COMPILER V9.06   MAIN                                                                  03/17/2017 00:01:50 PAGE 3   
+
+ 117   3            break;    
+ 118   3          }
+ 119   2        }
+ 120   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    191    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

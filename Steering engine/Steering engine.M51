@@ -1,0 +1,137 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/05/2015  12:46:13  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL UV5\C51\BIN\BL51.EXE Steering engine.obj TO Steering engine
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  Steering engine.obj (STEERING_ENGINE)
+  D:\KEIL UV5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\KEIL UV5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  Steering engine (STEERING_ENGINE)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?STEERING_ENGINE
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0004H     UNIT         ?C_INITSEG
+                    0007H     0004H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     008CH     UNIT         ?C_C51STARTUP
+            CODE    009AH     002AH     UNIT         ?PR?TIMER0_ISR?STEERING_ENGINE
+            CODE    00C4H     0010H     UNIT         ?PR?TIMER0_INIT?STEERING_ENGINE
+            CODE    00D4H     000BH     UNIT         ?PR?MAIN?STEERING_ENGINE
+
+
+
+OVERLAY MAP OF MODULE:   Steering engine (STEERING_ENGINE)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?STEERING_ENGINE
+  +--> ?C_INITSEG
+
+?PR?MAIN?STEERING_ENGINE
+  +--> ?PR?TIMER0_INIT?STEERING_ENGINE
+
+
+
+SYMBOL TABLE OF MODULE:  Steering engine (STEERING_ENGINE)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        STEERING_ENGINE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/05/2015  12:46:13  PAGE 2
+
+
+  D:0091H         PUBLIC        P1M0
+  D:0092H         PUBLIC        P1M1
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:009AH         PUBLIC        Timer0_ISR
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        CCON
+  C:00D4H         PUBLIC        main
+  C:00C4H         PUBLIC        Timer0_Init
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  D:00C8H         PUBLIC        T2CON
+  B:0090H.7       PUBLIC        PWM
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          TIMER0_INIT
+  C:00C4H         LINE#         6
+  C:00C4H         LINE#         7
+  C:00C4H         LINE#         8
+  C:00C7H         LINE#         9
+  C:00CAH         LINE#         10
+  C:00CDH         LINE#         11
+  C:00CFH         LINE#         12
+  C:00D1H         LINE#         13
+  C:00D3H         LINE#         14
+  -------         ENDPROC       TIMER0_INIT
+  -------         PROC          TIMER0_ISR
+  -------         DO            
+  D:0008H         SYMBOL        i
+  -------         ENDDO         
+  C:009AH         LINE#         16
+  C:009CH         LINE#         19
+  C:009EH         LINE#         20
+  C:00A0H         LINE#         21
+  C:00A5H         LINE#         22
+  C:00A5H         LINE#         23
+  C:00A7H         LINE#         24
+  C:00AAH         LINE#         25
+  C:00ADH         LINE#         26
+  C:00AFH         LINE#         28
+  C:00AFH         LINE#         29
+  C:00B4H         LINE#         30
+  C:00B4H         LINE#         31
+  C:00B6H         LINE#         32
+  C:00B9H         LINE#         33
+  C:00BCH         LINE#         34
+  C:00BEH         LINE#         35
+  C:00C1H         LINE#         36
+  C:00C1H         LINE#         37
+  -------         ENDPROC       TIMER0_ISR
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/05/2015  12:46:13  PAGE 3
+
+
+  -------         PROC          MAIN
+  C:00D4H         LINE#         38
+  C:00D4H         LINE#         39
+  C:00D4H         LINE#         40
+  C:00D7H         LINE#         41
+  C:00DAH         LINE#         42
+  C:00DDH         LINE#         43
+  C:00DDH         LINE#         44
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        STEERING_ENGINE
+
+Program Size: data=10.0 xdata=0 code=219
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

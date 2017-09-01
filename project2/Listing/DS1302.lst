@@ -1,0 +1,34 @@
+C51 COMPILER V9.06   DS1302                                                                03/17/2017 00:01:50 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE DS1302
+OBJECT MODULE PLACED IN .\Output\DS1302.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE source code\DS1302.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\project2;.
+                    -\source code;.\include) DEBUG PRINT(.\Listing\DS1302.lst) TABS(2) OBJECT(.\Output\DS1302.obj)
+
+line level    source
+
+   1          #include <STC12C5A.h>
+   2          #include "DS1302.h"
+   3          #include "MYTYPE.h"
+   4          sbit SCLK = P3^5;
+   5          sbit IO = P3^4;
+   6          sbit CE = P3^3;
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

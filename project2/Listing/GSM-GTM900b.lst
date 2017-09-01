@@ -1,0 +1,609 @@
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE GSM_GTM900B
+OBJECT MODULE PLACED IN .\Output\GSM-GTM900b.obj
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE source code\GSM-GTM900b.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\proje
+                    -ct2;.\source code;.\include) DEBUG PRINT(.\Listing\GSM-GTM900b.lst) TABS(2) OBJECT(.\Output\GSM-GTM900b.obj)
+
+line level    source
+
+   1          #include<STC12C5A.h>
+   2          #include"MYTYPE.h"
+   3          #include"GSM-GTM900b.h"
+   4          #include"delay.h"
+   5          
+   6          
+   7          uchar TEMP[80] = {0};
+   8          uchar CSQ[3] = {0,0,'\0'};  // ¥Ê∑≈–≈∫≈÷ ¡ø÷µ
+   9          uchar gsm_delay_time = 0; // GSMƒ£øÈµ»¥˝≥ı ºªØ ±º‰
+  10          uchar code GSM_TAB[] = {"µ±«∞–≈∫≈£∫"};  // µ±«∞–≈∫≈£∫ 
+  11          
+  12          sbit LED = P1^7;
+  13          
+  14          bit GSM_tsim_ok = 0;  // SIMø® «∑Ò‘⁄Œª±Í ∂
+  15          bit GSM_cmgf_ok = 0;  // Œƒ±æ…Ë÷√ÕÍ≥…±Í ∂
+  16          bit GSM_csmp_ok = 0;  // SMS∏Ò Ω…Ë÷√ÕÍ≥…±Í ∂
+  17          bit GSM_csq_ok = 0;   // –≈∫≈«ø∂»ªÒ»°±Í ∂
+  18          bit GSM_cmgs_ok = 0;    // µÁª∞∫≈¬Î∑¢ÀÕÕÍ≥…±Í ∂
+  19          bit GSM_sms_ready_ok = 0;
+  20          bit GSM_receive_ok = 0; // °∞Ω” ’µΩ∂Ã–≈°±±Í ∂
+  21          bit GSM_cops_ok = 0;  // ‘À”™…ÃªÒ»°≥…π¶±Í ∂
+  22          bit GSM_cnmi_ok = 0;  // ∂Ã–≈Ã· æ…Ë÷√ÕÍ≥…±Í ∂
+  23          
+  24          bit GSM_CMCC = 0;
+  25          bit GSM_CUCC = 0;
+  26          
+  27          uchar COUNT = 0;
+  28          uchar SIZE = 0;   // Ω” ’GSM¥´ªÿ ˝æ›≥§∂»
+  29          
+  30          
+  31          void GSM_RX_clear(void)
+  32          {
+  33   1        uchar i = 0;
+  34   1        for(i = 0; i < SIZE; i++)
+  35   1          TEMP[i] = 0x01;
+  36   1      }
+  37          
+  38          void GSM_sms_ready(uchar value)
+  39          { // Õ∑°¢∂Ã–≈÷––ƒ∫≈¬Î°¢÷–°¢ƒø±Í∫≈¬Î°¢Œ≤+ƒ⁄»›≥§∂»°¢Unicodeƒ⁄»›
+  40   1      
+  41   1        uchar *psend_buffer;
+  42   1        uchar send_len;
+  43   1        uchar i;
+  44   1        // unicode
+  45   1        uchar code gas[] = "8B66544AFF1A53D173B067095BB36C144F53";// æØ∏Ê£∫∑¢œ÷”–∫¶∆¯ÃÂ
+  46   1        uchar code temperature[] = "8B66544AFF1A6E295EA68FC79AD8";// æØ∏Ê£∫Œ¬∂»π˝∏ﬂ
+  47   1      
+  48   1      //  uchar code TEL[] = {0x22,0x31,0x33,0x30,0x32,0x35,0x31,0x30,0x30,0x30,0x34,0x36,0x22,0x0D}; // "1302510
+             -0046"ªÿ≥µ
+  49   1      //  uchar code TEL[] = {0x22,0x31,0x33,0x32,0x33,0x32,0x37,0x34,0x30,0x36,0x30,0x38,0x22,0x0D,0x0a};  // "13
+             -232740608"ªÿ≥µ ªª––
+  50   1        uchar code TEL[] = {0x22,0x31,0x33,0x31,0x32,0x39,0x34,0x33,0x33,0x30,0x33,0x37,0x22,0x0D,0x0a};  // "1312
+             -9433037"ªÿ≥µ ªª––
+  51   1      //  uchar code TEL[] = {0x22,0x31,0x35,0x35,0x31,0x32,0x36,0x38,0x34,0x39,0x33,0x37,0x22,0x0D,0x0a};  // "15
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 2   
+
+             -512684937"ªÿ≥µ ªª––
+  52   1      
+  53   1        //uchar code TAB3[] = "62A58B666E295EA68BBE7F6E5B8C6BD5";     // ±®æØŒ¬∂»…Ë÷√ÕÍ±œ
+  54   1        //uchar code TAB4[] = "7EE7753556685DF262535F00";         // ºÃµÁ∆˜“—¥Úø™
+  55   1        //
+  56   1        //uchar code TAB5[] = "62535F007EE775355668";       // ¥Úø™ºÃµÁ∆˜
+  57   1        //uchar code TAB6[] = "517395ED7EE775355668";       // πÿ±’ºÃµÁ∆˜
+  58   1        //uchar code TAB7[] = "83B753D65F53524D6E295EA6";     // ªÒ»°µ±«∞Œ¬∂»
+  59   1        //uchar code TAB8[] = "8BBE7F6E62A58B666E295EA6FF1A";   // …Ë÷√±®æØŒ¬∂»£∫
+  60   1        switch(value)
+  61   1        {
+  62   2          case warning_gas:
+  63   2          {
+  64   3            psend_buffer = gas;
+  65   3            send_len = 36;
+  66   3          }
+  67   2          break;
+  68   2          case warning_t:
+  69   2          {
+  70   3            psend_buffer = temperature;
+  71   3            send_len = 76;        
+  72   3          }
+  73   2          break;
+  74   2      //    case open_relay:
+  75   2      //    {}
+  76   2      //    break;
+  77   2      //    case close_relay:
+  78   2      //    {}
+  79   2      //    break;
+  80   2          default:
+  81   2          break;
+  82   2        }
+  83   1        GSM_TX(GSM_CSMP); // 
+  84   1        GSM_RX(GSM_CSMP);
+  85   1        DelayMs(100);
+  86   1        GSM_TX(GSM_CMGF); // …Ë÷√Œƒ±æƒ£ Ω
+  87   1        GSM_RX(GSM_CMGF);
+  88   1        DelayMs(100);
+  89   1        GSM_TX(GSM_CMGS); // …Ë÷√µÁª∞∫≈¬Î
+  90   1        for(i = 0; i < 15; i++)   // ∑¢ÀÕµÁª∞∫≈¬Î
+  91   1        {
+  92   2          SBUF = TEL[i];
+  93   2          while(!TI);
+  94   2          TI = 0;
+  95   2        }
+  96   1        GSM_RX(GSM_CMGS);
+  97   1        DelayMs(100);     
+  98   1        for(i = 0; i < send_len; i++)   // ∑¢ÀÕPDU¬Î
+  99   1        {
+ 100   2          SBUF = *(psend_buffer+i);
+ 101   2          while(!TI);
+ 102   2          TI = 0;
+ 103   2        }
+ 104   1        DelayMs(100);
+ 105   1        SBUF = 0x1a;            // ∑¢ÀÕ0x1A
+ 106   1        while(!TI);
+ 107   1        TI = 0;
+ 108   1        // ∂¡»° «∑Òok
+ 109   1      }
+ 110          
+ 111          void GSM_RX(uchar value)  // √¸¡Ó∑¢ÀÕ∫ÛµƒΩ” ’
+ 112          {
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 3   
+
+ 113   1        uchar tmp;
+ 114   1        uint amount = 500;
+ 115   1        switch(value)
+ 116   1        {
+ 117   2          case GSM_CMGF:    // …Ë÷√Œƒ±æƒ£ Ω
+ 118   2          {
+ 119   3            while(1)
+ 120   3            {
+ 121   4              if(RI)
+ 122   4              {
+ 123   5                tmp = SBUF;
+ 124   5                if('A' != tmp && 'T' != tmp)
+ 125   5                {
+ 126   6                  TEMP[COUNT] = tmp;    // ¥Æø⁄Ω” ’µΩµƒƒ⁄»›◊∞Ω¯TEMP
+ 127   6                  if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x4B == TEMP[COUNT-2])   // Ω” ’µΩK°¢ªÿ≥µ°¢ªª––
+ 128   6                  {
+ 129   7                    SIZE = COUNT; // ±£¥Ê◊÷∑˚¥Æ¥Æ≥§∂»
+ 130   7                    COUNT = 0;
+ 131   7                    GSM_cmgf_ok = 1;
+ 132   7                    break;                  
+ 133   7                  }
+ 134   6                  else if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x52 == TEMP[COUNT-2])  // Ω” ’µΩR°¢ªÿ≥µ°¢ªª–
+             -–
+ 135   6                  {
+ 136   7                    COUNT = 0;
+ 137   7                    GSM_cmgf_ok = 0;
+ 138   7                    break;
+ 139   7                  }
+ 140   6                  else
+ 141   6                    COUNT++;
+ 142   6                  if(COUNT > 200)   // ±£œ’
+ 143   6                  {
+ 144   7                    COUNT = 0;
+ 145   7                    break;                        
+ 146   7                  }           
+ 147   6                } 
+ 148   5                RI = 0;
+ 149   5              }     
+ 150   4            }     
+ 151   3          } 
+ 152   2          break;
+ 153   2          case GSM_CSMP:  // …Ë÷√sms∏Ò Ω
+ 154   2          {
+ 155   3            while(1)
+ 156   3            {
+ 157   4              if(RI)
+ 158   4              {
+ 159   5                tmp = SBUF;
+ 160   5                if('A' != tmp && 'T' != tmp)
+ 161   5                {
+ 162   6                  TEMP[COUNT] = tmp;    // ¥Æø⁄Ω” ’µΩµƒƒ⁄»›◊∞Ω¯TEMP
+ 163   6                  if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x4B == TEMP[COUNT-2])   // Ω” ’µΩK°¢ªÿ≥µ°¢ªª––
+ 164   6                  {
+ 165   7                    SIZE = COUNT; // ±£¥Ê◊÷∑˚¥Æ¥Æ≥§∂»
+ 166   7                    COUNT = 0;
+ 167   7                    GSM_csmp_ok = 1;
+ 168   7                    break;    
+ 169   7                  }
+ 170   6                  else if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x52 == TEMP[COUNT-2])  // Ω” ’µΩR°¢ªÿ≥µ°¢ªª–
+             -–
+ 171   6                  {
+ 172   7                    COUNT = 0;
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 4   
+
+ 173   7                    GSM_csmp_ok = 0;
+ 174   7                    break;
+ 175   7                  }
+ 176   6                  else
+ 177   6                    COUNT++;
+ 178   6                  if(COUNT > 200)   // ±£œ’
+ 179   6                  {
+ 180   7                    COUNT = 0;
+ 181   7                    break;                        
+ 182   7                  }           
+ 183   6                } 
+ 184   5                RI = 0;
+ 185   5              }     
+ 186   4            }   
+ 187   3          }
+ 188   2          break;
+ 189   2          case GSM_CMGS:  // ∫≈¬Î∑¢ÀÕ∫Û
+ 190   2          {
+ 191   3            while(1)
+ 192   3            {
+ 193   4              if(RI)
+ 194   4              {
+ 195   5                tmp = SBUF;
+ 196   5                if('A' != tmp && 'T' != tmp)
+ 197   5                {
+ 198   6                  TEMP[COUNT] = tmp;    // ¥Æø⁄Ω” ’µΩµƒƒ⁄»›◊∞Ω¯TEMP
+ 199   6                  if(0x20 == TEMP[COUNT] && 0x3e == TEMP[COUNT-1])    // Ω” ’µΩ"> "
+ 200   6                  {
+ 201   7                    SIZE = COUNT; // ±£¥Ê◊÷∑˚¥Æ¥Æ≥§∂»
+ 202   7                    COUNT = 0;
+ 203   7                    GSM_cmgs_ok = 1;  // ∫≈¬Î∑¢ÀÕÕÍ≥…
+ 204   7                    break;    // Ã¯≥ˆ                 
+ 205   7                  }
+ 206   6                  else if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x52 == TEMP[COUNT-2])  // Ω” ’µΩR°¢ªÿ≥µ°¢ªª–
+             -–
+ 207   6                  {
+ 208   7                    COUNT = 0;
+ 209   7                    GSM_cmgs_ok = 0;
+ 210   7                    break;
+ 211   7                  }
+ 212   6                  else
+ 213   6                    COUNT++;
+ 214   6                  if(COUNT > 200)   // ±£œ’
+ 215   6                  {
+ 216   7                    COUNT = 0;
+ 217   7                    break;                        
+ 218   7                  }           
+ 219   6                } 
+ 220   5                RI = 0;
+ 221   5              }     
+ 222   4            }   
+ 223   3          }
+ 224   2          break;
+ 225   2          case GSM_TSIM:  // SIMø®ºÏ≤‚
+ 226   2          {
+ 227   3            while(1)
+ 228   3            {
+ 229   4              if(RI)
+ 230   4              {
+ 231   5                tmp = SBUF;
+ 232   5                if('A' != tmp && 'T' != tmp)
+ 233   5                {
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 5   
+
+ 234   6                  TEMP[COUNT] = tmp;    // ¥Æø⁄Ω” ’µΩµƒƒ⁄»›◊∞Ω¯TEMP
+ 235   6                  if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x4B == TEMP[COUNT-2])   // Ω” ’µΩK°¢ªÿ≥µ°¢ªª––
+ 236   6                  {
+ 237   7                    SIZE = COUNT; // ±£¥Ê◊÷∑˚¥Æ¥Æ≥§∂»
+ 238   7                    COUNT = 0;
+ 239   7                    break;      // Ω” ’ÕÍ≥…£¨Ã¯≥ˆ   
+ 240   7                  }
+ 241   6                  else if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x52 == TEMP[COUNT-2])  // Ω” ’µΩR°¢ªÿ≥µ°¢ªª–
+             -–
+ 242   6                  {
+ 243   7                    COUNT = 0;
+ 244   7                    GSM_tsim_ok = 0;
+ 245   7                    break;
+ 246   7                  }
+ 247   6                  else
+ 248   6                    COUNT++;
+ 249   6                  if(COUNT > 200)   // ±£œ’
+ 250   6                  {
+ 251   7                    COUNT = 0;
+ 252   7                    break;                        
+ 253   7                  }           
+ 254   6                } 
+ 255   5                RI = 0;
+ 256   5              }     
+ 257   4            }   
+ 258   3          }
+ 259   2          break;
+ 260   2          case GSM_COPS:  // ‘À”™…ÃºÏ≤‚
+ 261   2          {
+ 262   3            while(1)
+ 263   3            {
+ 264   4              if(RI)
+ 265   4              {
+ 266   5                tmp = SBUF;
+ 267   5                if('A' != tmp && 'T' != tmp)
+ 268   5                {
+ 269   6                  TEMP[COUNT] = tmp;    // ¥Æø⁄Ω” ’µΩµƒƒ⁄»›◊∞Ω¯TEMP
+ 270   6                  if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x4B == TEMP[COUNT-2])   // Ω” ’µΩK°¢ªÿ≥µ°¢ªª––
+ 271   6                  {
+ 272   7                    SIZE = COUNT; // ±£¥Ê◊÷∑˚¥Æ¥Æ≥§∂»
+ 273   7                    COUNT = 0;
+ 274   7                    break;      // Ω” ’ÕÍ≥…£¨Ã¯≥ˆ   
+ 275   7                  }
+ 276   6                  else if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x52 == TEMP[COUNT-2])  // Ω” ’µΩR°¢ªÿ≥µ°¢ªª–
+             -–
+ 277   6                  {
+ 278   7                    COUNT = 0;
+ 279   7                    GSM_cops_ok = 0;
+ 280   7                    break;
+ 281   7                  }
+ 282   6                  else
+ 283   6                    COUNT++;
+ 284   6                  if(COUNT > 200)   // ±£œ’
+ 285   6                  {
+ 286   7                    COUNT = 0;
+ 287   7                    break;                        
+ 288   7                  }           
+ 289   6                } 
+ 290   5                RI = 0;
+ 291   5              }     
+ 292   4            }   
+ 293   3          }
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 6   
+
+ 294   2          break;
+ 295   2          case GSM_CSQ: // –≈∫≈ºÏ≤‚
+ 296   2          {
+ 297   3            while(1)
+ 298   3            {
+ 299   4              if(RI)
+ 300   4              {
+ 301   5                tmp = SBUF;
+ 302   5                if('A' != tmp && 'T' != tmp)
+ 303   5                {
+ 304   6                  TEMP[COUNT] = tmp;    // ¥Æø⁄Ω” ’µΩµƒƒ⁄»›◊∞Ω¯TEMP
+ 305   6                  if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x4B == TEMP[COUNT-2])   // Ω” ’µΩK°¢ªÿ≥µ°¢ªª––
+ 306   6                  {
+ 307   7                    SIZE = COUNT; // ±£¥Ê◊÷∑˚¥Æ¥Æ≥§∂»
+ 308   7                    COUNT = 0;
+ 309   7                    break;      // Ω” ’ÕÍ≥…£¨Ã¯≥ˆ   
+ 310   7                  }
+ 311   6                  else if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x52 == TEMP[COUNT-2])  // Ω” ’µΩR°¢ªÿ≥µ°¢ªª–
+             -–
+ 312   6                  {
+ 313   7                    COUNT = 0;
+ 314   7                    GSM_csq_ok = 0;
+ 315   7                    break;
+ 316   7                  }
+ 317   6                  else
+ 318   6                    COUNT++;
+ 319   6                  if(COUNT > 200)   // ±£œ’
+ 320   6                  {
+ 321   7                    COUNT = 0;
+ 322   7                    break;                        
+ 323   7                  }           
+ 324   6                } 
+ 325   5                RI = 0;
+ 326   5              }     
+ 327   4            }   
+ 328   3          }
+ 329   2          break;
+ 330   2          case GSM_CNMI:  // …Ë÷√∂Ã–≈Ω” ’Ã·–—
+ 331   2          {
+ 332   3            while(1)
+ 333   3            {
+ 334   4              if(RI)
+ 335   4              {
+ 336   5                tmp = SBUF;
+ 337   5                if('A' != tmp && 'T' != tmp)
+ 338   5                {
+ 339   6                  TEMP[COUNT] = tmp;    // ¥Æø⁄Ω” ’µΩµƒƒ⁄»›◊∞Ω¯TEMP
+ 340   6                  if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x4B == TEMP[COUNT-2])   // Ω” ’µΩK°¢ªÿ≥µ°¢ªª––
+ 341   6                  {
+ 342   7                    SIZE = COUNT; // ±£¥Ê◊÷∑˚¥Æ¥Æ≥§∂»
+ 343   7                    COUNT = 0;
+ 344   7                    GSM_cnmi_ok = 1;  // ∂Ã–≈Ω” ’Ã·–—…Ë÷√ÕÍ≥…
+ 345   7                    break;      // ÕÍ≥…£¨Ã¯≥ˆ   
+ 346   7                  }
+ 347   6                  else if(0x0A == TEMP[COUNT] && 0x0D == TEMP[COUNT-1] && 0x52 == TEMP[COUNT-2])  // Ω” ’µΩR°¢ªÿ≥µ°¢ªª–
+             -–
+ 348   6                  {
+ 349   7                    COUNT = 0;
+ 350   7                    GSM_cnmi_ok = 0;
+ 351   7                    break;
+ 352   7                  }
+ 353   6                  else
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 7   
+
+ 354   6                    COUNT++;
+ 355   6                  if(COUNT > 200)   // ±£œ’
+ 356   6                  {
+ 357   7                    COUNT = 0;
+ 358   7                    break;                        
+ 359   7                  }           
+ 360   6                } 
+ 361   5                RI = 0;
+ 362   5              }     
+ 363   4            }   
+ 364   3          }
+ 365   2          break;
+ 366   2          default:
+ 367   2          break;
+ 368   2        }
+ 369   1      }
+ 370          
+ 371          
+ 372          void GSM_TX(uchar value)  // ¥Æø⁄∑¢ÀÕGSM AT÷∏¡Ó
+ 373          {
+ 374   1        uchar len,i;
+ 375   1        uchar *pfunction;
+ 376   1        //          ≥§∂»
+ 377   1        uchar code TSIM[] = {8,0x41,0x54,0x25,0x54,0x53,0x49,0x4D,0x0D};            // AT%TSIMªÿ≥µ
+ 378   1        uchar code CSQ[] = {7,0x41,0x54,0x2B,0x43,0x53,0x51,0x0D};                // AT+CSQªÿ≥µ
+ 379   1        uchar code CMGF[] = {10,0x41,0x54,0x2B,0x43,0x4D,0x47,0x46,0x3D,0x31,0x0D};       // AT+CMGF=xªÿ≥µ
+ 380   1        uchar code CMGS[] = {8,0x41,0x54,0x2B,0x43,0x4D,0x47,0x53,0x3D};          // AT+CMGS=
+ 381   1        uchar code CNMI[] = {12,0x41,0x54,0x2B,0x43,0x4E,0x4D,0x49,0x3D,0x32,0x2C,0x31,0x0D};   // AT+CNMI=2,1ªÿ≥µ
+ 382   1        uchar code CMGR[] = {10,0x41,0x54,0x2B,0x43,0x4D,0x47,0x52,0x3D,0x78,0x0D};       // AT+CMGR=xªÿ≥µ
+ 383   1        uchar code COPS[] = {9,0x41,0x54,0x2B,0x43,0x4F,0x50,0x53,0x3F,0x0D};       // AT+COPS?ªÿ≥µ
+ 384   1        uchar code CSMP[] = {19,0x41,0x54,0x2B,0x43,0x53,0x4D,0x50,0x3D,0x31,0x37,0x2C,0x31,0x36,0x37,0x2C,0x30,0
+             -x2C,0x38,0x0D};// ∑¢ÀÕ«∞…Ë÷√  
+ 385   1        //AT+CSMP=17,167,0,8
+ 386   1        switch(value)
+ 387   1        {
+ 388   2          case GSM_TSIM:  // ºÏ≤‚ø®
+ 389   2          {
+ 390   3            len = TSIM[0];
+ 391   3            pfunction = TSIM;
+ 392   3          }   
+ 393   2          break;
+ 394   2          case GSM_CSQ: // ºÏ≤‚–≈∫≈
+ 395   2          {
+ 396   3            len = CSQ[0];
+ 397   3            pfunction = CSQ;    
+ 398   3          }
+ 399   2          break;
+ 400   2          case GSM_CMGF:  // …Ë÷√Œƒ±æƒ£ Ω
+ 401   2          {
+ 402   3            len = CMGF[0];
+ 403   3            pfunction = CMGF;   
+ 404   3          }
+ 405   2          break;
+ 406   2          case GSM_CMGS:  //  ‰»ÎµÁª∞∫≈¬Î «∞
+ 407   2          {
+ 408   3            len = CMGS[0];
+ 409   3            pfunction = CMGS;   
+ 410   3          }
+ 411   2          break;
+ 412   2          case GSM_CNMI:  // …Ë÷√∂Ã–≈Ã·–—
+ 413   2          {
+ 414   3            len = CNMI[0];
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 8   
+
+ 415   3            pfunction = CNMI;   
+ 416   3          }
+ 417   2          break;
+ 418   2          case GSM_CMGR:  // ∂Ã–≈∂¡»°
+ 419   2          {
+ 420   3            len = CMGR[0];    
+ 421   3            pfunction = CMGR;
+ 422   3          }   
+ 423   2          break;
+ 424   2          case GSM_CSMP:  // …Ë÷√∂Ã–≈∏Ò Ω
+ 425   2          {
+ 426   3            len = CSMP[0];    
+ 427   3            pfunction = CSMP;
+ 428   3          }
+ 429   2          break;
+ 430   2          case GSM_COPS:  // ≤È—Ø‘À”™…Ã
+ 431   2          {
+ 432   3            len = COPS[0];    
+ 433   3            pfunction = COPS;
+ 434   3          }
+ 435   2          break;
+ 436   2          default:
+ 437   2          break;    
+ 438   2        }
+ 439   1        for(i = 0; i < len; i++)
+ 440   1        {
+ 441   2          SBUF = *(pfunction+1+i);
+ 442   2          while(!TI);
+ 443   2          TI = 0;
+ 444   2        }
+ 445   1      }
+ 446          
+ 447          void GSM_TSIM_manage(void)
+ 448          {
+ 449   1        if('1' == TEMP[SIZE-8])
+ 450   1        {
+ 451   2          GSM_tsim_ok = 1;  // SIMø®‘⁄Œª
+ 452   2        }
+ 453   1        else if('0' == TEMP[SIZE-8])
+ 454   1        {
+ 455   2          GSM_tsim_ok = 0;  // SIMø®≤ª‘⁄Œª
+ 456   2        }         
+ 457   1      }
+ 458          
+ 459          void GSM_CSQ_manage(void)
+ 460          {
+ 461   1        CSQ[1] = TEMP[SIZE-12];   // –≈∫≈∏ˆŒª
+ 462   1        CSQ[0] = TEMP[SIZE-13];   // –≈∫≈ ÆŒª
+ 463   1      //  if(CSQ[1] != '9')
+ 464   1          GSM_csq_ok = 1;
+ 465   1      }
+ 466          
+ 467          void GSM_COPS_manage(void)
+ 468          {
+ 469   1        if(0x22 == TEMP[SIZE-8] && 0x4D == TEMP[SIZE-9])  // (M") ¡™Õ®
+ 470   1        {
+ 471   2          GSM_CUCC = 1;
+ 472   2          GSM_cops_ok = 1;  // ‘À”™…ÃºÏ≤‚ÕÍ≥… 
+ 473   2        }
+ 474   1        else if('0' == TEMP[SIZE-8])  // Œ¥ªÒ»°‘À”™…Ã
+ 475   1        {
+ 476   2          GSM_CUCC = 0; 
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 9   
+
+ 477   2          GSM_CMCC = 0;
+ 478   2        }
+ 479   1      //  else if(0x22 == TEMP[SIZE-8] && 0x4D == TEMP[SIZE-9]) // (*") “∆∂Ø
+ 480   1      //  {
+ 481   1      //  GSM_CMCC = 1;     
+ 482   1      //  GSM_cops_ok = 1;  // ‘À”™…ÃºÏ≤‚ÕÍ≥… 
+ 483   1      //  } 
+ 484   1      }
+ 485          
+ 486          void GSM_Init(void)
+ 487          {
+ 488   1        uchar i;  
+ 489   1        for(i = 0; i < 10; i++)
+ 490   1        {
+ 491   2          GSM_TX(GSM_TSIM);   // ∑¢ÀÕºÏ≤‚SIMø®
+ 492   2          GSM_RX(GSM_TSIM);   // Ω” ’GSMƒ£øÈ¥´ªÿ ˝æ›
+ 493   2          DelayMs(100);
+ 494   2          GSM_TSIM_manage();    // ≈–∂œΩ” ’ ˝æ›
+ 495   2          GSM_RX_clear();     // «Âø’Ω” ’ ˝æ›
+ 496   2          if(GSM_tsim_ok)
+ 497   2            break;    // ºÏ≤‚µΩSIMø®Ã·«∞Ã¯≥ˆ        
+ 498   2        }
+ 499   1        for(i = 0; i < 10; i++)
+ 500   1        {
+ 501   2          GSM_TX(GSM_COPS);   // ∑¢ÀÕºÏ≤‚‘À”™…Ã
+ 502   2          GSM_RX(GSM_COPS);   // Ω” ’GSMƒ£øÈ¥´ªÿ ˝æ›
+ 503   2          DelayMs(100);
+ 504   2          GSM_COPS_manage();    // ≈–∂œΩ” ’ ˝æ›
+ 505   2          GSM_RX_clear();     // «Âø’Ω” ’ ˝æ›
+ 506   2          if(GSM_cops_ok)
+ 507   2            break;    // ºÏ≤‚µΩ‘À”™…ÃÃ·«∞Ã¯≥ˆ           
+ 508   2        }
+ 509   1        for(i = 0; i < 10; i++)
+ 510   1        {
+ 511   2          GSM_TX(GSM_CSQ);    // ∑¢ÀÕºÏ≤‚–≈∫≈
+ 512   2          GSM_RX(GSM_CSQ);    // Ω” ’GSMƒ£øÈ¥´ªÿ ˝æ›
+ 513   2          DelayMs(100);
+ 514   2          GSM_CSQ_manage();   // ≈–∂œΩ” ’ ˝æ›
+ 515   2          GSM_RX_clear();     // «Âø’Ω” ’ ˝æ›
+ 516   2          if(GSM_csq_ok)
+ 517   2            break;    // ºÏ≤‚µΩ–≈∫≈Ã·«∞Ã¯≥ˆ 
+ 518   2        } 
+ 519   1        for(i = 0; i < 10; i++)
+ 520   1        {
+ 521   2          GSM_TX(GSM_CNMI);   // ∑¢ÀÕ…Ë÷√∂Ã–≈Ã·–—
+ 522   2          GSM_RX(GSM_CNMI);   // Ω” ’GSMƒ£øÈ¥´ªÿ ˝æ›
+ 523   2          DelayMs(100);
+ 524   2          GSM_RX_clear();     // «Âø’Ω” ’ ˝æ›
+ 525   2          if(GSM_cnmi_ok)     
+ 526   2            break;    // …Ë÷√ÕÍ≥… Ã·«∞Ã¯≥ˆ        
+ 527   2        } 
+ 528   1        for(i = 0; i < 10; i++)
+ 529   1        {
+ 530   2          GSM_TX(GSM_CSMP);   // ∑¢ÀÕ…Ë÷√SMS∏Ò Ω
+ 531   2          GSM_RX(GSM_CSMP);   // Ω” ’GSMƒ£øÈ¥´ªÿ ˝æ›
+ 532   2          DelayMs(100);
+ 533   2          GSM_RX_clear();     // «Âø’Ω” ’ ˝æ›
+ 534   2          if(GSM_csmp_ok)
+ 535   2            break;  // …Ë÷√ÕÍ≥… Ã·«∞Ã¯≥ˆ        
+ 536   2        }
+ 537   1      }
+ 538          
+C51 COMPILER V9.06   GSM_GTM900B                                                           03/17/2017 00:01:50 PAGE 10  
+
+ 539          /*  11.0592Mhz  Uart¥Æø⁄≥ı ºªØ        */
+ 540          void Uart_Init(void)  // ¥Æø⁄≥ı ºªØ
+ 541          {
+ 542   1        TMOD &= 0x0F; // ±£¡Ù∂® ±∆˜0…Ë÷√£¨«Âø’∂® ±∆˜1…Ë÷√
+ 543   1        TMOD |= 0x20; // ∂® ±∆˜1 ƒ£ Ω2
+ 544   1        SCON |= 0x50; // ¥Æø⁄∑Ω Ω1£¨8ŒªUART≤®Ãÿ¬ ø…±‰£¨ø…Ω” ’
+ 545   1        TH1   = 0xFD; // TL1“Á≥ˆ∫ÛΩ´TH1µƒ÷µ◊∞»Î
+ 546   1        TL1   = 0xFD; // 9600bps
+ 547   1        ET1   = 0;    // πÿ±’∂® ±∆˜1÷–∂œ
+ 548   1      //  ES    = 1;    // ¥Úø™¥Æø⁄÷–∂œ
+ 549   1      //  EA    = 1;      // ¥Úø™◊‹÷–∂œ
+ 550   1        TR1   = 1;    // ø™∂® ±∆˜1
+ 551   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1404    ----
+   CONSTANT SIZE    =    183    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     86      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =     11    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

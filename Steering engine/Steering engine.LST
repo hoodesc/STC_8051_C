@@ -1,0 +1,70 @@
+C51 COMPILER V9.54   STEERING_ENGINE                                                       11/05/2015 12:46:12 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE STEERING_ENGINE
+OBJECT MODULE PLACED IN Steering engine.OBJ
+COMPILER INVOKED BY: d:\Keil uV5\C51\BIN\C51.EXE Steering engine.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include<STC12C2052AD.h>
+   2          typedef unsigned int uint;
+   3          typedef unsigned char uchar;
+   4          sbit PWM=P1^7;//输出PWM信号
+   5          
+   6          void Timer0_Init(void)    //定时器0初始化
+   7          {
+   8   1        TMOD = 0x01;
+   9   1        TH0 = 0xF8; //装初值
+  10   1        TL0 = 0x30; //定时2ms
+  11   1        ET0 = 1;
+  12   1        EA = 0;
+  13   1        TR0 = 0;  
+  14   1      }
+  15          
+  16          void Timer0_ISR(void) interrupt 1 //定时器0 中断服务函数
+  17          {
+  18   1        static uchar i = 0;
+  19   1        i++;
+  20   1        TR0 = 0;
+  21   1        if(1 == i%2)  //奇数次，高电平
+  22   1        {
+  23   2          PWM = 1;
+  24   2          TH0 = 0xB9; //重装18ms初值
+  25   2          TL0 = 0xB0; 
+  26   2          TR0 = 1;  //启动定时器
+  27   2        
+  28   2        }
+  29   1        if(0 == i%2)  //偶数次，低电平
+  30   1        {
+  31   2          PWM = 0;  
+  32   2          TH0 = 0xF8; ////重装2ms初值
+  33   2          TL0 = 0x30;
+  34   2          TR0 = 1;  //启动定时器
+  35   2          i = 2;
+  36   2        }
+  37   1      }
+  38          void main(void)//主函数
+  39          {
+  40   1        P1M0 = 0x00;
+  41   1        P1M1 = 0xFF;
+  42   1        Timer0_Init();
+  43   1        while(1)
+  44   1        {}
+  45   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     69    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+C51 COMPILER V9.54   STEERING_ENGINE                                                       11/05/2015 12:46:12 PAGE 2   
+
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

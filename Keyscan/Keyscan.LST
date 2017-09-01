@@ -1,0 +1,135 @@
+C51 COMPILER V9.06   KEYSCAN                                                               11/07/2016 06:23:08 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE KEYSCAN
+OBJECT MODULE PLACED IN Keyscan.OBJ
+COMPILER INVOKED BY: D:\Keil uV4\C51\BIN\C51.EXE Keyscan.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<STC15.h>
+   2          //基于状态机 按键消抖程序
+   3          
+   4          typedef unsigned char uchar;
+   5          typedef unsigned int uint;
+   6          
+   7          typedef enum Key1_State{Init1_State,Affirm1_State,Single1_State,Repeat1_State};
+   8          
+   9          
+  10          sbit KEY1 = P3^3;
+  11          sbit KEY2 = P3^2;
+  12          sbit KEY3 = P3^1;
+  13          sbit Led1 = P3^5;
+  14          //
+  15          //#define key Key1
+  16          
+  17          void KEY_Init(uchar k)
+  18          {
+  19   1              static uchar Key1_StateValue = 0;       //按键1状态标志
+  20   1              static uchar Time = 0;
+  21   1              uchar Key1_Value = k;           //获取按键1
+  22   1              
+  23   1              switch (Key1_StateValue)
+  24   1              {
+  25   2                      case Init1_State:       //初始化状态
+  26   2                      {
+  27   3                              if(!Key1_Value)
+  28   3                              {
+  29   4                                      Key1_StateValue = Affirm1_State;        //下次进入确认状态
+  30   4                              }       
+  31   3                              else{Key1_StateValue = Init1_State;}    //否则进入初始化状态
+  32   3                      }
+  33   2                      break;
+  34   2                      case Affirm1_State:     //确认状态
+  35   2                      {
+  36   3                              if(!Key1_Value)
+  37   3                              {
+  38   4                                      Time = 0;
+  39   4                                      Key1_StateValue = Single1_State;        //下次进入单次触发状态
+  40   4                              }
+  41   3                              else{Key1_StateValue = Init1_State;}    //否则进入初始化状态
+  42   3                      }
+  43   2                      break;
+  44   2                      case Single1_State:     //单次触发状态
+  45   2                      {
+  46   3                              Time++; //10ms 加一次
+  47   3                              if(Key1_Value)  //如果按键放开，LED取反，回到初始状态
+  48   3                              {
+  49   4                                      Led1 = ~Led1;
+  50   4                                      Key1_StateValue = Init1_State;                                  
+  51   4                              }
+  52   3                              else if(Time == 100)    //按下时间等于1S
+  53   3                              {
+  54   4                                      Time = 0;
+  55   4                                      Key1_StateValue = Repeat1_State;
+C51 COMPILER V9.06   KEYSCAN                                                               11/07/2016 06:23:08 PAGE 2   
+
+  56   4                              } 
+  57   3                      }
+  58   2                      break;
+  59   2                      case Repeat1_State:     //连发状态
+  60   2                      {
+  61   3                              Time++;
+  62   3                              if(10 == Time)
+  63   3                              {
+  64   4                              Time = 0;
+  65   4                              Led1 = ~Led1;
+  66   4                              }
+  67   3                              else if(Key1_Value)
+  68   3                              {
+  69   4                                      Key1_StateValue = Init1_State;
+  70   4                              }                                       
+  71   3                      }
+  72   2                      break;
+  73   2                      default:Key1_StateValue = Init1_State;
+  74   2                      break;
+  75   2                      }
+  76   1      }
+  77          
+  78          
+  79          void Timer0_Init(void)
+  80          {
+  81   1              TMOD = 0x01;
+  82   1              TH0 = 0xD8;
+  83   1              TL0 = 0xF0;
+  84   1              TR0 = 1;
+  85   1      }
+  86          
+  87          void main(void)
+  88          {
+  89   1              Timer0_Init();
+  90   1              P3M1 = 0x00;
+  91   1              P3M0 = 0x00;
+  92   1              while(1)
+  93   1              {               
+  94   2                      if(TF0) //溢出
+  95   2                      {
+  96   3                              TF0 = 0;
+  97   3                              TH0 = 0xD8;
+  98   3                              TL0 = 0xF0;
+  99   3      //                      if(KEY1)
+ 100   3                                      KEY_Init(KEY1);
+ 101   3      //                      else if(KEY2)
+ 102   3      //                              KEY_Init(KEY2);
+ 103   3      //                      else if(KEY3)
+ 104   3      //                              KEY_Init(KEY3);
+ 105   3                      }
+ 106   2                      
+ 107   2              }
+ 108   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    117    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+C51 COMPILER V9.06   KEYSCAN                                                               11/07/2016 06:23:08 PAGE 3   
+
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

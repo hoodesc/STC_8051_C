@@ -1,0 +1,4 @@
+".\Objects\main.obj",
+".\Objects\Conf_tny.obj" 
+TO ".\Objects\操作系统" Rtx51Tiny 
+PRINT(".\Listings\操作系统.m51") RAMSIZE(256) 

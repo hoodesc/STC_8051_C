@@ -1,0 +1,48 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+D:\Keil uV4\Project\Test\Test.uvproj
+Project File Date:  04/17/2016
+
+<h2>Output:</h2>
+Rebuild target '目标 1'
+compiling Delay.c...
+source code\Delay.c(3): warning C318: can't open file 'MYTYPE.h'
+source code\Delay.c(4): warning C318: can't open file 'Delay.h'
+source code\Delay.c(7): error C141: syntax error near 'ms', expected ')'
+source code\Delay.c(9): error C202: 'uchar': undefined identifier
+source code\Delay.c(9): error C141: syntax error near 'i'
+source code\Delay.c(10): error C202: 'ms': undefined identifier
+source code\Delay.c(12): error C202: 'i': undefined identifier
+source code\Delay.c(13): error C202: 'j': undefined identifier
+compiling Test.c...
+source code\Test.c(2): warning C318: can't open file 'MYTYPE.h'
+source code\Test.c(3): warning C318: can't open file 'NRF24L01_TX.h'
+Target not created
+Rebuild target '目标 1'
+compiling Delay.c...
+compiling Test.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DELAY
+Program Size: data=9.0 xdata=0 code=45
+creating hex file from ".\Output\Test"...
+".\Output\Test" - 0 Error(s), 1 Warning(s).
+Rebuild target '目标 1'
+compiling Delay.c...
+compiling Test.c...
+compiling NRF24L01_TX.c...
+source code\NRF24L01_TX.c(126): error C202: 'ADC_DATA_temp': undefined identifier
+Target not created
+Rebuild target '目标 1'
+compiling Delay.c...
+compiling Test.c...
+compiling NRF24L01_TX.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?DELAY
+Program Size: data=19.0 xdata=0 code=188
+creating hex file from ".\Output\Test"...
+".\Output\Test" - 0 Error(s), 1 Warning(s).

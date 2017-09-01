@@ -1,0 +1,7 @@
+".\Output\main.obj",
+".\Output\Delay.obj",
+".\Output\NRF24L01_TX.obj",
+".\Output\UART.obj" 
+TO ".\Output\MQ-2" 
+
+PRINT(".\Listing\MQ-2.map")

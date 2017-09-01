@@ -1,0 +1,63 @@
+C51 COMPILER V9.06   MAIN                                                                  10/08/2016 21:08:07 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\output\main.obj
+COMPILER INVOKED BY: D:\Keil uV4\C51\BIN\C51.EXE sorce code\main.c BROWSE INCDIR(.\include;.\sorce code) DEBUG OBJECTEXT
+                    -END PRINT(.\main.lst) OBJECT(.\output\main.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "mytype.h"
+   3          #include "intrins.h"
+   4          //sbit A1 = P1^0;
+   5          //sbit B1 = P1^1;
+   6          //sbit C1 = P1^2;
+   7          //sbit D1 = P1^3;
+   8          sbit A1 = P2^0;
+   9          sbit B1 = P2^1;
+  10          sbit C1 = P2^2;
+  11          sbit D1 = P2^3;
+  12          
+  13          
+  14          #define coil_A1 {A1 = 1;B1 = 0;C1 = 0;D1 = 0;}
+  15          #define coil_B1 {A1 = 0;B1 = 1;C1 = 0;D1 = 0;}
+  16          #define coil_C1 {A1 = 0;B1 = 0;C1 = 1;D1 = 0;} 
+  17          #define coil_D1 {A1 = 0;B1 = 0;C1 = 0;D1 = 1;}
+  18          
+  19          void DelayMs(uint ValMS)
+  20          {
+  21   1              uint uiVal,ujVal;
+  22   1              for(uiVal = 0; uiVal < ValMS; uiVal++)
+  23   1                      for(ujVal = 0; ujVal < 120; ujVal++);
+  24   1      }
+  25          
+  26          void main()
+  27          {
+  28   1              while(1)
+  29   1              {
+  30   2                      coil_A1;
+  31   2                      DelayMs(20);
+  32   2                      coil_B1;
+  33   2                      DelayMs(20);
+  34   2                      coil_C1;
+  35   2                      DelayMs(20);
+  36   2                      coil_D1;
+  37   2                      DelayMs(20);            
+  38   2              }
+  39   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     82    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

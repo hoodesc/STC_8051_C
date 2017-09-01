@@ -1,0 +1,165 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        06/08/2016  13:20:31  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL UV4\C51\BIN\BL51.EXE 12864.obj TO 12864 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  12864.obj (12864)
+  D:\KEIL UV4\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  12864 (12864)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?12864
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0044H     UNIT         ?PR?MAIN?12864
+            CODE    0047H     002DH     UNIT         ?PR?_DELAY?12864
+            CODE    0074H     001BH     UNIT         ?PR?INIT?12864
+            CODE    008FH     0013H     UNIT         ?CO?12864
+            CODE    00A2H     000CH     UNIT         ?C_C51STARTUP
+            CODE    00AEH     0008H     UNIT         ?PR?_WRITE_COM?12864
+            CODE    00B6H     0008H     UNIT         ?PR?_WRITE_DATA?12864
+
+
+
+OVERLAY MAP OF MODULE:   12864 (12864)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?12864
+
+?PR?MAIN?12864
+  +--> ?PR?INIT?12864
+  +--> ?CO?12864
+  +--> ?PR?_WRITE_DATA?12864
+  +--> ?PR?_DELAY?12864
+  +--> ?PR?_WRITE_COM?12864
+
+?PR?INIT?12864
+  +--> ?PR?_WRITE_COM?12864
+
+?PR?_WRITE_COM?12864
+  +--> ?PR?_DELAY?12864
+
+?PR?_WRITE_DATA?12864
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/08/2016  13:20:31  PAGE 2
+
+
+  +--> ?PR?_DELAY?12864
+
+
+
+SYMBOL TABLE OF MODULE:  12864 (12864)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        12864
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  B:00B0H.4       PUBLIC        lcden
+  C:008FH         PUBLIC        table
+  D:00A8H         PUBLIC        IE
+  C:0056H         PUBLIC        _delay
+  D:00B8H         PUBLIC        IP
+  B:00B0H.5       PUBLIC        lcdrs
+  C:0003H         PUBLIC        main
+  C:00B6H         PUBLIC        _write_data
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0074H         PUBLIC        init
+  C:0096H         PUBLIC        table1
+  C:00AEH         PUBLIC        _write_com
+  D:0008H         PUBLIC        num
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          L?0022
+  -------         ENDPROC       L?0022
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        z
+  -------         DO            
+  D:0006H         SYMBOL        x
+  D:0004H         SYMBOL        y
+  -------         ENDDO         
+  C:0056H         LINE#         9
+  C:0056H         LINE#         10
+  C:0056H         LINE#         12
+  C:005FH         LINE#         13
+  C:0073H         LINE#         14
+  -------         ENDPROC       _DELAY
+  -------         PROC          _WRITE_COM
+  D:0007H         SYMBOL        com
+  C:00AEH         LINE#         15
+  C:00AEH         LINE#         16
+  C:00AEH         LINE#         17
+  C:00B0H         LINE#         18
+  C:00B0H         LINE#         19
+  C:00B0H         LINE#         20
+  C:00B0H         LINE#         21
+  C:00B3H         LINE#         22
+  C:00B5H         LINE#         23
+  -------         ENDPROC       _WRITE_COM
+  -------         PROC          _WRITE_DATA
+  D:0007H         SYMBOL        date
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/08/2016  13:20:31  PAGE 3
+
+
+  C:00B6H         LINE#         24
+  C:00B6H         LINE#         25
+  C:00B6H         LINE#         26
+  C:00B8H         LINE#         27
+  C:00B8H         LINE#         28
+  C:00B8H         LINE#         29
+  C:00B8H         LINE#         30
+  C:00BBH         LINE#         31
+  C:00BDH         LINE#         32
+  -------         ENDPROC       _WRITE_DATA
+  -------         PROC          INIT
+  C:0074H         LINE#         33
+  C:0074H         LINE#         34
+  C:0074H         LINE#         35
+  C:0076H         LINE#         36
+  C:007BH         LINE#         37
+  C:0080H         LINE#         38
+  C:0085H         LINE#         39
+  C:008AH         LINE#         40
+  -------         ENDPROC       INIT
+  -------         PROC          MAIN
+  C:0003H         LINE#         42
+  C:0003H         LINE#         43
+  C:0003H         LINE#         44
+  C:0006H         LINE#         45
+  C:0009H         LINE#         46
+  C:0009H         LINE#         47
+  C:0013H         LINE#         48
+  C:001AH         LINE#         49
+  C:0023H         LINE#         50
+  C:0028H         LINE#         51
+  C:002BH         LINE#         52
+  C:002BH         LINE#         53
+  C:0035H         LINE#         54
+  C:003CH         LINE#         55
+  C:0045H         LINE#         56
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        12864
+
+Program Size: data=10.0 xdata=0 code=190
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

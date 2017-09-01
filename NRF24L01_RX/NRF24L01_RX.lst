@@ -1,0 +1,142 @@
+C51 COMPILER V9.06   NRF24L01_RX                                                           07/09/2016 14:09:24 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE NRF24L01_RX
+OBJECT MODULE PLACED IN NRF24L01_RX.obj
+COMPILER INVOKED BY: d:\Keil uV4\C51\BIN\C51.EXE source code\NRF24L01_RX.c BROWSE INCDIR(..\NRF24L01_RX;.\source code;.\
+                    -Include) DEBUG OBJECTEXTEND PRINT(.\NRF24L01_RX.lst) OBJECT(NRF24L01_RX.obj)
+
+line level    source
+
+   1          #include <stc12c2052ad.h>
+   2          #include "MYTYPE.h"
+   3          #include "NRF24L01_RX.h"
+   4          #include "Delay.h"
+   5          //NRF24L01 只 接收程序
+   6          
+   7          
+   8          uchar const RX_ADDRESS[RX_ADR_WIDTH] = {0x12,0x21,0xaa,0x34,0x43};              // 接收地址
+   9          uchar const TX_ADDRESS[TX_ADR_WIDTH] = {0x12,0x21,0xaa,0x34,0x43};              // 发送地址
+  10          
+  11          uchar RX_DAT[RX_PLOAD_WIDTH] = {0};     //      接收内容数组    
+  12          
+  13          uchar bdata sta;
+  14          sbit RX_DR  = sta^6;
+  15          sbit TX_DR  = sta^5;
+  16          sbit MAX_RT = sta^4;
+  17          
+  18                  
+  19          sbit CE   = P3^2;       //      芯片使能端
+  20          sbit SCK  = P3^3;       //      SPI时钟线
+  21          sbit CSN  = P3^4;       //      SPI使能端
+  22          sbit MOSI = P3^5;       //      主出从入
+  23          sbit MISO = P3^7;       //      主入从出
+  24                  
+  25          uchar SPI_RW(uchar dat)
+  26          {
+  27   1              uchar i;
+  28   1              for(i = 0; i < 8; i++)
+  29   1              {
+  30   2                      MOSI = (dat & 0x80);
+  31   2                      SCK  = 1;
+  32   2                      dat |= MISO;
+  33   2                      SCK  = 0;
+  34   2                      dat  = dat<<1;          
+  35   2              }
+  36   1              return(dat);
+  37   1      }
+  38          
+  39          uchar SPI_RW_Reg(uchar reg,uchar value)
+  40          {
+  41   1              uchar status;
+  42   1              CSN = 0;
+  43   1              status = SPI_RW(reg);
+  44   1              SPI_RW(value);
+  45   1              CSN = 1;
+  46   1              return(status);
+  47   1      }
+  48          
+  49          uchar SPI_Read(uchar reg)
+  50          {
+  51   1              uchar reg_value;
+  52   1              CSN = 0;
+  53   1              SPI_RW(reg);
+  54   1              reg_value = SPI_RW(0x00);
+C51 COMPILER V9.06   NRF24L01_RX                                                           07/09/2016 14:09:24 PAGE 2   
+
+  55   1              CSN = 1;
+  56   1              return(reg_value);
+  57   1      }
+  58          
+  59          uchar SPI_Write_Buf(uchar reg,uchar *pBuf,uchar bytes)
+  60          {       
+  61   1              uchar status;
+  62   1              uchar i;
+  63   1              CSN = 0;
+  64   1              status = SPI_RW(reg);
+  65   1              for(i = 0; i < bytes; i++)
+  66   1              {
+  67   2                      SPI_RW(*pBuf++);
+  68   2              }
+  69   1              CSN = 1;
+  70   1              return(status);
+  71   1      }
+  72          
+  73          uchar SPI_Read_Buf(uchar reg,uchar *pBuf,uchar bytes)
+  74          {
+  75   1              uchar status;
+  76   1              uchar i;
+  77   1              CSN = 0;
+  78   1              status = SPI_RW(reg);
+  79   1              for(i = 0; i < bytes; i++)
+  80   1              {
+  81   2                      pBuf[i] = SPI_RW(0x00); 
+  82   2              }
+  83   1              CSN = 1;
+  84   1              return(status);
+  85   1      }
+  86          
+  87          void RX_Mode()
+  88          {
+  89   1              CE = 0;         //      芯片使能
+  90   1              CSN = 1;        //      失能SPI
+  91   1              SCK = 0;        //      SPI时钟线初始低电平
+  92   1              SPI_RW_Reg(WRITE_REG + EN_AA,0x00);                     //      关闭自动应答
+  93   1              SPI_RW_Reg(WRITE_REG + SETUP_RETR,0x00);        //      关闭自动重发
+  94   1              SPI_RW_Reg(WRITE_REG + EN_RXADDR,0x01); //      打开接收通道0
+  95   1              SPI_RW_Reg(WRITE_REG + RF_CH,0x28);     //      射频通道2.44GHz
+  96   1              SPI_RW_Reg(WRITE_REG + RF_SETUP,0x07);  //      低噪声放大增益器、0dBm、1Mbps
+  97   1              SPI_RW_Reg(WRITE_REG + SETUP_AW,0x03);  //      设置地址宽度为5字节
+  98   1              CE = 0;
+  99   1              SPI_Write_Buf(WRITE_REG + RX_ADDR_P0,RX_ADDRESS,RX_ADR_WIDTH);  //      接收通道0地址
+ 100   1              SPI_RW_Reg(WRITE_REG + RX_PW_P0,RX_PLOAD_WIDTH);                                //      接收通道0数据长度
+ 101   1              SPI_RW_Reg(WRITE_REG + CONFIG,0x0F);                            //      接收、上电模式、2字节CRC校验、IRQ收发完成中断   
+ 102   1              CE = 1;
+ 103   1              //      接收模式
+ 104   1      }
+ 105          
+ 106          void NRF24L01_RxPacket(uchar *pBuf)
+ 107          {
+ 108   1              sta = SPI_Read(STATUS);         //      读状态寄存器
+ 109   1              if(RX_DR)
+ 110   1              {
+ 111   2                      SPI_Read_Buf(RD_TX_PLOAD,pBuf,RX_ADR_WIDTH);    
+ 112   2              }       
+ 113   1      
+ 114   1      }
+
+
+C51 COMPILER V9.06   NRF24L01_RX                                                           07/09/2016 14:09:24 PAGE 3   
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    251    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     15      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,91 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/05/2015  22:12:42  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL UV5\C51\BIN\BL51.EXE .\Objects\interrupt exterior.obj TO .\Objects\interrupt exterior PRINT (.\Listings\interrup
+>> t exterior.m51)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\interrupt exterior.obj (INTERRUPT_EXTERIOR)
+  D:\KEIL UV5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\interrupt exterior (INTERRUPT_EXTERIOR)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0012H     0008H     UNIT         ?PR?MAIN?INTERRUPT_EXTERIOR
+            CODE    001AH     0007H     UNIT         ?PR?INIT0_ISR?INTERRUPT_EXTERIOR
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\interrupt exterior (INTERRUPT_EXTERIOR)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?INTERRUPT_EXTERIOR
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\interrupt exterior (INTERRUPT_EXTERIOR)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        INTERRUPT_EXTERIOR
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  B:0090H.7       PUBLIC        LED1
+  D:00A8H         PUBLIC        IE
+  C:001AH         PUBLIC        Init0_ISR
+  D:00B8H         PUBLIC        IP
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/05/2015  22:12:42  PAGE 2
+
+
+  D:00D8H         PUBLIC        CCON
+  C:0012H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          INIT0_ISR
+  C:001AH         LINE#         14
+  C:001AH         LINE#         16
+  C:001CH         LINE#         17
+  C:001EH         LINE#         18
+  C:0020H         LINE#         19
+  -------         ENDPROC       INIT0_ISR
+  -------         PROC          MAIN
+  C:0012H         LINE#         21
+  C:0012H         LINE#         22
+  C:0012H         LINE#         23
+  C:0014H         LINE#         24
+  C:0016H         LINE#         25
+  C:0018H         LINE#         26
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        INTERRUPT_EXTERIOR
+
+Program Size: data=9.0 xdata=0 code=33
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

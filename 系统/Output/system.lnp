@@ -1,0 +1,9 @@
+".\Output\main.obj",
+".\Output\Delay.obj",
+".\Output\DS1302.obj",
+".\Output\UART.obj",
+".\Output\LCD12864.obj",
+".\Output\NRF24L01_RX.obj" 
+TO ".\Output\system" 
+
+PRINT(".\Listing\system.map")

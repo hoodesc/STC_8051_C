@@ -1,0 +1,4 @@
+"main.obj",
+"NRF24L01_RX.obj" 
+TO "NRF24L01_RX" 
+RAMSIZE(256) 

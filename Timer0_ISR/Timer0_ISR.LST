@@ -1,0 +1,89 @@
+C51 COMPILER V9.00   TIMER0_ISR                                                            10/16/2015 18:49:06 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE TIMER0_ISR
+OBJECT MODULE PLACED IN Timer0_ISR.OBJ
+COMPILER INVOKED BY: d:\Keil uV4\C51\BIN\C51.EXE Timer0_ISR.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          /*
+   3          晶振：11.0592Mhz
+   4          12T
+   5          程序最终效果：
+   6          定时器0 50ms产生一次溢出且“i”自增1
+   7          当第20次溢出时，i==20，50ms*20=1s
+   8          P1取反
+   9          */
+  10          void Timer0_Init(void)  //定时器0初始化函数
+  11          {
+  12   1              TMOD = 0x01;    //设置定时器0，方式1
+  13   1              TH0 = 0xD8;         //装初值
+  14   1              TL0 = 0xF0;             //定时50ms
+  15   1              
+  16   1              EA = 1;                 //打开总中断
+  17   1              ET0 = 1;                //定时器0溢出中断允许位
+  18   1              TR0 = 1;                //打开定时器0
+  19   1      }
+  20          void Timer0_ISR(void) interrupt 1       //定时器0中断服务程序
+  21          {
+  22   1              unsigned char i;
+  23   1              i++;
+  24   1              TH0 = 0xD8;             //重新装初值
+  25   1              TL0 = 0xF0;             //定时10ms
+  26   1      
+  27   1              if(i == 100)            //10*100ms=1s
+  28   1              {
+  29   2                      i = 0;
+  30   2                      P1 = ~P1;                       
+  31   2              }
+  32   1      }
+  33          
+  34          void Timer1_Init(void)  //定时器1初始化函数
+  35          {
+  36   1              TMOD = 0x10;    //设置定时器1，方式1
+  37   1              TH1 = 0xD8;         //装初值
+  38   1              TL1 = 0xF0;             //定时50ms
+  39   1              
+  40   1              EA = 1;                 //打开总中断
+  41   1              ET1 = 1;                //定时器0溢出中断允许位
+  42   1              TR1 = 1;                //打开定时器0
+  43   1      }
+  44          void Timer1_ISR(void) interrupt 3       //定时器0中断服务程序
+  45          {
+  46   1              unsigned char i;
+  47   1              i++;
+  48   1              TH1 = 0xD8;             //重新装初值
+  49   1              TL1 = 0xF0;             //定时10ms
+  50   1      
+  51   1              if(i == 100)            //10*100ms=1s
+  52   1              {
+  53   2                      i = 0;
+  54   2                      P3 = ~P3;       
+  55   2              }
+C51 COMPILER V9.00   TIMER0_ISR                                                            10/16/2015 18:49:06 PAGE 2   
+
+  56   1      }
+  57          
+  58          void main(void)
+  59          {
+  60   1              Timer0_Init();  //调用定时器0初始化函数
+  61   1              //Timer1_Init();
+  62   1              while(1)
+  63   1              {}      
+  64   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     93    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

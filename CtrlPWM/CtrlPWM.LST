@@ -1,0 +1,227 @@
+C51 COMPILER V9.54   CTRLPWM                                                               10/31/2015 01:15:52 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE CTRLPWM
+OBJECT MODULE PLACED IN CtrlPWM.OBJ
+COMPILER INVOKED BY: d:\Keil uV5\C51\BIN\C51.EXE CtrlPWM.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #define uchar unsigned char
+   3          #define uint unsigned int
+   4          uint Num; //全局变量Num，存储按键+，-后计算出来的定时器初值
+   5          uint Init_data = 5;
+   6          typedef enum Key1_State{InitState,AffirmState,SingleState,RepeatState};
+   7          typedef enum Key2_State{InitState2,AffirmState2,SingleState2,RepeatState2};
+   8          
+   9          sbit PWM = P1^7;
+  10          sbit KEY1 = P1^6;
+  11          sbit KEY2 = P1^5;
+  12          
+  13          
+  14          void Timer0_Init(void)      //按键检测_定时器0
+  15          {
+  16   1        TMOD = 0x01;  
+  17   1        TH0 = 0xD8;   //10ms
+  18   1        TL0 = 0xF0;
+  19   1        TR0 = 1;
+  20   1      }
+  21          
+  22          void Timer1_Init(void)    //高低电平切换_定时器1
+  23          {
+  24   1        TMOD = 0x10;  
+  25   1        TH1 = 0xD8; //10ms扫描一次
+  26   1        TL1 = 0xF0;
+  27   1        EA = 1;
+  28   1        ET1 = 1;
+  29   1        TR1 = 1;
+  30   1      }
+  31          
+  32          void Timer1_ISR(void) interrupt 3
+  33          {
+  34   1        static uchar value = 1;
+  35   1        switch (value)
+  36   1        {
+  37   2          case 0:
+  38   2            value = 1;          //状态值设置为1，下次将进入高电平
+  39   2            TH1 = (65536-46636+Num)/256;    //获取按键扫描值Num来计算初值
+  40   2            TL1 = (65536-46636+Num)%256;
+  41   2            PWM = 0;
+  42   2          break;
+  43   2          case 1:
+  44   2            value = 0;          //状态值设置为0，下次将进入低电平
+  45   2            TH1 = (65536-Num)/256;;   //获取按键扫描值Num来计算初值
+  46   2            TL1 = (65536-Num)%256;;
+  47   2            PWM = 1;
+  48   2          break;  
+  49   2        }
+  50   1      }
+  51          
+  52          uchar Key1_scan()   //按键1扫描
+  53          {
+  54   1        static uchar Time_1 = 0;    //时间标志，1次=10ms
+  55   1        uchar KeyStateValue = 0;
+C51 COMPILER V9.54   CTRLPWM                                                               10/31/2015 01:15:52 PAGE 2   
+
+  56   1        uchar Key1_Value; //按键1状态标志
+  57   1        Key1_Value = KEY1;
+  58   1      
+  59   1      
+  60   1        switch (KeyStateValue)
+  61   1        {
+  62   2          case InitState:             //初始化状态
+  63   2            if(0 == Key1_Value)     //按键被按下
+  64   2            {
+  65   3              KeyStateValue = AffirmState;  //下次_进入确认状态
+  66   3            }
+  67   2            else {KeyStateValue = InitState;}
+  68   2          break;
+  69   2          case AffirmState:           //确认状态
+  70   2            if(0 == Key1_Value)
+  71   2            {
+  72   3              KeyStateValue = SingleState;  //下次_进入单次触发状态 
+  73   3            }
+  74   2            else {KeyStateValue = InitState;}
+  75   2          break;
+  76   2          case SingleState:           //单次触发状态
+  77   2            Time_1++;
+  78   2            if(Time_1 > 100)    ////如果按下时间大于1S
+  79   2            {
+  80   3              Time_1 = 0;
+  81   3              KeyStateValue = InitState;    //下次_进入连发状态
+  82   3              
+  83   3            }
+  84   2            else if(1 == Key1_Value)
+  85   2            {
+  86   3              Init_data++;
+  87   3            }
+  88   2          break;
+  89   2          case RepeatState:           //连发状态
+  90   2            Time_1++;
+  91   2            if(1 == Key1_Value)         //如果按键释放
+  92   2            {
+  93   3              KeyStateValue = InitState;    //下次_进入初始化状态
+  94   3            }
+  95   2            if(Time_1 > 10)   //如果按下时间大于100ms
+  96   2            {
+  97   3              Time_1 = 0;
+  98   3              Init_data++;
+  99   3            }
+ 100   2      
+ 101   2            if(26 == Init_data)
+ 102   2            {
+ 103   3              Init_data = 5;
+ 104   3            }
+ 105   2          break;
+ 106   2          default:KeyStateValue = InitState;
+ 107   2          break;
+ 108   2          }
+ 109   1        return Init_data;
+ 110   1      }
+ 111          
+ 112          
+ 113          uchar Key2_scan()   //按键2扫描
+ 114          {
+ 115   1        static uchar Time_2 = 0;    //时间标志，1次=10ms
+ 116   1        uchar KeyStateValue = 0;
+ 117   1        uchar Key2_Value;
+C51 COMPILER V9.54   CTRLPWM                                                               10/31/2015 01:15:52 PAGE 3   
+
+ 118   1        Key2_Value = KEY2;
+ 119   1      
+ 120   1        switch (KeyStateValue)
+ 121   1        {
+ 122   2          case InitState2:              //初始化状态
+ 123   2            if(Key2_Value == 0)     //按键被按下
+ 124   2            {
+ 125   3              KeyStateValue = AffirmState2; //下次_进入确认状态
+ 126   3            }
+ 127   2            else {KeyStateValue = InitState2;}
+ 128   2          break;
+ 129   2          case AffirmState2:            //确认状态
+ 130   2            if(Key2_Value == 0)
+ 131   2            {
+ 132   3              KeyStateValue = SingleState2; //下次_进入单次触发状态 
+ 133   3            }
+ 134   2            else {KeyStateValue = InitState2;}
+ 135   2          break;
+ 136   2          case SingleState2:            //单次触发状态
+ 137   2            Time_2++;
+ 138   2            if(Time_2 > 100)    ////如果按下时间大于1S
+ 139   2            {
+ 140   3              Time_2 = 0;
+ 141   3              KeyStateValue = RepeatState2; //下次_进入连发状态
+ 142   3            }
+ 143   2            else if(1 == Key2_Value)
+ 144   2            {
+ 145   3              Init_data--;
+ 146   3              if(0 == Init_data)
+ 147   3              {
+ 148   4                Init_data = 1;        
+ 149   4              }
+ 150   3            }
+ 151   2          break;
+ 152   2          case RepeatState2:            //连发状态
+ 153   2            Time_2++;
+ 154   2            if(1 == Key2_Value)         //如果按键释放
+ 155   2            {
+ 156   3              KeyStateValue = InitState2;   //下次_进入初始化状态
+ 157   3            }
+ 158   2            if(Time_2>10)             //如果按下时间大于100ms
+ 159   2            {
+ 160   3              Time_2 = 0;
+ 161   3              Init_data--;
+ 162   3              if(0 == Init_data)
+ 163   3              {
+ 164   4                Init_data = 1;
+ 165   4              }
+ 166   3            }     
+ 167   2          break;
+ 168   2          default:KeyStateValue = InitState2;
+ 169   2          break;
+ 170   2          }
+ 171   1        return Init_data;
+ 172   1      }
+ 173            
+ 174          void main()
+ 175          {
+ 176   1        Timer0_Init();
+ 177   1        Timer1_Init();
+ 178   1        while(1)
+ 179   1        {
+C51 COMPILER V9.54   CTRLPWM                                                               10/31/2015 01:15:52 PAGE 4   
+
+ 180   2          if(1 == TF0)  //定时器0_溢出标志位
+ 181   2          {
+ 182   3            TF0 = 0;  //清零
+ 183   3            if(0 == KEY1)
+ 184   3            {
+ 185   4              Key1_scan();
+ 186   4              Num =Key1_scan()*100;   //加
+ 187   4            }
+ 188   3            else if(0 == KEY2)
+ 189   3            {
+ 190   4                Key2_scan();
+ 191   4              Num = Key2_scan()*100;    //减
+ 192   4            }
+ 193   3          }
+ 194   2        }
+ 195   1        
+ 196   1      }
+ 197          
+ 198          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    484    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

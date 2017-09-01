@@ -1,0 +1,156 @@
+C51 COMPILER V9.06   IR_CODE                                                               11/18/2016 20:18:34 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE IR_CODE
+OBJECT MODULE PLACED IN IR_CODE.OBJ
+COMPILER INVOKED BY: D:\Keil uV5\C51\BIN\C51.EXE IR_CODE.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          //#include <stc12c2052ad.h>
+   2          #include <stc15.h>
+   3          #include <intrins.h>
+   4          typedef unsigned char uchar;
+   5          typedef unsigned int uint;
+   6          
+   7          uchar code IR_DATA1[] = {0xB2,0x4D,0x1F,0xE0,0x94,0x6B,0xff}; // 红外数据：
+   8          //uchar code IR_DATA2[] = {0xB2,0x4D,0x3F,0xC0,0x20,0xDF,0xff}; // 红外数据：20度
+   9          ////
+  10          //uchar code IR_DATA3[] = {0xB2,0x4D,0x3F,0xC0,0x40,0xBF,0xff}; // 红外数据：24度
+  11          ////                0011 1111  0100 0000
+  12          //uchar code IR_DATA4[] = {0xB2,0x4D,0x3F,0xC0,0x20,0xDF,0xff}; // 红外数据：20度
+  13          ////                0011 1111  0010 0000                0011 1111  0010 0000
+  14          //sbit IR = P1^7;
+  15          sbit IR = P3^4;
+  16          uchar IR_Code_Flag;
+  17          uint IR_Code_Time = 0; 
+  18          // 定时器0 产生38KHz方波
+  19          // 26us周期、13us中断一次IR取反
+  20          
+  21          //函数声明
+  22          void Stop(void);
+  23          
+  24          
+  25          void Timer0_Init()
+  26          {
+  27   1        TMOD &= 0xF0;
+  28   1        TMOD |= 0x02; // 定时器0 8位自动重装模式
+  29   1        TL0 = 0xF4;   // 设置定时初值  13us
+  30   1        TH0 = 0xF4;   // 设置定时重载值
+  31   1        ET0   = 1;  
+  32   1        TR0   = 1;
+  33   1        EA    = 1;  
+  34   1      }
+  35          
+  36          void Timer0_ISR() interrupt 1
+  37          {
+  38   1        IR_Code_Time++;
+  39   1        if(IR_Code_Flag)
+  40   1        {
+  41   2          IR = ~IR; 
+  42   2        }
+  43   1        else
+  44   1        {
+  45   2          IR = 1;
+  46   2        }
+  47   1      }
+  48          
+  49          void IR_Code(uchar *pIR_Dat)
+  50          {
+  51   1        uchar i,j,temp; 
+  52   1        // 4.4ms(38KHz)
+  53   1        IR_Code_Time = 0; // 时间清零 
+  54   1        IR_Code_Flag = 1; // 产生38KHz载波  
+  55   1        while(IR_Code_Time < 338);
+C51 COMPILER V9.06   IR_CODE                                                               11/18/2016 20:18:34 PAGE 2   
+
+  56   1      
+  57   1        // 4.4ms(低电平)  
+  58   1        IR_Code_Time = 0; // 时间清零
+  59   1        IR_Code_Flag = 0; // 产生低电平
+  60   1        while(IR_Code_Time < 338);
+  61   1      
+  62   1        for(i = 0; i < 6; i++)
+  63   1        {
+  64   2          temp = *pIR_Dat;
+  65   2          for(j = 0; j < 8; j++)
+  66   2          {
+  67   3            if(temp & 0x80)
+  68   3            {
+  69   4              // 数据1
+  70   4              // 540us(38KHz载波)+1.62ms(低电平)
+  71   4              IR_Code_Time = 0; // 时间清零       
+  72   4              IR_Code_Flag = 1; // 产生38KHz载波          
+  73   4              while(IR_Code_Time < 41);
+  74   4      
+  75   4              IR_Code_Time = 0; // 时间清零
+  76   4              IR_Code_Flag = 0; // 产生低电平
+  77   4              while(IR_Code_Time < 124);
+  78   4            }
+  79   3            else
+  80   3            {   
+  81   4              // 数据0
+  82   4              // 540us(38KHz载波)+560(低电平)       
+  83   4              IR_Code_Time = 0; // 时间清零         
+  84   4              IR_Code_Flag = 1; // 产生38KHz载波
+  85   4              while(IR_Code_Time < 41);
+  86   4      
+  87   4              IR_Code_Time = 0; // 时间清零
+  88   4              IR_Code_Flag = 0; // 产生低电平
+  89   4              while(IR_Code_Time < 41);
+  90   4            }
+  91   3            temp<<=1;     
+  92   3          }
+  93   2          pIR_Dat++;
+  94   2        }
+  95   1      }
+  96          
+  97          void Stop(void)
+  98          {
+  99   1        //结束、分隔  
+ 100   1        IR_Code_Time = 0; // 时间清零
+ 101   1        IR_Code_Flag = 1; // 产生38KHz载波
+ 102   1        while(IR_Code_Time < 41);
+ 103   1      
+ 104   1        IR_Code_Time = 0; // 时间清零
+ 105   1        IR_Code_Flag = 0; // 产生低电平 
+ 106   1        while(IR_Code_Time < 401);
+ 107   1      }
+ 108          //  11.0592延时函数，单位ms
+ 109          void DelayMs(uint ValMS)
+ 110          {
+ 111   1        uint uiVal,ujVal;
+ 112   1        for(uiVal = 0; uiVal < ValMS; uiVal++)
+ 113   1          for(ujVal = 0; ujVal < 120; ujVal++);
+ 114   1      }
+ 115          void main(void)
+ 116          {
+ 117   1        Timer0_Init();
+C51 COMPILER V9.06   IR_CODE                                                               11/18/2016 20:18:34 PAGE 3   
+
+ 118   1        P1M1 = 0x00;
+ 119   1        P1M0 = 0x00;
+ 120   1        DelayMs(100);
+ 121   1        while(1)
+ 122   1        {
+ 123   2        IR_Code(IR_DATA1);
+ 124   2        Stop();
+ 125   2        IR_Code(IR_DATA1);
+ 126   2        Stop();
+ 127   2        while(1);
+ 128   2        }
+ 129   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    290    ----
+   CONSTANT SIZE    =      7    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

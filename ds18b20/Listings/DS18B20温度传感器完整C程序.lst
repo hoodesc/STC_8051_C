@@ -1,0 +1,227 @@
+C51 COMPILER V9.55   DS18B20______________C____                                            04/14/2016 02:06:20 PAGE 1   
+
+
+C51 COMPILER V9.55, COMPILATION OF MODULE DS18B20______________C____
+OBJECT MODULE PLACED IN .\Objects\DS18B20温度传感器完整C程序.obj
+COMPILER INVOKED BY: d:\Keil uV5\C51\BIN\C51.EXE D:\Desktop\DS18B20温度传感器完整C程序.c OPTIMIZE(8,SPEED) BROWSE DEBUG 
+                    -OBJECTEXTEND PRINT(.\Listings\DS18B20温度传感器完整C程序.lst) OBJECT(.\Objects\DS18B20温度传感器完整C程序.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #include <intrins.h>                                //_nop_();延时函数用
+   3          #include <stdio.h>
+   4          #define  Disdata P0                       //段码输出口
+   5          #define  discan  P2                             //扫描口
+   6          #define  uchar unsigned char
+   7          #define  uint  unsigned int
+   8          sbit     DQ=P1^7;                               //温度输入口
+   9          sbit     DIN=P0^0;                              //LED小数点控制
+  10          uint     h; 
+  11          uint     temp;
+  12          //
+  13          //
+  14          //**************温度小数部分用查表法***********//
+  15          uchar code ditab[16]=
+  16          {0x00,0x01,0x01,0x02,0x03,0x03,0x04,0x04,0x05,0x06,0x06,0x07,0x08,0x08,0x09,0x09};
+  17          //
+  18          uchar code dis_7[12]={0xfc,0x60,0xda,0xf2,0x66,0xb6,0xbe,0xe0,0xfe,0xf6,0xff,0x02};
+  19          //共阳LED段码表        "0"  "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9" "不亮" "-"              
+  20          uchar code scan_con[4]={0xf7,0xfB,0xfD,0xff};    //列扫描控制字
+  21          uchar data temp_data[2]={0x00,0x00};             //读出温度暂放
+  22          uchar data display[5]={0x00,0x00,0x00,0x00,0x00};     //显示单元数据，共4个数据和一个运算暂用
+  23          
+  24          //
+  25          //
+  26          //
+  27          /*****************11us延时函数*************************/
+  28          //
+  29          void delay(uint t)
+  30          {
+  31   1        for (;t>0;t--);
+  32   1      }
+  33          //
+  34          
+  35          /****************显示扫描函数***************************/
+  36          scan()
+  37          {
+  38   1        char k;
+  39   1           for(k=0;k<4;k++)                     //4位LED扫描控制
+  40   1      {
+  41   2        Disdata=dis_7[display[k]];          //数据显示
+  42   2        if (k==1){DIN=1;}                   //小数点显示
+  43   2        discan=scan_con[k];                 //位选
+  44   2        delay(300);
+  45   2      }
+  46   1      }
+  47          //
+  48          /****************DS18B20复位函数************************/
+  49          ow_reset(void)
+  50          {
+  51   1      char presence=1;
+  52   1      while(presence)
+  53   1      {
+  54   2        while(presence)
+C51 COMPILER V9.55   DS18B20______________C____                                            04/14/2016 02:06:20 PAGE 2   
+
+  55   2         {
+  56   3          DQ=1;_nop_();_nop_();//从高拉倒低
+  57   3      DQ=0;                                       
+  58   3      delay(50);           //550 us
+  59   3      DQ=1;                                        
+  60   3      delay(6);            //66 us
+  61   3      presence=DQ;         //presence=0 复位成功,继续下一步
+  62   3         } 
+  63   2         delay(45);            //延时500 us
+  64   2         presence=~DQ;         
+  65   2      }
+  66   1      DQ=1;                   //拉高电平
+  67   1      }
+  68          //
+  69          //
+  70          /****************DS18B20写命令函数************************/
+  71          //向1-WIRE 总线上写1个字节
+  72          void write_byte(uchar val)
+  73          { 
+  74   1        uchar i;
+  75   1        for(i=8;i>0;i--)
+  76   1        {
+  77   2         DQ=1;_nop_();_nop_();                  //从高拉倒低
+  78   2         DQ=0;_nop_();_nop_();_nop_();_nop_();  //5 us
+  79   2         DQ=val&0x01;                           //最低位移出
+  80   2         delay(6);                              //66 us
+  81   2         val=val/2;                             //右移1位
+  82   2         }
+  83   1         DQ=1;
+  84   1         delay(1);
+  85   1      }
+  86          //
+  87          /****************DS18B20读1字节函数************************/
+  88          //从总线上取1个字节
+  89          uchar read_byte(void)
+  90          {
+  91   1      uchar i;
+  92   1      uchar value=0;
+  93   1      for(i=8;i>0;i--)
+  94   1      {
+  95   2        DQ=1;_nop_();_nop_();
+  96   2        value>>=1;
+  97   2        DQ=0;_nop_();_nop_();_nop_();_nop_();         //4 us
+  98   2        DQ=1;_nop_();_nop_();_nop_();_nop_();         //4 us
+  99   2        if(DQ)value|=0x80;
+ 100   2        delay(6);                                     //66 us
+ 101   2      }
+ 102   1      DQ=1;
+ 103   1      return(value);
+ 104   1      }
+ 105          //
+ 106          /****************读出温度函数************************/
+ 107          //
+ 108          read_temp()
+ 109          {
+ 110   1        ow_reset();                  //总线复位
+ 111   1        delay(200);
+ 112   1        write_byte(0xcc);            //发命令
+ 113   1        write_byte(0x44);            //发转换命令
+ 114   1        ow_reset(); 
+ 115   1        delay(1);
+ 116   1        write_byte(0xcc);            //发命令
+C51 COMPILER V9.55   DS18B20______________C____                                            04/14/2016 02:06:20 PAGE 3   
+
+ 117   1        write_byte(0xbe);
+ 118   1        temp_data[0]=read_byte();    //读温度值的第字节
+ 119   1        temp_data[1]=read_byte();    //读温度值的高字节
+ 120   1        temp=temp_data[1];
+ 121   1        temp<<=8;                                               
+ 122   1        temp=temp|temp_data[0];      // 两字节合成一个整型变量。
+ 123   1        return temp;                 //返回温度值
+ 124   1      }
+ 125          //
+ 126          /****************温度数据处理函数************************/
+ 127          
+ 128          //二进制高字节的低半字节和低字节的高半字节组成一字节,这个
+ 129          //字节的二进制转换为十进制后,就是温度值的百、十、个位值,而剩
+ 130          //下的低字节的低半字节转化成十进制后,就是温度值的小数部分
+ 131          
+ 132          /********************************************************/
+ 133          work_temp(uint tem)
+ 134          {
+ 135   1      uchar n=0;
+ 136   1      if(tem>6348)                        // 温度值正负判断
+ 137   1           {tem=65536-tem;n=1;}            // 负温度求补码,标志位置1
+ 138   1            display[4]=tem&0x0f;           // 取小数部分的值
+ 139   1        display[0]=ditab[display[4]];  // 存入小数部分显示值
+ 140   1            display[4]=tem>>4;             // 取中间八位,即整数部分的值
+ 141   1        display[3]=display[4]/100;     // 取百位数据暂存
+ 142   1        display[1]=display[4]%100;     // 取后两位数据暂存
+ 143   1        display[2]=display[1]/10;      // 取十位数据暂存
+ 144   1        display[1]=display[1]%10;  
+ 145   1      /******************符号位显示判断**************************/
+ 146   1        if(!display[3]) 
+ 147   1        {
+ 148   2          display[3]=0xF5;           //最高位为0时不显示
+ 149   2          if(!display[2])
+ 150   2      {
+ 151   3         display[2]=0xF5;        //次高位为0时不显示
+ 152   3      }
+ 153   2        }
+ 154   1        if(n){display[3]=0xF4;}      //负温度时最高位显示"-"
+ 155   1      }
+ 156          
+ 157          void Uart_Init()        // 串口初始化
+ 158          {
+ 159   1              TMOD &= 0x0F;   // 保留后定时器0设置，清空定时器1设置
+ 160   1              TMOD |= 0x20;   // 定时器1 模式2
+ 161   1              SCON |= 0x50;   // 串口方式1，8位UART波特率可变，可接收
+ 162   1              TH1   = 0xFD;   // TL1溢出后将TH1的值装入
+ 163   1              TL1   = 0xFD;   // 9600bps
+ 164   1              ET1   = 0;              // 关闭定时器1中断
+ 165   1              TR1   = 1;              // 开定时器1
+ 166   1      }
+ 167          /**********************************/
+ 168          
+ 169          
+ 170          
+ 171          /****************主函数************************/
+ 172          main()
+ 173          {
+ 174   1              Uart_Init();
+ 175   1        Disdata=0x00;                 //初始化端口
+ 176   1        discan=0x00;
+ 177   1        for(h=0;h<4;h++)              //开机显示"8888"
+ 178   1            {display[h]=8;} 
+C51 COMPILER V9.55   DS18B20______________C____                                            04/14/2016 02:06:20 PAGE 4   
+
+ 179   1        ow_reset();                   //开机先转换一次
+ 180   1        write_byte(0xcc);             //Skip ROM
+ 181   1        write_byte(0x44);             //发转换命令
+ 182   1        for(h=0;h<100;h++)            //开机显示"8888"
+ 183   1            {scan();}
+ 184   1        while(1)
+ 185   1        {
+ 186   2      work_temp(read_temp());     //处理温度数据
+ 187   2      scan();                     //显示温度值
+ 188   2                
+ 189   2                      TI = 1;
+ 190   2                      printf("%d\n",temp_data[0]);
+ 191   2                      while(!TI);
+ 192   2                      TI = 0;         
+ 193   2        }
+ 194   1      }
+*** WARNING C290 IN LINE 46 OF D:\Desktop\DS18B20温度传感器完整C程序.c: missing return value
+*** WARNING C290 IN LINE 67 OF D:\Desktop\DS18B20温度传感器完整C程序.c: missing return value
+*** WARNING C290 IN LINE 155 OF D:\Desktop\DS18B20温度传感器完整C程序.c: missing return value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    478    ----
+   CONSTANT SIZE    =     36    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     11    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  3 WARNING(S),  0 ERROR(S)

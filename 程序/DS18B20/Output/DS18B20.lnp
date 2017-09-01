@@ -1,0 +1,8 @@
+".\Output\main.obj",
+".\Output\Delay.obj",
+".\Output\NRF24L01_TX.obj",
+".\Output\UART.obj",
+".\Output\DS18B20.obj" 
+TO ".\Output\DS18B20" 
+
+PRINT(".\Listing\DS18B20.map")

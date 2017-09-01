@@ -1,0 +1,454 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/20/2017  16:59:37  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\Conf_tny.obj TO .\Objects\操作系统 RTX51TINY PRINT (.\Listings
+>> \操作系统.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  .\Objects\Conf_tny.obj (?RTX51_TINY_KERNAL)
+  D:\KEIL_V5\C51\LIB\RTX51TNY.LIB (?RTX51_TINY_OS_CREATE)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+TASK TABLE OF MODULE:  .\Objects\操作系统 (MAIN)
+
+TASKID   PRIORITY   REG-BANK   SEGMENT NAME
+-------------------------------------------
+0        0          0          ?PR?JOB0?MAIN
+1        0          0          ?PR?JOB1?MAIN
+
+
+
+LINK MAP OF MODULE:  .\Objects\操作系统 (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0006H     ABSOLUTE     
+            IDATA   000EH     0004H     UNIT         ?RTX?TASKSTATE?S
+            IDATA   0012H     0002H     UNIT         ?RTX?TASKSP?S
+                    0014H     000CH                  *** GAP ***
+            BIT     0020H.0   0000H.2   UNIT         ?RTX?BITS
+                    0020H.2   0000H.6                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0004H     UNIT         ?RTX?TASKENT?S
+            CODE    0007H     0002H     UNIT         ?PR?JOB1?MAIN
+                    0009H     0002H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0206H     UNIT         ?RTX?CODE
+            CODE    0214H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0220H     0009H     UNIT         ?PR?JOB0?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\操作系统 (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/20/2017  16:59:37  PAGE 2
+
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\操作系统 (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  D:00E8H         PUBLIC        P6
+  D:00F8H         PUBLIC        P7
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        CCON
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:00A0H.4       PUBLIC        LED
+  C:0220H         PUBLIC        job0
+  C:0007H         PUBLIC        job1
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          JOB0
+  C:0220H         LINE#         6
+  C:0220H         LINE#         8
+  C:0225H         LINE#         9
+  C:0225H         LINE#         10
+  C:0225H         LINE#         11
+  C:0227H         LINE#         12
+  -------         ENDPROC       JOB0
+  -------         PROC          JOB1
+  C:0007H         LINE#         15
+  C:0007H         LINE#         17
+  C:0007H         LINE#         18
+  C:0007H         LINE#         20
+  -------         ENDPROC       JOB1
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        ?RTX51_TINY_KERNAL
+  C:0003H         SEGMENT       ?RTX?TASKENT?S
+  I:0012H         SEGMENT       ?RTX?TASKSP?S
+  I:000EH         SEGMENT       ?RTX?TASKSTATE?S
+  B:0020H.0       SEGMENT       ?RTX?BITS
+  C:000EH         SEGMENT       ?RTX?CODE
+  C:005CH         PUBLIC        ?RTX?SET_ISR
+  D:000CH         PUBLIC        ?RTX_CURRENTTASK
+  D:0007H         PUBLIC        ?RTX_NEXTID
+  C:00ABH         PUBLIC        ?RTX_NEXTTASK
+  N:00FFH         PUBLIC        ?RTX_RAMTOP
+  C:0003H         PUBLIC        ?RTX_TASKENTRY
+  C:018AH         PUBLIC        ?RTX_TASKIDX
+  I:0012H         PUBLIC        ?RTX_TASKSP
+  I:000EH         PUBLIC        ?RTX_TASKSTATUS
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/20/2017  16:59:37  PAGE 3
+
+
+  C:014EH         PUBLIC        MAIN
+  C:008AH         PUBLIC        OS_SWITCH_TASK
+  C:0093H         SYMBOL        ?C0001
+  C:00A7H         SYMBOL        ?C0003
+  C:00ACH         SYMBOL        ?C0005
+  C:00C6H         SYMBOL        ?C0007
+  C:00C8H         SYMBOL        ?C0009
+  C:00D2H         SYMBOL        ?C0011
+  C:00FFH         SYMBOL        ?C0012
+  C:00E5H         SYMBOL        ?C0013
+  C:00EAH         SYMBOL        ?C0015
+  C:00F5H         SYMBOL        ?C0016
+  N:0000H         SYMBOL        ?RTX51_TINY_KERNAL
+  N:FF38H         SYMBOL        ?RTX_CLOCK
+  B:0020H.1       SYMBOL        ?RTX_ISR_SIG
+  N:0008H         SYMBOL        ?RTX_REGISTERBANK
+  D:000DH         SYMBOL        ?RTX_ROBINTIME
+  D:000AH         SYMBOL        ?RTX_SAVEACC
+  D:000BH         SYMBOL        ?RTX_SAVEPSW
+  C:000EH         SYMBOL        ?RTX_STACKERROR
+  C:0062H         SYMBOL        ?RTX_TASKSWITCHING
+  B:0020H.0       SYMBOL        ?RTX_TS_DELAY
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  N:0005H         SYMBOL        B_ACTIVE
+  N:0007H         SYMBOL        B_IVL
+  N:0007H         SYMBOL        B_RDY
+  N:0004H         SYMBOL        B_READY
+  N:0006H         SYMBOL        B_ROBIN
+  N:0002H         SYMBOL        B_SIGNAL
+  N:0003H         SYMBOL        B_TIMEOUT
+  N:0000H         SYMBOL        B_WAITSIG
+  N:0001H         SYMBOL        B_WAITTIM
+  C:005FH         SYMBOL        CHECKROBINTIME
+  C:0037H         SYMBOL        CHECKSTACK
+  N:0000H         SYMBOL        CODE_BANKING
+  N:0001H         SYMBOL        CPU_IDLE_CODE
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  B:00A8H.7       SYMBOL        EA
+  B:00A8H.4       SYMBOL        ES
+  B:00A8H.1       SYMBOL        ET0
+  B:00A8H.3       SYMBOL        ET1
+  B:00A8H.0       SYMBOL        EX0
+  B:00A8H.2       SYMBOL        EX1
+  N:0014H         SYMBOL        FREE_STACK
+  C:0012H         SYMBOL        HW_TIMER
+  D:00A8H         SYMBOL        IE
+  B:0088H.1       SYMBOL        IE0
+  B:0088H.3       SYMBOL        IE1
+  N:00C8H         SYMBOL        INT_CLOCK
+  N:0001H         SYMBOL        INT_REGBANK
+  B:0088H.0       SYMBOL        IT0
+  B:0088H.2       SYMBOL        IT1
+  N:0020H         SYMBOL        K_ACTIVE
+  N:0080H         SYMBOL        K_IVL
+  N:0080H         SYMBOL        K_RDY
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/20/2017  16:59:37  PAGE 4
+
+
+  N:0010H         SYMBOL        K_READY
+  N:0040H         SYMBOL        K_ROBIN
+  N:0001H         SYMBOL        K_SIG
+  N:0002H         SYMBOL        K_TMO
+  N:0000H         SYMBOL        LONG_USR_INTR
+  C:0157H         SYMBOL        MAIN1
+  C:0161H         SYMBOL        MAIN1X
+  C:015CH         SYMBOL        MAIN2
+  C:0122H         SYMBOL        NOEVENT
+  C:00A0H         SYMBOL        NOIDLE
+  C:005CH         SYMBOL        NOROBINTIMEOUT
+  C:0053H         SYMBOL        NOTIMEOUT
+  C:0051H         SYMBOL        NOWAITTIMEOUT
+  C:008AH         SYMBOL        OS_SWITCH_TASK1
+  D:0087H         SYMBOL        PCON
+  D:00D0H         SYMBOL        PSW
+  N:00FFH         SYMBOL        RAMTOP
+  N:0080H         SYMBOL        RDY_EVENT
+  C:012EH         SYMBOL        ROBINON
+  C:0116H         SYMBOL        SIGNALOFF
+  C:0122H         SYMBOL        SIGNALON
+  N:0004H         SYMBOL        SIG_EVENT
+  D:0081H         SYMBOL        SP
+  I:000FH         SYMBOL        TASKSTATE
+  D:0088H         SYMBOL        TCON
+  B:0088H.5       SYMBOL        TF0
+  B:0088H.7       SYMBOL        TF1
+  D:008CH         SYMBOL        TH0
+  D:008DH         SYMBOL        TH1
+  C:011EH         SYMBOL        TIMEOUTON
+  C:0013H         SYMBOL        TIMERINT
+  C:0043H         SYMBOL        TIMERLOOP
+  I:000EH         SYMBOL        TIMERVAL
+  N:0005H         SYMBOL        TIMESHARING
+  D:008AH         SYMBOL        TL0
+  D:008BH         SYMBOL        TL1
+  D:0089H         SYMBOL        TMOD
+  N:0008H         SYMBOL        TMO_EVENT
+  B:0088H.4       SYMBOL        TR0
+  B:0088H.6       SYMBOL        TR1
+  C:000BH         LINE#         271
+  C:000EH         LINE#         279
+  C:0010H         LINE#         279
+  C:0012H         LINE#         282
+  C:0013H         LINE#         299
+  C:0016H         LINE#         301
+  C:0019H         LINE#         302
+  C:001CH         LINE#         303
+  C:001DH         LINE#         305
+  C:001FH         LINE#         306
+  C:0021H         LINE#         307
+  C:0023H         LINE#         308
+  C:0025H         LINE#         309
+  C:0027H         LINE#         310
+  C:0029H         LINE#         311
+  C:002BH         LINE#         312
+  C:002DH         LINE#         316
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/20/2017  16:59:37  PAGE 5
+
+
+  C:002EH         LINE#         317
+  C:0030H         LINE#         318
+  C:0031H         LINE#         319
+  C:0032H         LINE#         320
+  C:0035H         LINE#         321
+  C:0037H         LINE#         322
+  C:0038H         LINE#         323
+  C:003AH         LINE#         324
+  C:003DH         LINE#         325
+  C:003FH         LINE#         329
+  C:0041H         LINE#         330
+  C:0043H         LINE#         331
+  C:0044H         LINE#         332
+  C:0045H         LINE#         333
+  C:0046H         LINE#         334
+  C:0048H         LINE#         335
+  C:004AH         LINE#         336
+  C:004BH         LINE#         337
+  C:004EH         LINE#         338
+  C:0050H         LINE#         339
+  C:0051H         LINE#         340
+  C:0053H         LINE#         341
+  C:0054H         LINE#         342
+  C:0056H         LINE#         344
+  C:0057H         LINE#         345
+  C:0059H         LINE#         360
+  C:005CH         LINE#         364
+  C:005EH         LINE#         366
+  C:005FH         LINE#         367
+  C:0062H         LINE#         370
+  C:0064H         LINE#         371
+  C:0066H         LINE#         372
+  C:0068H         LINE#         373
+  C:006AH         LINE#         374
+  C:006CH         LINE#         375
+  C:006EH         LINE#         376
+  C:0070H         LINE#         377
+  C:0072H         LINE#         378
+  C:0074H         LINE#         379
+  C:0076H         LINE#         380
+  C:0078H         LINE#         381
+  C:007AH         LINE#         382
+  C:007CH         LINE#         387
+  C:007EH         LINE#         388
+  C:007FH         LINE#         389
+  C:0081H         LINE#         390
+  C:0082H         LINE#         391
+  C:0084H         LINE#         392
+  C:0086H         LINE#         393
+  C:0087H         LINE#         394
+  C:0088H         LINE#         395
+  C:008AH         LINE#         424
+  C:008CH         LINE#         426
+  C:008EH         LINE#         427
+  C:008FH         LINE#         429
+  C:0090H         LINE#         430
+  C:0092H         LINE#         431
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/20/2017  16:59:37  PAGE 6
+
+
+  C:0093H         LINE#         434
+  C:0094H         LINE#         435
+  C:0095H         LINE#         436
+  C:0096H         LINE#         438
+  C:0097H         LINE#         439
+  C:009AH         LINE#         440
+  C:009DH         LINE#         441
+  C:00A0H         LINE#         444
+  C:00A3H         LINE#         445
+  C:00A5H         LINE#         446
+  C:00A7H         LINE#         449
+  C:00A8H         LINE#         450
+  C:00ABH         LINE#         458
+  C:00ACH         LINE#         462
+  C:00AEH         LINE#         463
+  C:00AFH         LINE#         464
+  C:00B0H         LINE#         465
+  C:00B2H         LINE#         468
+  C:00B4H         LINE#         470
+  C:00B6H         LINE#         471
+  C:00B8H         LINE#         472
+  C:00B9H         LINE#         473
+  C:00BAH         LINE#         474
+  C:00BBH         LINE#         476
+  C:00BDH         LINE#         478
+  C:00BEH         LINE#         479
+  C:00BFH         LINE#         480
+  C:00C1H         LINE#         481
+  C:00C4H         LINE#         482
+  C:00C6H         LINE#         484
+  C:00C7H         LINE#         485
+  C:00C8H         LINE#         490
+  C:00C9H         LINE#         491
+  C:00CAH         LINE#         492
+  C:00CCH         LINE#         496
+  C:00CDH         LINE#         497
+  C:00CEH         LINE#         498
+  C:00D0H         LINE#         499
+  C:00D2H         LINE#         505
+  C:00D4H         LINE#         506
+  C:00D5H         LINE#         507
+  C:00D6H         LINE#         508
+  C:00D8H         LINE#         510
+  C:00DAH         LINE#         511
+  C:00DCH         LINE#         512
+  C:00DDH         LINE#         513
+  C:00DEH         LINE#         516
+  C:00E0H         LINE#         517
+  C:00E3H         LINE#         518
+  C:00E5H         LINE#         520
+  C:00E6H         LINE#         522
+  C:00E7H         LINE#         523
+  C:00E8H         LINE#         524
+  C:00E9H         LINE#         525
+  C:00EAH         LINE#         529
+  C:00ECH         LINE#         530
+  C:00EDH         LINE#         531
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/20/2017  16:59:37  PAGE 7
+
+
+  C:00EFH         LINE#         535
+  C:00F1H         LINE#         536
+  C:00F2H         LINE#         537
+  C:00F3H         LINE#         539
+  C:00F5H         LINE#         543
+  C:00F7H         LINE#         544
+  C:00F9H         LINE#         545
+  C:00FAH         LINE#         546
+  C:00FBH         LINE#         548
+  C:00FDH         LINE#         549
+  C:00FFH         LINE#         555
+  C:0102H         LINE#         559
+  C:0104H         LINE#         560
+  C:0105H         LINE#         561
+  C:0107H         LINE#         562
+  C:0108H         LINE#         563
+  C:010AH         LINE#         564
+  C:010CH         LINE#         565
+  C:010DH         LINE#         567
+  C:0110H         LINE#         571
+  C:0113H         LINE#         572
+  C:0116H         LINE#         576
+  C:0118H         LINE#         577
+  C:011BH         LINE#         578
+  C:011EH         LINE#         580
+  C:0120H         LINE#         581
+  C:0122H         LINE#         583
+  C:0124H         LINE#         584
+  C:0125H         LINE#         585
+  C:0127H         LINE#         587
+  C:0129H         LINE#         588
+  C:012BH         LINE#         594
+  C:012DH         LINE#         595
+  C:012EH         LINE#         608
+  C:012FH         LINE#         609
+  C:0131H         LINE#         614
+  C:0133H         LINE#         615
+  C:0135H         LINE#         616
+  C:0137H         LINE#         617
+  C:0139H         LINE#         618
+  C:013BH         LINE#         619
+  C:013DH         LINE#         620
+  C:013FH         LINE#         621
+  C:0141H         LINE#         622
+  C:0143H         LINE#         623
+  C:0145H         LINE#         624
+  C:0147H         LINE#         625
+  C:0149H         LINE#         626
+  C:014BH         LINE#         627
+  C:014DH         LINE#         628
+  C:014EH         LINE#         642
+  C:0150H         LINE#         643
+  C:0152H         LINE#         644
+  C:0154H         LINE#         645
+  C:0156H         LINE#         646
+  C:0157H         LINE#         647
+  C:0158H         LINE#         648
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/20/2017  16:59:37  PAGE 8
+
+
+  C:015AH         LINE#         649
+  C:015CH         LINE#         650
+  C:015EH         LINE#         651
+  C:015FH         LINE#         652
+  C:0161H         LINE#         653
+  C:0162H         LINE#         654
+  C:0163H         LINE#         655
+  C:0164H         LINE#         656
+  C:0165H         LINE#         657
+  C:0167H         LINE#         658
+  C:0169H         LINE#         659
+  C:016BH         LINE#         660
+  C:016EH         LINE#         661
+  C:0170H         LINE#         662
+  C:0171H         LINE#         663
+  C:0173H         LINE#         664
+  C:0174H         LINE#         665
+  C:0175H         LINE#         666
+  C:0177H         LINE#         668
+  C:017AH         LINE#         670
+  C:017DH         LINE#         671
+  C:0180H         LINE#         672
+  C:0183H         LINE#         673
+  C:0185H         LINE#         674
+  C:0187H         LINE#         675
+  C:0189H         LINE#         676
+  -------         ENDMOD        ?RTX51_TINY_KERNAL
+
+Program Size: data=21.2 xdata=0 code=551
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

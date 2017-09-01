@@ -1,0 +1,107 @@
+C51 COMPILER V6.12  _î___»                                                                 03/17/2013 01:30:03 PAGE 1   
+
+
+C51 COMPILER V6.12, COMPILATION OF MODULE _î___»
+OBJECT MODULE PLACED IN .\ÏîÄ¿Ò».OBJ
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE .\ÏîÄ¿Ò».c DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include<STC12C2052AD.H> //Í·ÎÄ¼þ
+   2          sbit LED1 = P3 ^ 0;
+   3          sbit LED2 = P3 ^ 1;
+   4          sbit LED3 = P3 ^ 2;
+   5          sbit LED4 = P3 ^ 3;
+   6          sbit LED5 = P3 ^ 4;
+   7          sbit LED6 = P3 ^ 5;
+   8          //×ó±ß6¸ö
+   9          sbit LED7 = P1 ^ 7;
+  10          sbit LED8 = P1 ^ 6;
+  11          sbit LED9 = P1 ^ 5;
+  12          sbit LED10 = P1 ^ 4;
+  13          sbit LED11 = P1 ^ 3;
+  14          sbit LED12 = P1 ^ 2;
+  15          sbit LED13 = P1 ^ 1;
+  16          sbit LED14 = P1 ^ 0;
+  17          //ÓÒ±ß8¸ö
+  18          sbit KEY = P3 ^ 7; //´ýÓÃ
+  19          
+  20          /*********************************************************************************************
+  21          º¯ÊýÃû£ººÁÃë¼¶CPUÑÓÊ±º¯Êý
+  22          µ÷  ÓÃ£ºDELAY_MS (?);
+  23          ²Î  Êý£º1~65535£¨²ÎÊý²»¿ÉÎª0£©
+  24          ·µ»ØÖµ£ºÎÞ
+  25          ½á  ¹û£ºÕ¼ÓÃCPU·½Ê½ÑÓÊ±Óë²ÎÊýÊýÖµÏàÍ¬µÄºÁÃëÊ±¼ä
+  26          ±¸  ×¢£ºÓ¦ÓÃÓÚ1Tµ¥Æ¬»úÊ±i<600£¬Ó¦ÓÃÓÚ12Tµ¥Æ¬»úÊ±i<125
+  27          /*********************************************************************************************/
+  28          void DELAY_MS (unsigned int a){
+  29   1      	unsigned int i;
+  30   1      	while( a-- != 0){
+  31   2      		for(i = 0; i < 600; i++);
+  32   2      	}
+  33   1      }
+  34          /*********************************************************************************************/
+  35          void main (void){   
+  36   1      	unsigned char b;
+  37   1      	for(b=0;;b++){
+  38   2      	unsigned char a;
+  39   2      		for(a=0;a<1;){
+  40   3      		LED1=a;
+  41   3      		a=1;
+  42   3      		DELAY_MS(100);
+  43   3      		LED1=a;
+  44   3      		DELAY_MS(100);
+  45   3      		}
+  46   2      		a=0;
+  47   2      		for(a=0;a<1;){
+  48   3      		LED2=a;
+  49   3      		DELAY_MS(100);
+  50   3      		a=1;
+  51   3      		LED2=a;
+  52   3      		DELAY_MS(100);
+  53   3      		}
+  54   2      		for(a=0;a<1;){
+  55   3      		LED3=a;
+C51 COMPILER V6.12  _î___»                                                                 03/17/2013 01:30:03 PAGE 2   
+
+  56   3      		DELAY_MS(100);
+  57   3      		a=1;
+  58   3      		LED3=a;
+  59   3      		DELAY_MS(100);
+  60   3      		}
+  61   2      		for(a=0;a<1;){
+  62   3      		LED4=a;
+  63   3      		DELAY_MS(100);
+  64   3      		a=1;
+  65   3      		LED4=a;
+  66   3      		DELAY_MS(100);
+  67   3      		}
+  68   2      		for(a=0;a<1;){
+  69   3      		LED1=a;
+  70   3      		LED2=a;
+  71   3      		LED3=a;
+  72   3      		LED4=a;
+  73   3      		DELAY_MS(100);
+  74   3      		a=1;
+  75   3      		LED1=a;
+  76   3      		LED2=a;
+  77   3      		LED3=a;
+  78   3      		LED4=a;
+  79   3      		DELAY_MS(100);
+  80   3      		}
+  81   2      	}
+  82   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    203    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
