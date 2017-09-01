@@ -36,9 +36,9 @@ void Delay100us()		//@24.000MHz
 
 void Int0_Init(void)
 {
-	IT0 = 0;	//Íâ²¿ÖĞ¶Ï ÏÂ½µÑØ´¥·¢
-	EX0 = 1;	//Ê¹ÄÜÍâ²¿ÖĞ¶Ï
-	EA  = 1;	//Ê¹ÄÜ×ÜÖĞ¶Ï	
+	IT0 = 0;	//å¤–éƒ¨ä¸­æ–­ä¸‹é™æ²¿è§¦å‘
+	EX0 = 1;	//ä½¿èƒ½å¤–éƒ¨ä¸­æ–­0
+	EA  = 1;	//ä½¿èƒ½æ€»ä¸­æ–­
 }
 
 void Int0_ISR(void)	interrupt 0
@@ -51,10 +51,10 @@ void Int0_ISR(void)	interrupt 0
 		Delay100us();
 		time++;
 	}
-	if(time < 80)		//Òıµ¼ÂëµÍµçÆ½ < 8ms
+	if(time < 80)		//å¼•å¯¼ç ä½ç”µå¹³ < 8ms
 	{
 		EX0 = 1;	
-		return;				//Ìø³öÖĞ¶Ï
+		return;				//è·³å‡ºä¸­æ–­
 	}
 	time = 0;
 	while(IR)
@@ -62,18 +62,18 @@ void Int0_ISR(void)	interrupt 0
 		Delay100us();
 		time++;
 	}
-	if(time < 30)		//Òıµ¼Âë¸ßµçÆ½ < 3ms
+	if(time < 30)		//å¼•å¯¼ç é«˜ç”µå¹³ < 3ms
 	{
 		EX0 = 1;
 		return;
 	}
 
-//ÓÃ»§Âë
+//ç”¨æˆ·ç 
 	while(i++<32)
 	{
 		time = 0;
 		IR_Temp >>= 1;
-		while(!IR);		//Ìø¹ıµÍµçÆ½
+		while(!IR);		//è·³è¿‡ä½ç”µå¹³
 		while(IR)
 		{
 			Delay100us();
@@ -82,15 +82,15 @@ void Int0_ISR(void)	interrupt 0
 		if(time > 10)
 			IR_Temp |= 0x80;
 		if(i==8)
-			IR_DATA[0] = IR_Temp;		//ÓÃ»§Âë
+			IR_DATA[0] = IR_Temp;		//ç”¨æˆ·ç 
 		else if(i == 16)
-			IR_DATA[1] = IR_Temp;		//ÓÃ»§·´Âë
+			IR_DATA[1] = IR_Temp;		//ç”¨æˆ·åç 
 		else if(i == 24)			
-			IR_DATA[2] = IR_Temp;		//²Ù×÷Âë
+			IR_DATA[2] = IR_Temp;		//æ“ä½œç 
 		else if(i == 32)		
-			IR_DATA[3] = IR_Temp;		//²Ù×÷·´Âë
+			IR_DATA[3] = IR_Temp;		//æ“ä½œåç 
 	}
-//Ğ£ÑéÊı¾İ
+//æ•°æ®æ ¡éªŒ
 	if(IR_DATA[2] != ~IR_DATA[3])
 	{
 		EX0 = 1;
@@ -102,8 +102,6 @@ void Int0_ISR(void)	interrupt 0
 		TI = 0;
 		EX0 = 1;	
 }
-
-
 
 void main(void)
 {

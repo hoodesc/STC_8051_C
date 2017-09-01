@@ -1,8 +1,8 @@
-LX51 LINKER/LOCATER V4.66.66.0                                                          12/07/2016  17:09:14  PAGE 1
+LX51 LINKER/LOCATER V4.66.66.0                                                          09/02/2017  00:25:02  PAGE 1
 
 
 LX51 LINKER/LOCATER V4.66.66.0, INVOKED BY:
-D:\KEIL UV5\C51\BIN\LX51.EXE .\Objects\main.obj TO .\Objects\无定时器红外解码 PRINT (.\Listings\无定时器红外解码.map)
+D:\KEIL_V5\C51\BIN\LX51.EXE .\Objects\main.obj TO .\Objects\无定时器红外解码 PRINT (.\Listings\无定时器红外解码.map)
 
 
 CPU MODE:     8051 MODE
@@ -12,9 +12,9 @@ MEMORY MODEL: SMALL
 INPUT MODULES INCLUDED:
   .\Objects\main.obj (MAIN)
          COMMENT TYPE 0: C51 V9.06
-  D:\KEIL UV5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
          COMMENT TYPE 1: A51 / ASM51 Assembler
-  D:\KEIL UV5\C51\LIB\C51S.LIB (?C_INIT)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
          COMMENT TYPE 1: A51 / ASM51 Assembler
 
 
@@ -67,7 +67,7 @@ DELAY100US/MAIN             ----- -----  ----- -----
 
 ?C_C51STARTUP               ----- -----  ----- -----
   +--> MAIN/MAIN
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 2
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 2
 
 
   +--> ?C_INITSEG
@@ -135,7 +135,7 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\无定时器红外解码 (MAIN)
 *SFR* 000000A8H.1 DATA     BIT       ET0
 *SFR* 000000A8H.3 DATA     BIT       ET1
 *SFR* 000000A8H   DATA     BIT       EX0
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 3
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 3
 
 
 *SFR* 000000A8H.2 DATA     BIT       EX1
@@ -203,7 +203,7 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\无定时器红外解码 (MAIN)
 *SFR* 000000B0H.3 DATA     BIT       P33
 *SFR* 000000B0H.4 DATA     BIT       P34
 *SFR* 000000B0H.5 DATA     BIT       P35
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 4
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 4
 
 
 *SFR* 000000B0H.6 DATA     BIT       P36
@@ -271,7 +271,7 @@ PUBLIC SYMBOLS OF MODULE:  .\Objects\无定时器红外解码 (MAIN)
 *SFR* 000000F5H   DATA     BYTE      PWMCR
 *SFR* 000000F7H   DATA     BYTE      PWMFDCR
 *SFR* 000000F6H   DATA     BYTE      PWMIF
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 5
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 5
 
 
 *SFR* 000000B8H   DATA     BIT       PX0
@@ -339,7 +339,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\无定时器红外解码 (MAIN)
       01000138H   PUBLIC    CODE     ---       Uart_Init
       000000D8H.2 SFRSYM    DATA     BIT       CCF2
       00000092H   SFRSYM    DATA     BYTE      P1M0
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 6
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 6
 
 
       00000093H   SFRSYM    DATA     BYTE      P0M1
@@ -407,7 +407,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\无定时器红外解码 (MAIN)
       000000C4H   SFRSYM    DATA     BYTE      IAP_ADDRL
       000000B8H.7 SFRSYM    DATA     BIT       PPCA
       000000D0H.2 SFRSYM    DATA     BIT       OV
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 7
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 7
 
 
       000000E6H   SFRSYM    DATA     BYTE      CMPCR1
@@ -475,7 +475,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\无定时器红外解码 (MAIN)
       000000C0H.6 SFRSYM    DATA     BIT       P46
       000000B0H.7 SFRSYM    DATA     BIT       P37
       000000F8H.4 SFRSYM    DATA     BIT       P74
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 8
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 8
 
 
       000000E8H.5 SFRSYM    DATA     BIT       P65
@@ -543,7 +543,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\无定时器红外解码 (MAIN)
       000000CDH   SFRSYM    DATA     BYTE      SPSTAT
       0000009BH   SFRSYM    DATA     BYTE      S2BUF
       000000ADH   SFRSYM    DATA     BYTE      S3BUF
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 9
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 9
 
 
       00000085H   SFRSYM    DATA     BYTE      S4BUF
@@ -611,7 +611,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\无定时器红外解码 (MAIN)
 
       01000006H   BLOCK     CODE     ---       LVL=0
       01000015H   BLOCK     CODE     NEAR LAB  LVL=1
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 10
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 10
 
 
       00000008H   SYMBOL    DATA     BYTE      time
@@ -673,16 +673,16 @@ SYMBOL TABLE OF MODULE:  .\Objects\无定时器红外解码 (MAIN)
       ---         BLOCKEND  ---      ---       LVL=0
 
       0100015CH   BLOCK     CODE     ---       LVL=0
+      0100015CH   LINE      CODE     ---       #106
+      0100015CH   LINE      CODE     ---       #107
       0100015CH   LINE      CODE     ---       #108
-      0100015CH   LINE      CODE     ---       #109
-      0100015CH   LINE      CODE     ---       #110
-      0100015FH   LINE      CODE     ---       #111
-      01000162H   LINE      CODE     ---       #112
+      0100015FH   LINE      CODE     ---       #109
+      01000162H   LINE      CODE     ---       #110
+      01000162H   LINE      CODE     ---       #111
+LX51 LINKER/LOCATER V4.66.66.0                                                        09/02/2017  00:25:02  PAGE 11
+
+
       01000162H   LINE      CODE     ---       #113
-LX51 LINKER/LOCATER V4.66.66.0                                                        12/07/2016  17:09:14  PAGE 11
-
-
-      01000162H   LINE      CODE     ---       #115
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       ?C_STARTUP
