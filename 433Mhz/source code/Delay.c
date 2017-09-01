@@ -3,14 +3,14 @@
 #include "MYTYPE.h"
 #include "Delay.h"
 
-//	11.0592ÑÓÊ±º¯Êý£¬µ¥Î»ms
+//	11.0592å»¶æ—¶å‡½æ•°
 void DelayMs(uint16 ms)
 {
 	uint16 uiVal,ujVal;
 	for(uiVal = 0; uiVal < ms; uiVal++)
 		for(ujVal = 0; ujVal < 120; ujVal++);
 }
-////	11.0592Mhz	Ô¼1usÑÓÊ±
+////	11.0592Mhz	çº¦2uså»¶æ—¶
 void DelayUs(uint16 us)		
 {	
 	while(us--)

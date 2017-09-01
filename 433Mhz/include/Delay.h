@@ -1,10 +1,10 @@
 #ifndef __Delay_H__
 #define __Delay_H__
 
-//	11.0592ÑÓÊ±º¯Êý£¬µ¥Î»ms
+
 extern void DelayMs(uint16 ms);
 
-////	11.0592Mhz	Ô¼2usÑÓÊ±
+////	11.0592Mhz	çº¦2uså»¶æ—¶
 extern void DelayUs(uint16 us);
 
 #endif
