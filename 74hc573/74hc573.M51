@@ -1,8 +1,8 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        05/18/2017  20:52:07  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        09/02/2017  00:12:34  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
-D:\KEIL_V5\C51\BIN\BL51.EXE 74hc573.obj TO 74hc573 RTX51TINY RAMSIZE (256)
+D:\KEIL_V5\C51\BIN\BL51.EXE 74hc573.obj TO 74hc573 RAMSIZE (256)
 
 
 MEMORY MODEL: SMALL
@@ -59,7 +59,7 @@ SYMBOL TABLE OF MODULE:  74hc573 (74HC573)
   D:00B0H         PUBLIC        P3
   B:00B0H.5       PUBLIC        GY
   B:00B0H.7       PUBLIC        Wei
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/18/2017  20:52:07  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/02/2017  00:12:34  PAGE 2
 
 
   C:0003H         PUBLIC        main
@@ -70,29 +70,29 @@ SYMBOL TABLE OF MODULE:  74hc573 (74HC573)
   -------         DO            
   D:0004H         SYMBOL        i
   -------         ENDDO         
+  C:0032H         LINE#         8
+  C:0032H         LINE#         9
   C:0032H         LINE#         10
-  C:0032H         LINE#         11
-  C:0032H         LINE#         12
-  C:003CH         LINE#         13
-  C:004FH         LINE#         14
-  C:004FH         LINE#         15
+  C:003CH         LINE#         11
+  C:004FH         LINE#         12
+  C:004FH         LINE#         13
   -------         ENDPROC       _DELAY_MS
   -------         PROC          MAIN
   -------         DO            
   D:0008H         SYMBOL        b
   -------         ENDDO         
+  C:0003H         LINE#         35
+  C:0003H         LINE#         36
   C:0003H         LINE#         37
   C:0003H         LINE#         38
   C:0003H         LINE#         39
-  C:0003H         LINE#         40
-  C:0003H         LINE#         41
-  C:0005H         LINE#         42
-  C:0007H         LINE#         43
-  C:0017H         LINE#         44
-  C:001EH         LINE#         46
-  C:0026H         LINE#         47
-  C:002CH         LINE#         48
-  C:0030H         LINE#         49
+  C:0005H         LINE#         40
+  C:0007H         LINE#         41
+  C:0017H         LINE#         42
+  C:001EH         LINE#         44
+  C:0026H         LINE#         45
+  C:002CH         LINE#         46
+  C:0030H         LINE#         47
   -------         ENDPROC       MAIN
   -------         ENDMOD        74HC573
 

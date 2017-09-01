@@ -5,9 +5,7 @@ sbit Wei = P3^7;
 sbit GY = P3^5;
 
 
-/**********************************************************************************************/
-//定义延时函数
-void delay_ms (unsigned int a)	//调用格式为"delay_ms(n)" n=0~4294967295 1000ms=1s"
+void delay_ms (unsigned int a)
 {	unsigned int i;
 	while( a-- != 0){
 		for(i = 0; i < 600; i++); 
@@ -41,7 +39,7 @@ void main()
 		GY = 0;
 		Wei = 1;
 		P1=tab[b];
-		delay_ms(1000);	//1s延时
+		delay_ms(1000);	//1s寤舵椂
 
 		b++;
 	if(b==16)
