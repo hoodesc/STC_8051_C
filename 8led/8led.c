@@ -7,7 +7,7 @@ sbit SPK = P2^0;
 sbit LED = P2^4;
 
 /**********************************/
-/*      	ºÁÃëÑÓÊ±º¯Êı		    */
+/*		å»¶æ—¶å‡½æ•°		*/
 void DelayMs(unsigned int ms_number)
 {
 	unsigned int i;
