@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        07/05/2017  23:36:24  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        09/02/2017  00:10:26  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -59,7 +59,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\8led (8LED)
   -------         DO            
   D:0004H         SYMBOL        i
   D:0003H         SYMBOL        j
-BL51 BANKED LINKER/LOCATER V6.22                                                      07/05/2017  23:36:24  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/02/2017  00:10:26  PAGE 2
 
 
   -------         ENDDO         
@@ -78,7 +78,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\8led (8LED)
   C:002DH         LINE#         24
   C:002DH         LINE#         25
   C:002DH         LINE#         26
-  C:002FH         LINE#         42
+  C:002FH         LINE#         43
   -------         ENDPROC       MAIN
   -------         ENDMOD        8LED
 
