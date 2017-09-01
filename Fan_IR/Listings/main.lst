@@ -1,0 +1,170 @@
+C51 COMPILER V9.06   MAIN                                                                  08/13/2017 19:59:41 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Output\main.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE source code\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;.\source co
+                    -de) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Output\main.obj)
+
+line level    source
+
+   1          #include <STC15.h>
+   2          #include "mytype.h"
+   3          #include "Delay.h"
+   4          #include "keyscan.h"
+   5          #include "main.h"
+   6          #include "intrins.h"
+   7          //  12.00Mhz
+   8          //  STC15L104W
+   9          uchar IR_Dat_Open[]  = {0,0,1,0,0,1,1,1,1,1,1};
+  10          uchar IR_Dat_Speed[] = {0,0,1,0,0,1,1,1,1,0,1};
+  11          uchar IR_Dat_Turn[]  = {0,0,1,0,0,0,1,1,1,0,0};
+  12          
+  13          //  open分隔码  1.4ms  38K+7.1ms 
+  14          #define IRS1_L 106  
+  15          #define IRS1_H 550
+  16          //  speed、turn分隔码 0.55ms  38K+8ms 
+  17          #define IRS2_L 41 
+  18          #define IRS2_H 622
+  19          
+  20          //  数据"0" 1.4ms 38K+0.3ms
+  21          #define IR0_L 106
+  22          #define IR0_H 25
+  23          
+  24          //  数据"1" 0.55ms 38K+1.15ms
+  25          #define IR1_L 41
+  26          #define IR1_H 91
+  27          
+  28          uint IR_Code_Time = 0;
+  29          bit IR_Code_Flag = 1;
+  30          
+  31          
+  32          
+  33          void Timer2_Init(void)
+  34          {
+  35   1        AUXR |= 0x04;   //?????1T??
+  36   1        T2L = 0x64;   //??????
+  37   1        T2H = 0xFF;   //??????
+  38   1        AUXR |= 0x10;   //???2????
+  39   1        IE2 = 0x04;
+  40   1        EA  = 1;
+  41   1      }
+  42          
+  43          void Timer2_ISR() interrupt 12
+  44          {
+  45   1        IR_Code_Time++;
+  46   1        if(IR_Code_Flag)
+  47   1          IR_DAT = 1;
+  48   1        else
+  49   1          IR_DAT = ~IR_DAT;
+  50   1      }
+  51          
+  52          void IR1_Code_Send(uchar *pdat)
+  53          {
+  54   1        uchar i,j;
+C51 COMPILER V9.06   MAIN                                                                  08/13/2017 19:59:41 PAGE 2   
+
+  55   1        uchar *IR_Temp;
+  56   1        for(j = 0; j < 3; j++)
+  57   1        {
+  58   2          IR_Temp = pdat;
+  59   2          for(i = 0; i < 11; i++)
+  60   2          {
+  61   3            if(IR_Temp[i])
+  62   3            { //  数据"1"   
+  63   4              IR_Code_Time = 0;
+  64   4              IR_Code_Flag = 0;
+  65   4              while(IR_Code_Time < IR1_L);
+  66   4              IR_Code_Time = 0;
+  67   4              IR_Code_Flag = 1;
+  68   4              while(IR_Code_Time < IR1_H);        
+  69   4            }
+  70   3            else
+  71   3            { //  数据"0"       
+  72   4              IR_Code_Time = 0;
+  73   4              IR_Code_Flag = 0;
+  74   4              while(IR_Code_Time < IR0_L);
+  75   4              IR_Code_Time = 0;
+  76   4              IR_Code_Flag = 1;
+  77   4              while(IR_Code_Time < IR0_H);
+  78   4            }
+  79   3          }
+  80   2            //  分隔码
+  81   2            IR_Code_Time = 0;
+  82   2            IR_Code_Flag = 0;
+  83   2            while(IR_Code_Time < IRS1_L);
+  84   2            IR_Code_Time = 0;
+  85   2            IR_Code_Flag = 1;
+  86   2            while(IR_Code_Time < IRS1_H);
+  87   2        }
+  88   1      }
+  89          
+  90          void IR2_Code_Send(uchar *pdat)
+  91          {
+  92   1        uchar i,j;
+  93   1        uchar *IR_Temp;
+  94   1        for(j = 0; j < 3; j++)
+  95   1        {
+  96   2          IR_Temp = pdat;
+  97   2          for(i = 0; i < 11; i++)
+  98   2          {
+  99   3            if(IR_Temp[i])
+ 100   3            { //  数据"1"   
+ 101   4              IR_Code_Time = 0;
+ 102   4              IR_Code_Flag = 0;
+ 103   4              while(IR_Code_Time < IR1_L);
+ 104   4              IR_Code_Time = 0;
+ 105   4              IR_Code_Flag = 1;
+ 106   4              while(IR_Code_Time < IR1_H);        
+ 107   4            }
+ 108   3            else
+ 109   3            { //  数据"0"       
+ 110   4              IR_Code_Time = 0;
+ 111   4              IR_Code_Flag = 0;
+ 112   4              while(IR_Code_Time < IR0_L);
+ 113   4              IR_Code_Time = 0;
+ 114   4              IR_Code_Flag = 1;
+ 115   4              while(IR_Code_Time < IR0_H);
+ 116   4            }
+C51 COMPILER V9.06   MAIN                                                                  08/13/2017 19:59:41 PAGE 3   
+
+ 117   3          }
+ 118   2            //  分隔码
+ 119   2            IR_Code_Time = 0;
+ 120   2            IR_Code_Flag = 0;
+ 121   2            while(IR_Code_Time < IRS2_L);
+ 122   2            IR_Code_Time = 0;
+ 123   2            IR_Code_Flag = 1;
+ 124   2            while(IR_Code_Time < IRS2_H);
+ 125   2        }
+ 126   1      }
+ 127          
+ 128          void main()
+ 129          { 
+ 130   1        Timer2_Init();
+ 131   1      //  WKTCL = 50;   //掉电唤醒周期
+ 132   1      //  WKTCH = 0x80; //使能掉电唤醒定时器
+ 133   1        while(1)
+ 134   1        {
+ 135   2      //      PCON = 0x02;
+ 136   2      //      _nop_();
+ 137   2      //      _nop_();
+ 138   2            Key1_Scan();
+ 139   2            Key2_Scan();
+ 140   2            Key3_Scan();
+ 141   2        }
+ 142   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    372    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     35      12
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
